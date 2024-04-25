@@ -1,4 +1,4 @@
-import prisma from '~/server/prisma'
+import prisma from '~/lib/server/prisma'
 import { type industry_challenge_mapping } from '@prisma/client';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
 import IndustryTab from '~/components/ui/IndustryTab';
