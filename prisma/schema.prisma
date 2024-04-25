@@ -36,9 +36,9 @@ model industry_challenge_mapping {
   industry_name     String?
   discussion_topic  String?
   topic_description String?
-  source_file_id    Int
+  source_file_id    Int?
   created_at        DateTime @default(now()) @db.Timestamptz(6)
-  file              file     @relation(fields: [source_file_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_industry_challenge_mapping_source_file_id_fkey")
+  file              file?    @relation(fields: [source_file_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_industry_challenge_mapping_source_file_id_fkey")
 }
 
 model model {
