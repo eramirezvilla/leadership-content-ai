@@ -54,3 +54,20 @@ model model {
   created_at      DateTime? @default(now()) @db.Timestamp(6)
   file            file?     @relation(fields: [spec_file], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model call_to_action {
+  id          BigInt   @id @default(autoincrement())
+  description String?
+  themes      themes[]
+}
+
+model themes {
+  id                  BigInt          @id @default(autoincrement())
+  title               String?
+  description         String?
+  audience_connection String?
+  company_connection  String?
+  call_to_action_id   BigInt?
+  created_at          DateTime        @default(now()) @db.Timestamptz(6)
+  call_to_action      call_to_action? @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
