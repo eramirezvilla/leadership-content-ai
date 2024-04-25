@@ -40,12 +40,12 @@ export default function IndustryTab({
       <div className="flex w-3/4 flex-col p-4">
         {selectedIndustry && (
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-title_1">{selectedIndustry}</h1>
-            <div className="flex flex-col gap-2">
+            <h1 className="text-title_1 pb-4">{selectedIndustry}</h1>
+            <div className="flex flex-col gap-4">
               {industryMap[selectedIndustry]!.map((challenge, index) => (
-                <div key={index} className="flex flex-col items-start gap-1">
+                <div key={index} className="flex flex-col items-start gap-1 border border-1 rounded-md px-4 py-2 max-w-prose">
                   <h2 className="text-title_2" >{challenge.discussion_topic}</h2>
-                  <p className="text-caption">{challenge.topic_description}</p>
+                  <p className="text-body max-w-prose">{challenge.topic_description}</p>
                 </div>
               ))}
             </div>
