@@ -16,12 +16,14 @@ export default function IndustryTab({
   const [selectedIndustry, setSelectedIndustry] = useState(
     null as string | null,
   );
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const handleIndustryClick = (industryName: string) => {
     setSelectedIndustry(industryName);
   };
 
   return (
+    <>
     <div className="flex w-full pl-2">
       <div className="flex w-1/4 flex-col gap-2">
         {Object.keys(industryMap).map((industryName) => (
@@ -43,7 +45,9 @@ export default function IndustryTab({
             <h1 className="text-title_1 pb-4">{selectedIndustry}</h1>
             <div className="flex flex-col gap-4">
               {industryMap[selectedIndustry]!.map((challenge, index) => (
-                <div key={index} className="flex flex-col items-start gap-1 border border-1 rounded-md px-4 py-2 max-w-prose">
+                <div key={index}
+                onClick={() => setShowEditDialog(true)}
+                className="flex flex-col items-start gap-1 border border-1 rounded-md px-4 py-2 max-w-prose">
                   <h2 className="text-title_2" >{challenge.discussion_topic}</h2>
                   <p className="text-body max-w-prose">{challenge.topic_description}</p>
                 </div>
@@ -53,5 +57,11 @@ export default function IndustryTab({
         )}
       </div>
     </div>
+     <EditIndustryDialog
+     open={showEditDialog}
+     setOpen={setShowEditDialog}
+     noteToEdit={note}
+   ></EditIndustryDialog>
+</>
   );
 }
