@@ -58,6 +58,7 @@ model model {
 model call_to_action {
   id          BigInt   @id @default(autoincrement())
   description String?
+  post        post[]
   themes      themes[]
 }
 
@@ -70,4 +71,14 @@ model themes {
   call_to_action_id   BigInt?
   created_at          DateTime        @default(now()) @db.Timestamptz(6)
   call_to_action      call_to_action? @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model post {
+  id                BigInt          @id @default(autoincrement())
+  title             String?
+  content_audience  String?
+  content_levata    String?
+  call_to_action_id BigInt?
+  created_at        DateTime        @default(now()) @db.Timestamptz(6)
+  call_to_action    call_to_action? @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
