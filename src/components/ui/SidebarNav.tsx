@@ -5,7 +5,7 @@ import { useUser, UserButton } from "@clerk/nextjs";
 export default function SidebarNav() {
   const { user } = useUser();
   return (
-    <div className="sticky left-0 top-0 flex h-screen w-80 border-r">
+    <div className="sticky left-0 top-0 flex h-screen w-60 min-w-60 border-r">
       <div className="flex w-full flex-col pt-4">
         <div className="flex flex-col items-center justify-center gap-2 object-cover">
           <UserButton />
