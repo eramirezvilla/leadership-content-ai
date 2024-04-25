@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const note = await prisma.industry_challenge_mapping.create({
+    const industry = await prisma.industry_challenge_mapping.create({
       data: {
         industry_name,
         discussion_topic,
@@ -31,12 +31,12 @@ export async function POST(req: Request) {
       },
     });
 
-    const noteWithStringId = {
-      ...note,
-      id: note.id.toString(),
+    const industryWithStringId = {
+      ...industry,
+      id: industry.id.toString(),
     };
 
-    return Response.json({ noteWithStringId }, { status: 201 });
+    return Response.json({ industryWithStringId }, { status: 201 });
   } catch (error) {
     console.error(error);
     return Response.json("An error occurred", { status: 500 });
@@ -46,51 +46,42 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const parseResult = updateNoteSchema.safeParse(body);
+    const parseResult = updateIndustrySchema.safeParse(body);
 
     if (!parseResult.success) {
       console.error(parseResult.error);
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { id, title, content } = parseResult.data;
+    const { id, industry_name, discussion_topic, topic_description } = parseResult.data;
 
-    const note = await prisma.note.findUnique({ where: { id: BigInt(id) } });
-    if (!note) {
-      return Response.json({ error: "Note not found" }, { status: 404 });
+    const Industry = await prisma.industry_challenge_mapping.findUnique({ where: { id: BigInt(id) } });
+    if (!Industry) {
+      return Response.json({ error: "Industry not found" }, { status: 404 });
     }
 
-    const { userId } = auth();
-    if (!userId || userId !== note.userId) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // separates rows by userId, but not needed at the moment
+    // const { userId } = auth();
+    // if (!userId || userId !== Industry.userId) {
+    //   return Response.json({ error: "Unauthorized" }, { status: 401 });
+    // }
 
-    const embedding = await getEmbeddingForNote(title, content);
 
-    const updatedNote = await prisma.$transaction(async (tx) => {
-      const updatedNote = await tx.note.update({
+      const updatedIndustry = await prisma.industry_challenge_mapping.update({
         where: { id: BigInt(id) },
-        data: { title, content },
+        data: {
+            industry_name,
+            discussion_topic,
+            topic_description,
+          },
       });
 
-      await notesIndex.upsert([
-        {
-          id: updatedNote.id.toString(),
-          values: embedding,
-          metadata: { userId },
-        },
-      ]);
-
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return updatedNote;
-    });
-
-    const noteWithStringId = {
-      ...updatedNote,
-      id: updatedNote.id.toString(),
+    const industryWithStringId = {
+      ...updatedIndustry,
+      id: updatedIndustry.id.toString(),
     };
 
-    return Response.json({ noteWithStringId }, { status: 200 });
+    return Response.json({ industryWithStringId }, { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json("An error occurred", { status: 500 });
@@ -100,7 +91,7 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const body = await req.json();
-    const parseResult = deleteNoteSchema.safeParse(body);
+    const parseResult = deleteIndustrySchema.safeParse(body);
 
     if (!parseResult.success) {
       console.error(parseResult.error);
@@ -109,28 +100,21 @@ export async function DELETE(req: Request) {
 
     const { id } = parseResult.data;
 
-    const note = await prisma.note.findUnique({ where: { id: BigInt(id) } });
-    if (!note) {
-      return Response.json({ error: "Note not found" }, { status: 404 });
+    const industry = await prisma.industry_challenge_mapping.findUnique({ where: { id: BigInt(id) } });
+    if (!industry) {
+      return Response.json({ error: "industry not found" }, { status: 404 });
     }
 
-    const { userId } = auth();
-    if (!userId || userId !== note.userId) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // const { userId } = auth();
+    // if (!userId || userId !== industry.userId) {
+    //   return Response.json({ error: "Unauthorized" }, { status: 401 });
+    // }
 
-    await prisma.$transaction(async (tx) => {
-      await tx.note.delete({ where: { id: BigInt(id) } });
-      await notesIndex.deleteOne(id.toString());
-    });
+    await prisma.industry_challenge_mapping.delete({ where: { id: BigInt(id) } });
 
-    return Response.json({ message: "note deleted" }, { status: 200 });
+    return Response.json({ message: "industry deleted" }, { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json("An error occurred", { status: 500 });
   }
-}
-
-async function getEmbeddingForNote(title: string, content: string | undefined) {
-  return getEmbedding(title + "\n\n" + (content ?? ""));
 }
