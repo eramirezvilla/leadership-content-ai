@@ -23,7 +23,8 @@ export default async function IndustriesPage() {
 
     return (
         <div className="flex w-full pt-6">
-            <IndustryTab industryMap={industryMap} />
+            {/* <IndustryTab industryMap={industryMap} /> */}
+            <IndustryTab allIndustries={allIndustries} />
         </div>
     )
 }
