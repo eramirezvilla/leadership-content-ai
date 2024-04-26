@@ -2,6 +2,7 @@
 import { type industry_challenge_mapping as indMap } from "@prisma/client";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
+import EditIndustryDialog from "~/components/ui/EditIndustryDialog";
 
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 type IndustryMap = {
@@ -17,10 +18,16 @@ export default function IndustryTab({
     null as string | null,
   );
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const [challenge, setChallenge] = useState(null as indMap | null);
 
   const handleIndustryClick = (industryName: string) => {
     setSelectedIndustry(industryName);
   };
+
+  const handleChallengeClick = (challenge: indMap) => {
+    setShowEditDialog(true);
+    setChallenge(challenge);
+  }
 
   return (
     <>
@@ -57,11 +64,11 @@ export default function IndustryTab({
         )}
       </div>
     </div>
-     <EditIndustryDialog
-     open={showEditDialog}
-     setOpen={setShowEditDialog}
-     noteToEdit={note}
-   ></EditIndustryDialog>
+         <EditIndustryDialog
+         open={showEditDialog}
+         setOpen={setShowEditDialog}
+         industryToEdit={challenge ?? undefined}
+     ></EditIndustryDialog>
 </>
   );
 }
