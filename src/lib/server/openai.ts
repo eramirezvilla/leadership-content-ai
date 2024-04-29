@@ -22,5 +22,6 @@ export async function getEmbedding(text: string) {
     }
 
     console.log(embedding);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return embedding;
 }
