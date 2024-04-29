@@ -1,6 +1,11 @@
+"use client"
 import { type post } from "@prisma/client"
 
-export default function ExistingPostTab(allPosts: post[]) {
+interface ExistingPostTabProps {
+    allPosts: post[]
+}
+
+export default function ExistingPostTab({allPosts} : ExistingPostTabProps) {
     return (
         <div>
             <h1>Posts</h1>
