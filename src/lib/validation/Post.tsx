@@ -1,11 +1,9 @@
 import { z } from "zod";
 
-
 export const createPostSchema = z.object({
-    theme_name: z
-    .string()
-    .optional(),
-    discussion_topic: z.string().optional()
+  theme_name: z.string().optional(),
+  industry_name: z.string().optional(),
+  discussion_topic: z.string().optional(),
 });
 
 export type CreatePostSchema = z.infer<typeof createPostSchema>;
