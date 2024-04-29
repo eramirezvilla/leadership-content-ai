@@ -18,24 +18,33 @@ import { Input } from "./input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingButton from "./loadingbutton";
-import { type post } from "@prisma/client";
+import { type post, industry_challenge_mapping } from "@prisma/client";
 import { CreatePostSchema, createPostSchema } from "~/lib/validation/Post";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+type IndustryMap = {
+  [key: string]: Omit<industry_challenge_mapping, "industry_name">[];
+};
 interface AddPostProps {
     open: boolean;
     setOpen: (open: boolean) => void;
+    allIndustries: industry_challenge_mapping[];
 }
 
-const newPost = {
-  industry: "",
-  title: "",
-  content: "",
-}
-
-export default function AddPost({open, setOpen} : AddPostProps) {
+export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   const router = useRouter();
+  const industryMap = allIndustries.reduce<IndustryMap>((acc, industry) => {
+    const { industry_name, ...otherValues } = industry;
+    if (industry_name === null) return acc; // Skip if industry_name is null
+
+    if (!acc[industry_name]) {
+        acc[industry_name] = [];
+    }
+    acc[industry_name]!.push(otherValues);
+    return acc;
+}, {});
 
   const form = useForm<CreatePostSchema>({
     resolver: zodResolver(createPostSchema),
