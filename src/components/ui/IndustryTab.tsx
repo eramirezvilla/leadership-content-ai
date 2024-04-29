@@ -64,8 +64,8 @@ export default function IndustryTab({
             <div className="flex flex-col gap-4">
               {industryMap[selectedIndustry]!.map((challenge, index) => (
                 <div key={index}
-                onClick={() => handleChallengeClick(allIndustries.find((industry) => industry.id === challenge.id)!)}
-                className="flex flex-col items-start gap-1 border border-1 rounded-md px-4 py-2 max-w-prose hover:cursor-pointer">
+                // onClick={() => handleChallengeClick(allIndustries.find((industry) => industry.id === challenge.id)!)}
+                className="flex flex-col items-start gap-1 border border-1 rounded-md px-4 py-2 max-w-prose">
                   <h2 className="text-title_2" >{challenge.discussion_topic}</h2>
                   <p className="text-body max-w-prose">{challenge.topic_description}</p>
                 </div>
