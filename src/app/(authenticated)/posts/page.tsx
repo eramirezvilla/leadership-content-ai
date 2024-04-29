@@ -1,6 +1,8 @@
+import prisma from "~/lib/server/prisma"
 
+export default async function PostsPage() {
+    const allPosts = await prisma.post.findMany()
 
-export default function PostsPage() {
     return (
         <div>
             <h1>Posts</h1>
