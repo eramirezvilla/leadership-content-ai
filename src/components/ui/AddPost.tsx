@@ -1,3 +1,4 @@
+"use client"
 import { useForm } from "react-hook-form";
 import {
   Dialog,
@@ -14,13 +15,28 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "~/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover"
 import { Input } from "./input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingButton from "./loadingbutton";
-import { type post, industry_challenge_mapping } from "@prisma/client";
+import { type post, industry_challenge_mapping, themes } from "@prisma/client";
 import { CreatePostSchema, createPostSchema } from "~/lib/validation/Post";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "./button";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { cn } from "~/lib/utils";
 
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 type IndustryMap = {
@@ -30,9 +46,11 @@ interface AddPostProps {
     open: boolean;
     setOpen: (open: boolean) => void;
     allIndustries: industry_challenge_mapping[];
+    allThemes: themes[];
 }
 
-export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
+export default function AddPost({open, setOpen, allIndustries, allThemes} : AddPostProps) {
+  // const [open, setOpen] = useState(true);
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   const router = useRouter();
   const industryMap = allIndustries.reduce<IndustryMap>((acc, industry) => {
@@ -54,22 +72,22 @@ export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
     },
   });
 
-  async function onSubmit(input) {
+  async function onSubmit(input : CreatePostSchema) {
     try {
-      if (noteToEdit) {
-        const response = await fetch("/api/notes", {
-          method: "PUT",
-          body: JSON.stringify({
-            id: noteToEdit.id.toString(),
-            ...input,
-            }),
-          });
-          if (!response.ok) {
-            throw Error("An error occurred");
-          }
+      // if (noteToEdit) {
+      //   const response = await fetch("/api/notes", {
+      //     method: "PUT",
+      //     body: JSON.stringify({
+      //       id: noteToEdit.id.toString(),
+      //       ...input,
+      //       }),
+      //     });
+      //     if (!response.ok) {
+      //       throw Error("An error occurred");
+      //     }
 
-      } else {
-        const response = await fetch("/api/notes", {
+      // } else {
+        const response = await fetch("/api/post", {
           method: "POST",
           body: JSON.stringify(input),
         });
@@ -80,7 +98,7 @@ export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
   
         form.reset();
 
-      }      
+      // }      
       router.refresh();
       setOpen(false);
     } catch (error) {
@@ -89,28 +107,28 @@ export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
     }
   }
 
-  async function deleteNote() {
-    if(!noteToEdit) return;
-    setDeleteInProgress(true);
-    try {
-      const response = await fetch("/api/notes", {
-        method: "DELETE",
-        body: JSON.stringify({ id: noteToEdit.id.toString() }),
-      });
+  // async function deleteNote() {
+  //   if(!noteToEdit) return;
+  //   setDeleteInProgress(true);
+  //   try {
+  //     const response = await fetch("/api/notes", {
+  //       method: "DELETE",
+  //       body: JSON.stringify({ id: noteToEdit.id.toString() }),
+  //     });
 
-      if (!response.ok) {
-        throw Error("An error occurred");
-      }
+  //     if (!response.ok) {
+  //       throw Error("An error occurred");
+  //     }
 
-      router.refresh();
-      setOpen(false);
-    } catch (error) {
-      console.error(error);
-      alert("something went wrong");
-    } finally {
-      setDeleteInProgress(false);
-    }
-  }
+  //     router.refresh();
+  //     setOpen(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("something went wrong");
+  //   } finally {
+  //     setDeleteInProgress(false);
+  //   }
+  // }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -120,9 +138,70 @@ export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+          <FormField
+              control={form.control}
+              name="theme_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-[200px] justify-between",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? allThemes.find(
+                            (theme) => theme.title === field.value
+                          )?.title
+                        : "Select theme"}
+                      <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search framework..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandGroup>
+                      {allThemes.map((theme) => (
+                        <CommandItem
+                          value={theme.title!}
+                          key={theme.title}
+                          onSelect={() => {
+                            form.setValue("theme_name", theme.title!)
+                          }}
+                        >
+                          {theme.title}
+                          <CheckIcon
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              theme.title === field.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
-              name="title"
+              name="industry_name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Title</FormLabel>
@@ -135,20 +214,19 @@ export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
             />
             <FormField
               control={form.control}
-              name="content"
+              name="discussion_topic"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Content</FormLabel>
                   <FormControl>
-                    {/* <Textarea placeholder="Content" {...field} /> */}
-                    <Tiptap onChange={field.onChange} content={field.value}/>
+                    <Input placeholder="Content" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <DialogFooter className="gap-1 sm:gap-0">
-              {noteToEdit && (
+              {/* {noteToEdit && (
                 <LoadingButton
                 variant="destructive"
                 loading={deleteInProgress}
@@ -158,7 +236,7 @@ export default function AddPost({open, setOpen, allIndustries} : AddPostProps) {
                 >
                   Delete note
                 </LoadingButton>
-                )}
+                )} */}
               <LoadingButton
                 type="submit"
                 loading={form.formState.isSubmitting}
