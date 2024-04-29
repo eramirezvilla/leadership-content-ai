@@ -10,7 +10,6 @@ export default async function PostsPage() {
     return (
         <div>
             <ExistingPostTab allPosts={allPosts} allThemes={allThemes} allIndustries={allIndustries} />
-
         </div>
     )
 }
