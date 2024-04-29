@@ -10,5 +10,5 @@ const pinecone = new Pinecone({
     apiKey
 });
 
-export const notesIndex = pinecone.Index("i-forgot");
+export const notesIndex = pinecone.Index("model-specs-text-data");
 
