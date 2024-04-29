@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useForm } from "react-hook-form";
 import {
   Dialog,
@@ -21,58 +21,100 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "~/components/ui/command"
+  CommandList,
+} from "~/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "~/components/ui/popover"
+} from "~/components/ui/popover";
 import { Input } from "./input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingButton from "./loadingbutton";
-import { type post, industry_challenge_mapping, themes } from "@prisma/client";
+import { type post, type industry_challenge_mapping, type themes } from "@prisma/client";
 import { CreatePostSchema, createPostSchema } from "~/lib/validation/Post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./button";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "~/lib/utils";
 
+const allThemes: themes[] = [
+  {
+    id: BigInt(1),
+    title: "Theme 1",
+    description: "Description 1",
+    audience_connection: "Audience Connection 1",
+    company_connection: "Company Connection 1",
+    call_to_action_id: BigInt(1),
+    created_at: new Date(),
+  },
+  {
+    id: BigInt(2),
+    title: "Theme 2",
+    description: "Description 2",
+    audience_connection: "Audience Connection 2",
+    company_connection: "Company Connection 2",
+    call_to_action_id: BigInt(2),
+    created_at: new Date(),
+  },
+  {
+    id: BigInt(3),
+    title: "Theme 3",
+    description: "Description 3",
+    audience_connection: "Audience Connection 3",
+    company_connection: "Company Connection 3",
+    call_to_action_id: BigInt(3),
+    created_at: new Date(),
+  },
+];
+
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 type IndustryMap = {
   [key: string]: Omit<industry_challenge_mapping, "industry_name">[];
 };
 interface AddPostProps {
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    allIndustries: industry_challenge_mapping[];
-    allThemes: themes[];
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  allIndustries: industry_challenge_mapping[];
+  // allThemes: themes[];
 }
 
-export default function AddPost({open, setOpen, allIndustries, allThemes} : AddPostProps) {
+export default function AddPost({
+  open,
+  setOpen,
+  allIndustries,
+  // allThemes,
+}: AddPostProps) {
   // const [open, setOpen] = useState(true);
+  console.log("allIndustries", allIndustries);
+  console.log("allThemes", allThemes);
+
   const [deleteInProgress, setDeleteInProgress] = useState(false);
+  const [value, setValue] = useState("");
   const router = useRouter();
+
   const industryMap = allIndustries.reduce<IndustryMap>((acc, industry) => {
     const { industry_name, ...otherValues } = industry;
     if (industry_name === null) return acc; // Skip if industry_name is null
 
     if (!acc[industry_name]) {
-        acc[industry_name] = [];
+      acc[industry_name] = [];
     }
     acc[industry_name]!.push(otherValues);
     return acc;
-}, {});
+  }, {});
 
   const form = useForm<CreatePostSchema>({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       theme_name: "",
-      discussion_topic: ""
+      industry_name: "",
+      discussion_topic: "",
     },
   });
 
-  async function onSubmit(input : CreatePostSchema) {
+  async function onSubmit(input: CreatePostSchema) {
     try {
       // if (noteToEdit) {
       //   const response = await fetch("/api/notes", {
@@ -87,18 +129,18 @@ export default function AddPost({open, setOpen, allIndustries, allThemes} : AddP
       //     }
 
       // } else {
-        const response = await fetch("/api/post", {
-          method: "POST",
-          body: JSON.stringify(input),
-        });
-  
-        if (!response.ok) {
-          throw Error("An error occurred");
-        }
-  
-        form.reset();
+      const response = await fetch("/api/post", {
+        method: "POST",
+        body: JSON.stringify(input),
+      });
 
-      // }      
+      if (!response.ok) {
+        throw Error("An error occurred");
+      }
+
+      form.reset();
+
+      // }
       router.refresh();
       setOpen(false);
     } catch (error) {
@@ -131,6 +173,7 @@ export default function AddPost({open, setOpen, allIndustries, allThemes} : AddP
   // }
 
   return (
+    <>
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
@@ -138,68 +181,71 @@ export default function AddPost({open, setOpen, allIndustries, allThemes} : AddP
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          <FormField
+            <FormField
               control={form.control}
               name="theme_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Theme Name</FormLabel>
                   <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "w-[200px] justify-between",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value
-                        ? allThemes.find(
-                            (theme) => theme.title === field.value
-                          )?.title
-                        : "Select theme"}
-                      <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput
-                      placeholder="Search framework..."
-                      className="h-9"
-                    />
-                    <CommandEmpty>No framework found.</CommandEmpty>
-                    <CommandGroup>
-                      {allThemes.map((theme) => (
-                        <CommandItem
-                          value={theme.title!}
-                          key={theme.title}
-                          onSelect={() => {
-                            form.setValue("theme_name", theme.title!)
-                          }}
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground",
+                          )}
                         >
-                          {theme.title}
-                          <CheckIcon
-                            className={cn(
-                              "ml-auto h-4 w-4",
-                              theme.title === field.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                          {field.value
+                            ? allThemes?.find(
+                                (theme) => theme.title === field.value,
+                              )?.title
+                            : "Select theme"}
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search framework..."
+                          className="h-9"
+                        />
+                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandList>
+                        <CommandGroup>
+                          {allThemes.map((theme) => (
+                            <CommandItem
+                              value={theme.title ?? ""}
+                              key={theme.id.toString()}
+                              onSelect={() => {
+                                form.setValue("theme_name", theme.title!);
+                                console.log("value set: ", theme.title)
+                              }}
+                            >
+                              {theme.title}
+                              <CheckIcon
+                                className={cn(
+                                  "ml-auto h-4 w-4",
+                                  theme.title === value
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="industry_name"
               render={({ field }) => (
@@ -224,7 +270,7 @@ export default function AddPost({open, setOpen, allIndustries, allThemes} : AddP
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <DialogFooter className="gap-1 sm:gap-0">
               {/* {noteToEdit && (
                 <LoadingButton
@@ -249,5 +295,6 @@ export default function AddPost({open, setOpen, allIndustries, allThemes} : AddP
         </Form>
       </DialogContent>
     </Dialog>
+    </>
   );
 }
