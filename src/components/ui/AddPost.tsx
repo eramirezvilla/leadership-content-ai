@@ -57,7 +57,9 @@ export default function AddPost({
   allIndustries,
   allThemes,
 }: AddPostProps) {
-  // const [openPopover, setOpenPopover] = useState(true);
+  const [themeOpen, setThemeOpen] = useState(false);
+  const [industryOpen, setIndustryOpen] = useState(false);
+  const [descOpen, setDescOpen] = useState(false);
   console.log("allIndustries", allIndustries);
   console.log("allThemes", allThemes);
 
@@ -158,7 +160,7 @@ export default function AddPost({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Theme Name</FormLabel>
-                  <Popover>
+                  <Popover open={themeOpen} onOpenChange={setThemeOpen}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
@@ -193,6 +195,7 @@ export default function AddPost({
                               key={theme.id.toString()}
                               onSelect={() => {
                                 form.setValue("theme_name", theme.title!);
+                                setThemeOpen(false);
                               }}
                             >
                               {theme.title}
@@ -200,6 +203,68 @@ export default function AddPost({
                                 className={cn(
                                   "ml-auto h-4 w-4",
                                   theme.title === value
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="industry_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Industry Name</FormLabel>
+                  <Popover open={industryOpen} onOpenChange={setIndustryOpen}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-[200px] justify-between",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          {field.value
+                            ? field.value
+                            : "Select theme"}
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search framework..."
+                          className="h-9"
+                        />
+                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandList>
+                        <CommandGroup>
+                        {Object.keys(industryMap).map((industryName) => (
+                            <CommandItem
+                              value={industryName}
+                              key={industryName}
+                              onSelect={() => {
+                                form.setValue("industry_name", industryName);
+                                setIndustryOpen(false);
+                              }}
+                            >
+                              {industryName}
+                              <CheckIcon
+                                className={cn(
+                                  "ml-auto h-4 w-4",
+                                  industryName === value
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}
