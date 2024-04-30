@@ -43,6 +43,18 @@ export async function POST(req: Request){
         model: "gpt-3.5-turbo",
   });
     console.log("OpenAI response: ", openaiResponse?.choices[0]?.message.content);
+
+    if (!openaiResponse) {
+        return Response.json("An error occurred", { status: 500 });
+    }
+    else {
+        await prisma.post.create({
+            data: {
+                title: discussion_topic,
+                content: openaiResponse?.choices[0]?.message.content,
+            },
+        });
+    }
     return Response.json(relevantFiles);
 
     } catch(error){
