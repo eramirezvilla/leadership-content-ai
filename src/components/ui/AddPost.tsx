@@ -59,12 +59,11 @@ export default function AddPost({
 }: AddPostProps) {
   const [themeOpen, setThemeOpen] = useState(false);
   const [industryOpen, setIndustryOpen] = useState(false);
-  const [descOpen, setDescOpen] = useState(false);
-  console.log("allIndustries", allIndustries);
-  console.log("allThemes", allThemes);
+  const [dicussionOpen, setDicussionOpen] = useState(false);
+  const [industryTopics, setIndustryTopics] = useState<Omit<industry_challenge_mapping, "industry_name">[]>([]);
 
   const [deleteInProgress, setDeleteInProgress] = useState(false);
-  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("");
   const router = useRouter();
 
   const industryMap = allIndustries.reduce<IndustryMap>((acc, industry) => {
@@ -83,7 +82,7 @@ export default function AddPost({
     defaultValues: {
       theme_name: "",
       industry_name: "",
-      discussion_topic: "",
+      discussion_topic: "Select topic",
     },
   });
 
@@ -167,7 +166,7 @@ export default function AddPost({
                           variant="outline"
                           role="combobox"
                           className={cn(
-                            "w-[200px] justify-between",
+                            "w-full justify-between",
                             !field.value && "text-muted-foreground",
                           )}
                         >
@@ -183,10 +182,10 @@ export default function AddPost({
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
                         <CommandInput
-                          placeholder="Search framework..."
+                          placeholder="Search themes..."
                           className="h-9"
                         />
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>No theme found.</CommandEmpty>
                         <CommandList>
                         <CommandGroup>
                           {allThemes.map((theme) => (
@@ -231,13 +230,13 @@ export default function AddPost({
                           variant="outline"
                           role="combobox"
                           className={cn(
-                            "w-[200px] justify-between",
+                            "w-full justify-between",
                             !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value
                             ? field.value
-                            : "Select theme"}
+                            : "Select industry"}
                           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </FormControl>
@@ -245,10 +244,10 @@ export default function AddPost({
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
                         <CommandInput
-                          placeholder="Search framework..."
+                          placeholder="Search industries..."
                           className="h-9"
                         />
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>No industry found.</CommandEmpty>
                         <CommandList>
                         <CommandGroup>
                         {Object.keys(industryMap).map((industryName) => (
@@ -257,6 +256,8 @@ export default function AddPost({
                               key={industryName}
                               onSelect={() => {
                                 form.setValue("industry_name", industryName);
+                                setIndustryTopics(industryMap[industryName] ?? []);
+                                form.setValue("discussion_topic", "Select topic")
                                 setIndustryOpen(false);
                               }}
                             >
@@ -265,6 +266,66 @@ export default function AddPost({
                                 className={cn(
                                   "ml-auto h-4 w-4",
                                   industryName === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="discussion_topic"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Discussion Topic</FormLabel>
+                  <Popover open={dicussionOpen} onOpenChange={setDicussionOpen}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-full justify-between",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          {field.value ?? "Select topic"}
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search topics..."
+                          className="h-9"
+                        />
+                        <CommandEmpty>No topics found.</CommandEmpty>
+                        <CommandList>
+                        <CommandGroup>
+                          {industryTopics.map((topic) => (
+                            <CommandItem
+                              value={topic.discussion_topic ?? "Select topic"}
+                              key={topic.id.toString()}
+                              onSelect={() => {
+                                form.setValue("discussion_topic", topic.discussion_topic!);
+                                setDicussionOpen(false);
+                              }}
+                            >
+                              {topic.discussion_topic}
+                              <CheckIcon
+                                className={cn(
+                                  "ml-auto h-4 w-4",
+                                  topic.discussion_topic === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}
