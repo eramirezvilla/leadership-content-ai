@@ -18,15 +18,15 @@ export default function ExistingPostTab({
   const [showAddDialog, setShowAddDialog] = useState(false);
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex w-full gap-4">
+      <div className="flex flex-col w-full items-center gap-4">
         {allPosts.length > 0 ? (
           allPosts.map((post) => (
             <div
-              className="border-1 flex max-w-prose flex-col gap-2 rounded-md border px-8 py-4"
+              className="border-1 flex flex-col gap-2 rounded-md border px-8 py-4"
               key={post.id}
             >
-              <h2 className="text-title_3">{post.title}</h2>
-              <p className="text-callout">{post.content}</p>
+              <h2 className="text-headline">{post.title}</h2>
+              <p className="text-body max-w-prose overflow-auto">{post.content}</p>
             </div>
           ))
         ) : (
