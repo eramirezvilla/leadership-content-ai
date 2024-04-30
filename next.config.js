@@ -9,8 +9,11 @@ const config = {
     images: {
       remotePatterns: [
         {
-          hostname: "img.clerk.com",
+          hostname: "img.clerk.com"
         },
+        {
+          hostname: "niwddwyedzpeqdmbrkws.supabase.co"
+        }
       ],
     },
   };
