@@ -61,6 +61,7 @@ export default function AddPost({
   const [industryOpen, setIndustryOpen] = useState(false);
   const [dicussionOpen, setDicussionOpen] = useState(false);
   const [industryTopics, setIndustryTopics] = useState<Omit<industry_challenge_mapping, "industry_name">[]>([]);
+  // const [topicDescription, setTopicDescription] = useState<string>("None selected");
 
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   // const [value, setValue] = useState("");
@@ -83,6 +84,7 @@ export default function AddPost({
       theme_name: "",
       industry_name: "",
       discussion_topic: "Select topic",
+      topic_description: "None selected",
     },
   });
 
@@ -107,6 +109,7 @@ export default function AddPost({
       });
 
       if (!response.ok) {
+        console.log("input", input);
         throw Error("An error occurred");
       }
 
@@ -179,7 +182,7 @@ export default function AddPost({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent className="w-full p-0">
                       <Command>
                         <CommandInput
                           placeholder="Search themes..."
@@ -241,7 +244,7 @@ export default function AddPost({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent className="w-full p-0">
                       <Command>
                         <CommandInput
                           placeholder="Search industries..."
@@ -259,6 +262,7 @@ export default function AddPost({
                                 setIndustryTopics(industryMap[industryName] ?? []);
                                 form.setValue("discussion_topic", "Select topic")
                                 setIndustryOpen(false);
+                                form.setValue("topic_description", "");
                               }}
                             >
                               {industryName}
@@ -303,7 +307,7 @@ export default function AddPost({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
+                    <PopoverContent className="w-full h-full p-0 overflow-scroll">
                       <Command>
                         <CommandInput
                           placeholder="Search topics..."
@@ -319,6 +323,7 @@ export default function AddPost({
                               onSelect={() => {
                                 form.setValue("discussion_topic", topic.discussion_topic!);
                                 setDicussionOpen(false);
+                                form.setValue("topic_description", topic.topic_description ?? "");
                               }}
                             >
                               {topic.discussion_topic}
@@ -341,32 +346,10 @@ export default function AddPost({
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="industry_name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Title" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="discussion_topic"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Content</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Content" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+            <div className="flex flex-col gap-2 w-full">
+              <h1 className="text-lg font-semibold">Topic Description</h1>
+              <p className="text-sm text-muted-foreground"> {form.watch("topic_description")}</p>
+            </div>
             <DialogFooter className="gap-1 sm:gap-0">
               {/* {noteToEdit && (
                 <LoadingButton
