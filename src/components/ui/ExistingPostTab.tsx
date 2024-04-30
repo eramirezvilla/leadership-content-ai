@@ -27,8 +27,7 @@ export default function ExistingPostTab({ allPosts, allThemes, allIndustries}: E
         <Button type="button" onClick={() => setShowAddDialog(true)}>
             Add Post
         </Button>
-        {/* <AddPost open={showAddDialog} setOpen={setShowAddDialog} allIndustries={allIndustries} allThemes={allThemes} /> */}
-        <AddPost open={showAddDialog} setOpen={setShowAddDialog} allIndustries={allIndustries} />
+        <AddPost open={showAddDialog} setOpen={setShowAddDialog} allIndustries={allIndustries} allThemes={allThemes} />
         </>
       )}
     </div>

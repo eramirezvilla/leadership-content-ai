@@ -39,35 +39,6 @@ import { Button } from "./button";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "~/lib/utils";
 
-const allThemes: themes[] = [
-  {
-    id: BigInt(1),
-    title: "Theme 1",
-    description: "Description 1",
-    audience_connection: "Audience Connection 1",
-    company_connection: "Company Connection 1",
-    call_to_action_id: BigInt(1),
-    created_at: new Date(),
-  },
-  {
-    id: BigInt(2),
-    title: "Theme 2",
-    description: "Description 2",
-    audience_connection: "Audience Connection 2",
-    company_connection: "Company Connection 2",
-    call_to_action_id: BigInt(2),
-    created_at: new Date(),
-  },
-  {
-    id: BigInt(3),
-    title: "Theme 3",
-    description: "Description 3",
-    audience_connection: "Audience Connection 3",
-    company_connection: "Company Connection 3",
-    call_to_action_id: BigInt(3),
-    created_at: new Date(),
-  },
-];
 
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 type IndustryMap = {
@@ -77,16 +48,16 @@ interface AddPostProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   allIndustries: industry_challenge_mapping[];
-  // allThemes: themes[];
+  allThemes: themes[];
 }
 
 export default function AddPost({
   open,
   setOpen,
   allIndustries,
-  // allThemes,
+  allThemes,
 }: AddPostProps) {
-  // const [open, setOpen] = useState(true);
+  // const [openPopover, setOpenPopover] = useState(true);
   console.log("allIndustries", allIndustries);
   console.log("allThemes", allThemes);
 
@@ -222,7 +193,6 @@ export default function AddPost({
                               key={theme.id.toString()}
                               onSelect={() => {
                                 form.setValue("theme_name", theme.title!);
-                                console.log("value set: ", theme.title)
                               }}
                             >
                               {theme.title}
