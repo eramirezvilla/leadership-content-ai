@@ -38,6 +38,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./button";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "~/lib/utils";
+import { DialogOverlay, Overlay } from "@radix-ui/react-dialog";
 
 
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
@@ -149,7 +150,7 @@ export default function AddPost({
 
   return (
     <>
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} modal={false}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Post</DialogTitle>
