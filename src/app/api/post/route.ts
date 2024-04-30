@@ -36,27 +36,14 @@ export async function POST(req: Request){
     console.log("query ", parseResult.data)
     console.log("Relevant notes found: ", relevantFiles);
 
-    return Response.json(relevantFiles);
-
-    // //make the request to chatgpt api
-    // const systemMessage: ChatCompletionMessage = {
-    //     role: "assistant",
-    //     content: "You are an intelligent note-taking app. You answer the user's question based on their existing notes. " +
-    //     "The relevant notes for this question are:\n" +
-    //     relevantNotes.map((note) => `Title: ${note.title}\n\nContent:\n${note.content}`).join("\n\n"),
-    // };
     
-    // const response = await openai.chat.completions.create({
-    //     model: "gpt-3.5-turbo",
-    //     stream: true,
-    //     messages: [systemMessage, ...messagesTruncated]
-    // });
-
-    // //creates the stream from open ai using the vercel sdk
-    // const stream = OpenAIStream(response)
-    // return new StreamingTextResponse(stream);
-
-        
+    //make the request to chatgpt api
+    const openaiResponse = await openai.chat.completions.create({
+        messages: [{ role: "system", content: "You are a social media manager specializing in LinkedIn content. You will be posting from the C-Suite Executives accounts with the intention of generating new sales leads. Ensure that the post you generate relates to the audience and ties in to the products offered. These are the relevant product files you will need for this post: " + relevantFiles.map((file) => file.filename).join(", ") + ".\n\nThe discussion topic is: " + discussion_topic + ".\n\nThe topic description is: " + topic_description + ".\n\nPlease generate a post that will engage the audience and promote the products. Remember to include a call to action."}],
+        model: "gpt-3.5-turbo",
+  });
+    console.log("OpenAI response: ", openaiResponse?.choices[0]?.message.content);
+    return Response.json(relevantFiles);
 
     } catch(error){
         console.error(error);
