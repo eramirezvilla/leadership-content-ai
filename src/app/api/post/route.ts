@@ -15,6 +15,16 @@ export async function POST(req: Request){
         
         const { theme_name, industry_name, discussion_topic, topic_description} = parseResult.data;
 
+        const themeVals = await prisma.themes.findFirst({
+            where: {
+                title: theme_name,
+            },
+        });
+        if(!themeVals){
+            return Response.json("Theme not found", { status: 404 });
+        }
+        const { description, audience_connection, company_connection } = themeVals;
+
         const embedding = await getEmbedding(industry_name + "\n\n" + discussion_topic + "\n\n" + topic_description);
         
         //topK is the number of results to return
@@ -39,7 +49,7 @@ export async function POST(req: Request){
     
     //make the request to chatgpt api
     const openaiResponse = await openai.chat.completions.create({
-        messages: [{ role: "system", content: "You are a social media manager specializing in LinkedIn content. You will be posting from the C-Suite Executives accounts with the intention of generating new sales leads. Ensure that the post you generate relates to the audience and ties in to the products offered. These are the relevant product files you will need for this post: " + relevantFiles.map((file) => file.filename).join(", ") + ".\n\nThe discussion topic is: " + discussion_topic + ".\n\nThe topic description is: " + topic_description + ".\n\nPlease generate a post that will engage the audience and promote the products. Remember to include a call to action."}],
+        messages: [{ role: "system", content: "You are a social media manager specializing in LinkedIn content. You will be posting from the C-Suite Executives accounts with the intention of generating new sales leads. For this post you will: " + description + audience_connection + company_connection + " These are the relevant product files you will need for this post: " + relevantFiles.map((file) => file.filename).join(", ") + ".\n\nThe discussion topic is: " + discussion_topic + ".\n\nThe topic description is: " + topic_description + ".\n\nPlease generate a post that will engage the audience and promote the products. Remember to include a call to action."}],
         model: "gpt-3.5-turbo",
   });
     console.log("OpenAI response: ", openaiResponse?.choices[0]?.message.content);
