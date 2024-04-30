@@ -14,7 +14,7 @@ export default function SidebarNav() {
 
   return (
     <div className="sticky left-0 top-0 flex h-screen w-60 min-w-60 border-r">
-      <div className="flex w-full flex-col pt-4">
+      <div className="flex w-full flex-col pt-4 gap-8 mt-4">
         <div className="flex flex-col items-center justify-center gap-2 object-cover">
           <UserButton />
           <h1 className="text-md font-medium">Welcome, {user?.firstName} </h1>

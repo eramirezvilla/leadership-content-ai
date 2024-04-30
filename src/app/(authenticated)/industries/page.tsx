@@ -22,8 +22,10 @@ export default async function IndustriesPage() {
     }, {});
 
     return (
-        <div className="flex w-full pt-6">
-            {/* <IndustryTab industryMap={industryMap} /> */}
+        <div className="flex flex-col w-full gap-4 mt-8">
+            <div className="flex justify-center w-1/4">
+                <h1 className="text-title_2 ml-8">Industries</h1>
+            </div>
             <IndustryTab allIndustries={allIndustries} />
         </div>
     )

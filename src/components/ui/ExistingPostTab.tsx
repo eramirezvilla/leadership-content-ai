@@ -18,8 +18,7 @@ export default function ExistingPostTab({
   const [showAddDialog, setShowAddDialog] = useState(false);
   return (
     <div className="flex flex-col gap-4">
-      <h1 className=" ml-8 text-title_2">Posts</h1>
-      <div className="flex w-full">
+      <div className="flex w-full gap-4">
         {allPosts.length > 0 ? (
           allPosts.map((post) => (
             <div
