@@ -202,7 +202,7 @@ export default function AddPost({
                               <CheckIcon
                                 className={cn(
                                   "ml-auto h-4 w-4",
-                                  theme.title === value
+                                  theme.title === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}
@@ -264,7 +264,7 @@ export default function AddPost({
                               <CheckIcon
                                 className={cn(
                                   "ml-auto h-4 w-4",
-                                  industryName === value
+                                  industryName === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}
