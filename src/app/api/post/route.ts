@@ -1,60 +1,60 @@
-import { notesIndex } from "@/lib/db/pinecone";
-import prisma from "@/lib/db/prisma";
-import openai, { getEmbedding } from "@/lib/openai";
+import { productDataIndx } from "~/lib/server/pinecone";
+import prisma from "~/lib/server/prisma";
+import openai, { getEmbedding } from "~/lib/server/openai";
 import { auth } from "@clerk/nextjs";
-import { type ChatCompletionMessage } from "openai/resources/index.mjs";
-import {OpenAIStream, StreamingTextResponse} from "ai"
+import { createPostSchema } from "~/lib/validation/Post";
 
 export async function POST(req: Request){
     try {
         const body = await req.json();
-        const messages: ChatCompletionMessage[] = body.messages;
+        const parseResult = createPostSchema.safeParse(body);
 
-        //get the last 6 messages to send to the api
-        const messagesTruncated = messages.slice(-6);
+        if (!parseResult.success) {
+            return Response.json({ error: "Invalid input" }, { status: 400 });
+          }
+        
+        const { theme_name, industry_name, discussion_topic, topic_description} = parseResult.data;
 
-        const embedding = await getEmbedding(
-            messagesTruncated.map((message) => message.content).join("\n")
-        );
-
-        const {userId} = auth();
+        const embedding = await getEmbedding(industry_name + "\n\n" + discussion_topic + "\n\n" + topic_description);
         
         //topK is the number of results to return
         //fetches the vector embeddings from pinecone
-        const vectorQueryResponse = await notesIndex.query({
+        const vectorQueryResponse = await productDataIndx.query({
             vector: embedding,
-            topK: 13,
-            filter: { userId },
+            topK: 4,
     })
 
-    //fetches the notes from the prisma database
-    const relevantNotes = await prisma.note.findMany({
+    // fetches the notes from the prisma database
+    const relevantFiles = await prisma.file.findMany({
         where: {
             id: {
-                in: vectorQueryResponse.matches.map((match) => BigInt(match.id)),
+                in: vectorQueryResponse.matches.map((match) => Number(match.id)),
             },
         },
     });
 
-    console.log("Relevant notes found: ", relevantNotes);
+    console.log("query ", parseResult.data)
+    console.log("Relevant notes found: ", relevantFiles);
 
-    //make the request to chatgpt api
-    const systemMessage: ChatCompletionMessage = {
-        role: "assistant",
-        content: "You are an intelligent note-taking app. You answer the user's question based on their existing notes. " +
-        "The relevant notes for this question are:\n" +
-        relevantNotes.map((note) => `Title: ${note.title}\n\nContent:\n${note.content}`).join("\n\n"),
-    };
+    return Response.json(relevantFiles);
+
+    // //make the request to chatgpt api
+    // const systemMessage: ChatCompletionMessage = {
+    //     role: "assistant",
+    //     content: "You are an intelligent note-taking app. You answer the user's question based on their existing notes. " +
+    //     "The relevant notes for this question are:\n" +
+    //     relevantNotes.map((note) => `Title: ${note.title}\n\nContent:\n${note.content}`).join("\n\n"),
+    // };
     
-    const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        stream: true,
-        messages: [systemMessage, ...messagesTruncated]
-    });
+    // const response = await openai.chat.completions.create({
+    //     model: "gpt-3.5-turbo",
+    //     stream: true,
+    //     messages: [systemMessage, ...messagesTruncated]
+    // });
 
-    //creates the stream from open ai using the vercel sdk
-    const stream = OpenAIStream(response)
-    return new StreamingTextResponse(stream);
+    // //creates the stream from open ai using the vercel sdk
+    // const stream = OpenAIStream(response)
+    // return new StreamingTextResponse(stream);
 
         
 
