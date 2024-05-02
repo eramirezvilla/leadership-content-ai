@@ -28,7 +28,7 @@ export default async function PostsPage() {
                   {post.content}
                 </p>
               </div>
-              <div className="border-1 flex w-full rounded-md border bg-white px-4 py-2">
+              <div className="border-1 h-40 overflow-auto flex w-full rounded-md border bg-white px-4 py-2">
                 {(() => {
                   const industryMapping = getIndustryMapping(
                     Number(post.created_from_mapping),
