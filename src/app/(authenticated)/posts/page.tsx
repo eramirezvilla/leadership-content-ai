@@ -47,9 +47,20 @@ export default async function PostsPage() {
                   );
                 })()}
               </div>
-              {/* <div className="border-1 flex w-full rounded-md border bg-white px-4 py-2">
-                <RelevantFiles relevantFiles={post.relevant_files} />
-              </div> */}
+            <div className="border-1 flex w-full rounded-md border bg-white px-4 py-2">
+                {(async () => {
+                    const relevantFiles = getRelevantFiles(post.relevant_files as number[]);
+                    if (relevantFiles !== null && relevantFiles !== undefined) {
+                        return (
+                            <p className="max-w-lg text-body">
+                                Relevant Files: {(await relevantFiles).map((file) => file.filename)}
+                            </p>
+                        );
+                    } else {
+                        return <p className="max-w-lg text-body">No relevant files found</p>;
+                    }
+                })()}
+            </div>
 
               {/* <div className="border-1 flex w-full rounded-md border bg-white px-4 py-2">
                 {(() => {
@@ -80,3 +91,14 @@ export function getIndustryMapping(
   ) {
     return allIndustries.find((industry) => Number(industry.id) === id);
   }
+
+export async function getRelevantFiles(ids: number[]) {
+    const relevantFiles = await prisma.file.findMany({
+        where: {
+            id: {
+                in: ids
+            }
+        }
+    })
+    return relevantFiles
+}
