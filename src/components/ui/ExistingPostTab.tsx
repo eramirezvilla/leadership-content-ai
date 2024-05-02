@@ -1,5 +1,5 @@
 "use client";
-import { type post, themes, industry_challenge_mapping } from "@prisma/client";
+import type { post, themes, industry_challenge_mapping } from "@prisma/client";
 import AddPost from "./AddPost";
 import { Button } from "./button";
 import { useState } from "react";

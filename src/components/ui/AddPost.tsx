@@ -28,17 +28,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { Input } from "./input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingButton from "./loadingbutton";
-import { type post, type industry_challenge_mapping, type themes } from "@prisma/client";
-import { CreatePostSchema, createPostSchema } from "~/lib/validation/Post";
+import { type industry_challenge_mapping, type themes } from "@prisma/client";
+import { type CreatePostSchema, createPostSchema } from "~/lib/validation/Post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./button";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "~/lib/utils";
-import { DialogOverlay, Overlay } from "@radix-ui/react-dialog";
 
 
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
@@ -62,10 +60,9 @@ export default function AddPost({
   const [industryOpen, setIndustryOpen] = useState(false);
   const [dicussionOpen, setDicussionOpen] = useState(false);
   const [industryTopics, setIndustryTopics] = useState<Omit<industry_challenge_mapping, "industry_name">[]>([]);
-  // const [topicDescription, setTopicDescription] = useState<string>("None selected");
 
   const [deleteInProgress, setDeleteInProgress] = useState(false);
-  // const [value, setValue] = useState("");
+  
   const router = useRouter();
 
   const industryMap = allIndustries.reduce<IndustryMap>((acc, industry) => {
@@ -113,6 +110,7 @@ export default function AddPost({
         console.log("input", input);
         throw Error("An error occurred");
       }
+      
 
       form.reset();
 
