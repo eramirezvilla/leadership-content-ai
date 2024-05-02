@@ -33,6 +33,9 @@ export async function POST(req: Request){
             topK: 4,
     })
 
+    const fileIds = vectorQueryResponse.matches.map((match) => Number(match.id));
+    console.log("File IDs to retrieve:", fileIds);
+
     // fetches the notes from the prisma database
     const relevantFiles = await prisma.file.findMany({
         where: {
@@ -43,7 +46,7 @@ export async function POST(req: Request){
     });
 
     console.log("query ", parseResult.data)
-    console.log("Relevant notes found: ", relevantFiles);
+    console.log("Relevant files found: ", relevantFiles);
 
     
     //make the request to chatgpt api
