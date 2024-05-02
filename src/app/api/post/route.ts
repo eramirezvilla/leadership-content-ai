@@ -1,7 +1,6 @@
 import { productDataIndx } from "~/lib/server/pinecone";
 import prisma from "~/lib/server/prisma";
 import openai, { getEmbedding } from "~/lib/server/openai";
-import { auth } from "@clerk/nextjs";
 import { createPostSchema } from "~/lib/validation/Post";
 
 export async function POST(req: Request){

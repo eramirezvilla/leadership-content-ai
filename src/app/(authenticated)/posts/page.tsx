@@ -1,6 +1,6 @@
 import prisma from "~/lib/server/prisma"
 import AddPost from "~/components/ui/AddPost"
-import type { post, themes, industry_challenge_mapping } from "@prisma/client";
+import type { industry_challenge_mapping } from "@prisma/client";
 
 export default async function PostsPage() {
     const allPosts = await prisma.post.findMany()
@@ -61,20 +61,6 @@ export default async function PostsPage() {
                     }
                 })()}
             </div>
-
-              {/* <div className="border-1 flex w-full rounded-md border bg-white px-4 py-2">
-                {(() => {
-                  const relevantFiles = getRelevantFiles(post.relevant_files as number[]);
-                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                  return relevantFiles ? (
-                    <p className="max-w-lg text-body">
-                      Relevant Files: {relevantFiles.map((file) => file.filename)}
-                    </p>
-                  ) : (
-                    <p className="max-w-lg text-body">No relevant files found</p>
-                  );
-              })()}
-              </div> */}
             </div>
           ))
         ) : (
