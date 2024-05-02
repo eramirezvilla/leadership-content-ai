@@ -13,7 +13,7 @@ export async function POST(req: Request){
             return Response.json({ error: "Invalid input" }, { status: 400 });
           }
         
-        const { theme_name, industry_name, discussion_topic, topic_description} = parseResult.data;
+        const { theme_name, industry_name, discussion_topic, topic_description, mapping_id} = parseResult.data;
 
         const themeVals = await prisma.themes.findFirst({
             where: {
@@ -62,6 +62,7 @@ export async function POST(req: Request){
             data: {
                 title: discussion_topic,
                 content: openaiResponse?.choices[0]?.message.content,
+                created_from_mapping: mapping_id,
             },
         });
     }

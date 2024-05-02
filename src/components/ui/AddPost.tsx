@@ -83,6 +83,7 @@ export default function AddPost({
       industry_name: "",
       discussion_topic: "Select topic",
       topic_description: "None selected",
+      mapping_id: 0,
     },
   });
 
@@ -323,6 +324,7 @@ export default function AddPost({
                                 form.setValue("discussion_topic", topic.discussion_topic!);
                                 setDicussionOpen(false);
                                 form.setValue("topic_description", topic.topic_description ?? "");
+                                form.setValue("mapping_id", Number(topic.id) ?? 0);
                               }}
                             >
                               {topic.discussion_topic}
