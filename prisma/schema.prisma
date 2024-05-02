@@ -82,6 +82,7 @@ model post {
   created_at                 DateTime                    @default(now()) @db.Timestamptz(6)
   created_from_mapping       BigInt?
   relevant_files             Int[]
+  user_id                    String?
   call_to_action             call_to_action?             @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   industry_challenge_mapping industry_challenge_mapping? @relation(fields: [created_from_mapping], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
