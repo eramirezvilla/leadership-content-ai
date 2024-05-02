@@ -4,6 +4,7 @@ import AddPost from "./AddPost";
 import { Button } from "./button";
 import { useState, useEffect } from "react";
 import prisma from "~/lib/server/prisma";
+import RelevantFiles from "./RelevantFiles";
 
 interface ExistingPostTabProps {
   allPosts: post[];
@@ -54,6 +55,9 @@ export default function ExistingPostTab({
                   );
                 })()}
               </div>
+              {/* <div className="border-1 flex w-full rounded-md border bg-white px-4 py-2">
+                <RelevantFiles relevantFiles={post.relevant_files} />
+              </div> */}
 
               {/* <div className="border-1 flex w-full rounded-md border bg-white px-4 py-2">
                 {(() => {
@@ -74,7 +78,7 @@ export default function ExistingPostTab({
           <p>No posts found</p>
         )}
       </div>
-      <div className="flex w-full items-center justify-center">
+      {/* <div className="flex w-full items-center justify-center">
         <Button type="button" onClick={() => setShowAddDialog(true)}>
           Add Post
         </Button>
@@ -84,7 +88,7 @@ export default function ExistingPostTab({
           allIndustries={allIndustries}
           allThemes={allThemes}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

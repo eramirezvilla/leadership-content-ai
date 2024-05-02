@@ -44,15 +44,15 @@ type IndustryMap = {
   [key: string]: Omit<industry_challenge_mapping, "industry_name">[];
 };
 interface AddPostProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  // open: boolean;
+  // setOpen: (open: boolean) => void;
   allIndustries: industry_challenge_mapping[];
   allThemes: themes[];
 }
 
 export default function AddPost({
-  open,
-  setOpen,
+  // open,
+  // setOpen,
   allIndustries,
   allThemes,
 }: AddPostProps) {
@@ -60,6 +60,7 @@ export default function AddPost({
   const [industryOpen, setIndustryOpen] = useState(false);
   const [dicussionOpen, setDicussionOpen] = useState(false);
   const [industryTopics, setIndustryTopics] = useState<Omit<industry_challenge_mapping, "industry_name">[]>([]);
+  const [open, setOpen] = useState(false);
 
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   
@@ -149,6 +150,9 @@ export default function AddPost({
 
   return (
     <>
+    <Button type="button" onClick={() => setOpen(true)}>
+      Add Post
+    </Button>
     <Dialog open={open} onOpenChange={setOpen} modal={false}>
       <DialogContent>
         <DialogHeader>
