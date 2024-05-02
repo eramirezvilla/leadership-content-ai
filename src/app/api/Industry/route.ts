@@ -23,6 +23,17 @@ export async function POST(req: Request) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    //check if discussion topic already exists
+    const discussionTopicExists = await prisma.industry_challenge_mapping.findFirst({
+      where: {
+        discussion_topic,
+      },
+    });
+    if (discussionTopicExists) {
+      // skip creating a new topic if it already exists
+      return Response.json({ discussionTopicExists }, { status: 200 });
+    }
+
     const industry = await prisma.industry_challenge_mapping.create({
       data: {
         industry_name,

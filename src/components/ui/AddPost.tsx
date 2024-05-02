@@ -44,15 +44,15 @@ type IndustryMap = {
   [key: string]: Omit<industry_challenge_mapping, "industry_name">[];
 };
 interface AddPostProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  // open: boolean;
+  // setOpen: (open: boolean) => void;
   allIndustries: industry_challenge_mapping[];
   allThemes: themes[];
 }
 
 export default function AddPost({
-  open,
-  setOpen,
+  // open,
+  // setOpen,
   allIndustries,
   allThemes,
 }: AddPostProps) {
@@ -60,6 +60,7 @@ export default function AddPost({
   const [industryOpen, setIndustryOpen] = useState(false);
   const [dicussionOpen, setDicussionOpen] = useState(false);
   const [industryTopics, setIndustryTopics] = useState<Omit<industry_challenge_mapping, "industry_name">[]>([]);
+  const [open, setOpen] = useState(false);
 
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   
@@ -72,7 +73,7 @@ export default function AddPost({
     if (!acc[industry_name]) {
       acc[industry_name] = [];
     }
-    acc[industry_name]!.push(otherValues);
+    acc[industry_name]?.push(otherValues);
     return acc;
   }, {});
 
@@ -83,6 +84,7 @@ export default function AddPost({
       industry_name: "",
       discussion_topic: "Select topic",
       topic_description: "None selected",
+      mapping_id: 0,
     },
   });
 
@@ -148,6 +150,9 @@ export default function AddPost({
 
   return (
     <>
+    <Button type="button" onClick={() => setOpen(true)}>
+      Add Post
+    </Button>
     <Dialog open={open} onOpenChange={setOpen} modal={false}>
       <DialogContent>
         <DialogHeader>
@@ -259,6 +264,7 @@ export default function AddPost({
                               onSelect={() => {
                                 form.setValue("industry_name", industryName);
                                 setIndustryTopics(industryMap[industryName] ?? []);
+                                console.log("industryMap[industryName]", industryMap[industryName] ?? [])
                                 form.setValue("discussion_topic", "Select topic")
                                 setIndustryOpen(false);
                                 form.setValue("topic_description", "");
@@ -318,11 +324,12 @@ export default function AddPost({
                           {industryTopics.map((topic) => (
                             <CommandItem
                               value={topic.discussion_topic ?? "Select topic"}
-                              key={topic.id.toString()}
+                              key={topic.id.toString() ?? ""}
                               onSelect={() => {
                                 form.setValue("discussion_topic", topic.discussion_topic!);
                                 setDicussionOpen(false);
                                 form.setValue("topic_description", topic.topic_description ?? "");
+                                form.setValue("mapping_id", Number(topic.id) ?? 0);
                               }}
                             >
                               {topic.discussion_topic}

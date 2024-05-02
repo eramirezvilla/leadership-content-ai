@@ -5,6 +5,7 @@ export const createPostSchema = z.object({
   industry_name: z.string(),
   discussion_topic: z.string(),
   topic_description: z.string(),
+  mapping_id: z.number(),
 });
 
 export type CreatePostSchema = z.infer<typeof createPostSchema>;
