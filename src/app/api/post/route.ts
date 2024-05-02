@@ -58,11 +58,13 @@ export async function POST(req: Request){
         return Response.json("An error occurred", { status: 500 });
     }
     else {
+        const relevantFileIds = relevantFiles.map((file) => Number(file.id));
         await prisma.post.create({
             data: {
                 title: discussion_topic,
                 content: openaiResponse?.choices[0]?.message.content,
                 created_from_mapping: mapping_id,
+                relevant_files: relevantFileIds,
             },
         });
     }
