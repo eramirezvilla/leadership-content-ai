@@ -45,9 +45,13 @@ export default async function PostsPage() {
                   );
                   return industryMapping ? (
                     <p className="max-w-lg text-body">
-                      Industry: {industryMapping.industry_name}
+                      <span className="font-semibold">Industry:</span>{" "}
+                      {industryMapping.industry_name}
                       <br />
-                      Disussion Topic : {industryMapping.topic_description}
+                      <span className="mt-2 inline-block">
+                        <span className="font-semibold">Disussion Topic :</span>{" "}
+                        {industryMapping.topic_description}
+                      </span>
                     </p>
                   ) : (
                     <p className="max-w-lg text-body">
