@@ -1,4 +1,4 @@
-import { Button } from "~/components/ui/button";
+import { Button } from "~/components/ui/moving-border";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
@@ -32,7 +32,7 @@ export default function HomePage() {
         </p>
         <div className="flex w-full justify-center">
           <Link href="/sign-in">
-            <Button type="button" className="bg-black text-white shadow-xl shadow-white">Sign In</Button>
+            <Button type="button" className="bg-black/50 text-white font-semibold hover:bg-white/10 text-lg">Sign In</Button>
           </Link>
         </div>
       </div>
