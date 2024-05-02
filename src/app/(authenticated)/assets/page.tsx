@@ -40,9 +40,11 @@ export default async function AssetPage() {
             <h1 className="text-title_3">Assets</h1>
             <div className="grid grid-cols-3 gap-4">
                 {Object.entries(filesWithImageURL).map(([filename, urls]) => (
-                    <div key={filename} className="flex flex-col gap-2 px-4 py-2 rounded-md border border-1 shadow-sm bg-slate-300">
-                        <h2 className="text-headline">{filename}</h2>
-                        <div className="flex w-full">
+                    <div key={filename} className="flex flex-col gap-6 px-4 py-2 rounded-md border border-1 shadow-sm bg-slate-300">
+                        <div className="flex w-full justify-center">
+                            <h2 className="text-headline">{filename}</h2>
+                        </div>
+                        <div className="flex flex-wrap gap-2 w-full justify-center items-center">
                             {urls.map((url) => (
                                 <div key={url} className="relative w-24 h-24">
                                     <Image
