@@ -73,7 +73,7 @@ export default function AddPost({
     if (!acc[industry_name]) {
       acc[industry_name] = [];
     }
-    acc[industry_name]!.push(otherValues);
+    acc[industry_name]?.push(otherValues);
     return acc;
   }, {});
 
@@ -264,6 +264,7 @@ export default function AddPost({
                               onSelect={() => {
                                 form.setValue("industry_name", industryName);
                                 setIndustryTopics(industryMap[industryName] ?? []);
+                                console.log("industryMap[industryName]", industryMap[industryName] ?? [])
                                 form.setValue("discussion_topic", "Select topic")
                                 setIndustryOpen(false);
                                 form.setValue("topic_description", "");
@@ -323,7 +324,7 @@ export default function AddPost({
                           {industryTopics.map((topic) => (
                             <CommandItem
                               value={topic.discussion_topic ?? "Select topic"}
-                              key={topic.id.toString()}
+                              key={topic.discussion_topic ?? ""}
                               onSelect={() => {
                                 form.setValue("discussion_topic", topic.discussion_topic!);
                                 setDicussionOpen(false);
