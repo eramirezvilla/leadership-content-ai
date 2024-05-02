@@ -8,7 +8,7 @@ export default async function PostsPage() {
     const allIndustries = await prisma.industry_challenge_mapping.findMany()
 
     return (
-        <div className="flex flex-col w-full mt-8 gap-4">
+        <div className="flex flex-col w-full my-8 gap-4">
             <div className="flex w-1/4 justify-center">
                 <h1 className="text-title_2">Posts</h1>
             </div>
