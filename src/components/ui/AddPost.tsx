@@ -324,7 +324,7 @@ export default function AddPost({
                           {industryTopics.map((topic) => (
                             <CommandItem
                               value={topic.discussion_topic ?? "Select topic"}
-                              key={topic.discussion_topic ?? ""}
+                              key={topic.id.toString() ?? ""}
                               onSelect={() => {
                                 form.setValue("discussion_topic", topic.discussion_topic!);
                                 setDicussionOpen(false);
