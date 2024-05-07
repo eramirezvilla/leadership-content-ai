@@ -4,6 +4,7 @@ import type { industry_challenge_mapping } from "@prisma/client";
 import { auth } from "@clerk/nextjs";
 import { LayoutGrid, MenuIcon } from "lucide-react";
 import GridPost from "~/components/ui/GridPost";
+import PostsContent from "~/components/ui/PostsContent";
 
 export default async function PostsPage() {
   const { userId } = auth();
@@ -23,22 +24,15 @@ export default async function PostsPage() {
       <div className="flex justify-between gap-6 px-8">
         <div className="flex flex-col gap-2.5">
           <h1 className="text-title_2">Posts</h1>
-          <div className="flex gap-2.5">
+          {/* <div className="flex gap-2.5">
             <LayoutGrid size={20} className="hover:stroke-brand_purple hover:cursor-pointer"/>
             <MenuIcon size={20} className="hover:stroke-brand_purple hover:cursor-pointer"/>
-          </div>
+          </div> */}
         </div>
         <AddPost allThemes={allThemes} allIndustries={allIndustries} />
       </div>
-      <div className="flex w-full flex-wrap gap-4 px-4">
-        {allPosts.length > 0 ? (
-          allPosts.map((post) => (
-            <GridPost post={post} key={post.id} />
-          ))
-        ) : (
-          <p>No posts found</p>
-        )}
-      </div>
+      <PostsContent allPosts={allPosts} />
+      
       <div className="flex w-full flex-wrap gap-4 px-4">
         {allPosts.length > 0 ? (
           allPosts.map((post) => (
