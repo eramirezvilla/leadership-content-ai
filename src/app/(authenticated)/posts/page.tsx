@@ -33,7 +33,7 @@ export default async function PostsPage() {
       </div>
       <PostsContent allPosts={allPosts} />
       
-      <div className="flex w-full flex-wrap gap-4 px-4">
+      {/* <div className="flex w-full flex-wrap gap-4 px-4">
         {allPosts.length > 0 ? (
           allPosts.map((post) => (
             <div
@@ -97,7 +97,7 @@ export default async function PostsPage() {
         ) : (
           <p>No posts found</p>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
