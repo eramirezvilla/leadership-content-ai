@@ -47,8 +47,9 @@ export async function POST(req: Request) {
       topK: 4,
     });
 
+
     const fileIds = vectorQueryResponse.matches.map((match) =>
-      Number(match.id),
+      Number(match.id.split("-")[0]),
     );
     console.log("File IDs to retrieve:", fileIds);
 
@@ -56,7 +57,7 @@ export async function POST(req: Request) {
     const relevantFiles = await prisma.file.findMany({
       where: {
         id: {
-          in: vectorQueryResponse.matches.map((match) => Number(match.id)),
+          in: fileIds,
         },
       },
     });
