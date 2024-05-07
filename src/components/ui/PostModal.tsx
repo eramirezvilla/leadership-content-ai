@@ -25,14 +25,14 @@ export default function PostModal({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
       <DialogHeader>
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle className="max-w-prose">{title}</DialogTitle>
       </DialogHeader>
-        <p>{content}</p>
+        <p className="max-w-prose">{content}</p>
         <p>{created_at.toLocaleDateString("en-US")}</p>
         <p>{created_from_mapping}</p>
         <p>{relevant_files}</p>
       <DialogFooter>
-        {/* <button onClick={() => setOpen(false)}>Close</button> */}
+        <button onClick={() => setOpen(false)}>Close</button>
       </DialogFooter>
       </DialogContent>
     </Dialog>
