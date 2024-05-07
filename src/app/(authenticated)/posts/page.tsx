@@ -2,6 +2,7 @@ import prisma from "~/lib/server/prisma";
 import AddPost from "~/components/ui/AddPost";
 import type { industry_challenge_mapping } from "@prisma/client";
 import { auth } from "@clerk/nextjs";
+import { LayoutGrid, MenuIcon } from "lucide-react";
 
 export default async function PostsPage() {
   const { userId } = auth();
@@ -18,8 +19,14 @@ export default async function PostsPage() {
 
   return (
     <div className="my-8 flex w-full flex-col gap-4">
-      <div className="flex w-1/4 justify-center gap-6">
-        <h1 className="text-title_2">Posts</h1>
+      <div className="flex justify-between gap-6 px-8">
+        <div className="flex flex-col gap-2.5">
+          <h1 className="text-title_2">Posts</h1>
+          <div className="flex gap-2.5">
+            <LayoutGrid size={20} className="hover:stroke-brand_purple hover:cursor-pointer"/>
+            <MenuIcon size={20} className="hover:stroke-brand_purple hover:cursor-pointer"/>
+          </div>
+        </div>
         <AddPost allThemes={allThemes} allIndustries={allIndustries} />
       </div>
       <div className="flex w-full flex-wrap gap-4 px-4">
