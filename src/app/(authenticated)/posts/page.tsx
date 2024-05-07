@@ -3,6 +3,7 @@ import AddPost from "~/components/ui/AddPost";
 import type { industry_challenge_mapping } from "@prisma/client";
 import { auth } from "@clerk/nextjs";
 import { LayoutGrid, MenuIcon } from "lucide-react";
+import GridPost from "~/components/ui/GridPost";
 
 export default async function PostsPage() {
   const { userId } = auth();
@@ -28,6 +29,15 @@ export default async function PostsPage() {
           </div>
         </div>
         <AddPost allThemes={allThemes} allIndustries={allIndustries} />
+      </div>
+      <div className="flex w-full flex-wrap gap-4 px-4">
+        {allPosts.length > 0 ? (
+          allPosts.map((post) => (
+            <GridPost post={post} key={post.id} />
+          ))
+        ) : (
+          <p>No posts found</p>
+        )}
       </div>
       <div className="flex w-full flex-wrap gap-4 px-4">
         {allPosts.length > 0 ? (
