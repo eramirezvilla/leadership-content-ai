@@ -36,6 +36,7 @@ import { type CreatePostSchema, createPostSchema } from "~/lib/validation/Post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./button";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { PlusIcon } from 'lucide-react'
 import { cn } from "~/lib/utils";
 
 
@@ -150,8 +151,11 @@ export default function AddPost({
 
   return (
     <>
-    <Button type="button" onClick={() => setOpen(true)}>
-      Add Post
+    <Button type="button" onClick={() => setOpen(true)} className="bg-brand_purple">
+      <div className="flex gap-2.5 items-center justify-center">
+        <PlusIcon size={20}/>  
+        <p className="text-white text-subheadline"> New Post</p>
+        </div>
     </Button>
     <Dialog open={open} onOpenChange={setOpen} modal={false}>
       <DialogContent>
