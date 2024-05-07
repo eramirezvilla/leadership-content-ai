@@ -27,10 +27,9 @@ export default function PostModal({
       <DialogHeader>
         <DialogTitle className="max-w-prose">{title}</DialogTitle>
       </DialogHeader>
+      <p className="text-sm font-medium text-black/50">{created_at.toLocaleDateString("en-US")}</p>
         <p className="max-w-prose">{content}</p>
-        <p>{created_at.toLocaleDateString("en-US")}</p>
-        <p>{created_from_mapping}</p>
-        <p>{relevant_files}</p>
+        <p>Rel:{relevant_files}</p>
       <DialogFooter>
         <button onClick={() => setOpen(false)}>Close</button>
       </DialogFooter>
