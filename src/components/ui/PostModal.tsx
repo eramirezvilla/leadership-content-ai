@@ -22,19 +22,19 @@ export default function PostModal({
     postToEdit;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
       </DialogHeader>
-      <DialogContent>
         <p>{content}</p>
         <p>{created_at.toLocaleDateString("en-US")}</p>
         <p>{created_from_mapping}</p>
         <p>{relevant_files}</p>
-      </DialogContent>
       <DialogFooter>
         {/* <button onClick={() => setOpen(false)}>Close</button> */}
       </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }
