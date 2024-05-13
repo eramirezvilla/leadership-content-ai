@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useUser, UserButton } from "@clerk/nextjs";
 import { useState } from "react";
-import {Building2, FilePen, Folder, ListChecks, ChevronRight, Ellipsis} from "lucide-react"
+import {Building2, FilePen, Folder, ListChecks, ChevronRight, Ellipsis, CalendarIcon} from "lucide-react"
 import Image from "next/image";
 import logo from "public/new-capo-logo.svg";
 
@@ -46,6 +46,17 @@ export default function SidebarNav() {
               <div className="flex items-center justify-start text-subheadline gap-2.5">
                 <ListChecks size={24} />
                 <h3 className="text-sm font-medium">Themes</h3>
+              </div>
+              <ChevronRight size={24} />
+            </div>
+          </Link>
+          <Link href="/calendar">
+            <div 
+            onClick={() => handleItemClick("Calendar")}
+            className={`flex min-h-4 items-center justify-between hover:text-white hover:bg-brand_primary rounded-xl pl-2.5 py-2 ${selectedItem === "Calendar" ? "bg-orange/50 hover:bg-orange/500" : ""}`}>
+              <div className="flex items-center justify-start text-subheadline gap-2.5">
+                <CalendarIcon size={24} />
+                <h3 className="text-sm font-medium">Calendar</h3>
               </div>
               <ChevronRight size={24} />
             </div>
