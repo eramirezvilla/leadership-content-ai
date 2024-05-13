@@ -26,7 +26,7 @@ export default function SidebarNav() {
         <div className="flex w-full flex-col gap-4 px-2 pt-2">
           <div className="flex w-full justify-start items-center gap-2.5 pl-2.5">
             <Ellipsis size={12} />
-            <h1 className="text-xs font-medium text-black/50">Content</h1>
+            <h1 className="text-xs font-medium text-brand_white/75">Content</h1>
           </div>
           <Link href="/posts">
             <div 
@@ -63,7 +63,7 @@ export default function SidebarNav() {
           </Link>
           <div className="flex w-full justify-start items-center mt-2 gap-2.5 pl-2.5">
             <Ellipsis size={12} />
-            <h1 className="text-xs font-medium text-black/50">Data</h1>
+            <h1 className="text-xs font-medium text-brand_white/75">Data</h1>
           </div>
           <Link href="/industries">
             <div 
