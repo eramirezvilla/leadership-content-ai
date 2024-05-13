@@ -56,6 +56,12 @@ const config = {
       },
       colors: {
         brand_purple: "#AB47F6",
+        brand_background: "#093A3E",
+        brand_primary: "#3AAFB9",
+        brand_secondary: "#64E9EE",
+        brand_alternate: "#97C8EB",
+        brand_black: "#001011",
+        brand_white: "#E9E8DC"
       }
     },
   },
