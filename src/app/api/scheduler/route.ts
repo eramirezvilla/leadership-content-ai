@@ -16,9 +16,11 @@ export async function POST(req: Request) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await prisma.scheduler.create({
-      data: parseResult.data,
-    });
+    console.log("submitted data: ", parseResult.data);
+
+    // await prisma.scheduler.create({
+    //   data: parseResult.data,
+    // });
 
     return Response.json("Success", { status: 200 });
   } catch (error) {
