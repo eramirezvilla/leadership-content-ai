@@ -20,6 +20,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import {
+    ToggleGroup,
+    ToggleGroupItem,
+  } from "~/components/ui/toggle-group"
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { type scheduler, themes } from "@prisma/client";
@@ -249,6 +253,43 @@ export default function AddScheduler({
                           />
                         </PopoverContent>
                       </Popover>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+                <FormField
+                control={form.control}
+                name="frequency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Frequency</FormLabel>
+                    <FormControl>
+                    <ToggleGroup type="multiple" variant="outline">
+                        <ToggleGroupItem value="monday" aria-label="Toggle Monday">
+                            <div className="flex w-4 h-4 items-center justify-center">M</div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="tuesday" aria-label="Toggle Tuesday">
+                        <div className="flex w-4 h-4 items-center justify-center">T</div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="wednesday" aria-label="Toggle Wednesday">
+                        <div className="flex w-4 h-4 items-center justify-center">W</div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="thursday" aria-label="Toggle Thursday">
+                        <div className="flex w-4 h-4 items-center justify-center">Th</div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="friday" aria-label="Toggle Friday">
+                        <div className="flex w-4 h-4 items-center justify-center">F</div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="saturday" aria-label="Toggle Saturday">
+                        <div className="flex w-4 h-4 items-center justify-center">S</div>
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="sunday" aria-label="Toggle Sunday">
+                        <div className="flex w-4 h-4 items-center justify-center">Su</div>
+                        </ToggleGroupItem>
+                    </ToggleGroup>
+
                     </FormControl>
                     <FormMessage />
                   </FormItem>
