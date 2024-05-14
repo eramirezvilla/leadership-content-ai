@@ -109,7 +109,7 @@ export default function AddScheduler({
       <Dialog open={open} onOpenChange={setOpen} modal={false}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create New Post</DialogTitle>
+            <DialogTitle>Create New Posting Schedule</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
