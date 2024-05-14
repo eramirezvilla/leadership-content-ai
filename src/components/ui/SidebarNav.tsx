@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useUser, UserButton } from "@clerk/nextjs";
 import { useState } from "react";
-import {Building2, FilePen, Folder, ListChecks, ChevronRight, Ellipsis, CalendarIcon} from "lucide-react"
+import {Building2, FilePen, Folder, ListChecks, ChevronRight, Ellipsis, CalendarIcon, Home} from "lucide-react"
 import Image from "next/image";
 import logo from "public/new-capo-logo.svg";
 
@@ -24,6 +24,22 @@ export default function SidebarNav() {
           <h1 className="text-md font-medium text-brand_white">Welcome, {user?.firstName} </h1>
         </div>
         <div className="flex w-full flex-col gap-4 pt-2">
+        <div className="flex w-full justify-start items-center gap-2.5 pl-2.5">
+            <Ellipsis size={12} />
+            <h1 className="text-xs font-medium">Home</h1>
+          </div>
+          <Link href="/dashboard">
+            <div 
+            onClick={() => handleItemClick("Dashboard")}
+            className={`flex min-h-4 items-center justify-between hover:text-white focus:bg-brand_background rounded-lg px-2.5 py-2 ${selectedItem === "Dashboard" ? "bg-brand_background text-white" : ""}`}>              
+                <div className="flex items-center justify-start text-subheadline gap-2.5">
+                  <Home size={24} />
+                  <h3 className="text-sm font-medium">Dashboard</h3>
+                </div>
+                <ChevronRight size={24} />
+            </div>
+          </Link>
+
           <div className="flex w-full justify-start items-center gap-2.5 pl-2.5">
             <Ellipsis size={12} />
             <h1 className="text-xs font-medium">Content</h1>
