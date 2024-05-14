@@ -53,6 +53,7 @@ export default function AddScheduler({
   const [open, setOpen] = useState(false);
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   const [startDateOpen, setStartDateOpen] = useState(false);
+  const [endDateOpen, setEndDateOpen] = useState(false);
 
   const form = useForm<CreateScheduleSchema>({
     resolver: zodResolver(createScheduleSchema),
@@ -199,6 +200,50 @@ export default function AddScheduler({
                             }}
                             disabled={(date) =>
                                 date < new Date()
+                              }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="end_on"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>End Date</FormLabel>
+                    <FormControl>
+                      <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] justify-start text-left font-normal",
+                              !field.value && "text-muted-foreground",
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(date) => {
+                                field.onChange(date)
+                                setEndDateOpen(false)
+                            }}
+                            disabled={(date) =>
+                                date < new Date() || date < form.getValues("start_from")
                               }
                             initialFocus
                           />
