@@ -31,12 +31,14 @@ export default function SidebarNav() {
           <Link href="/dashboard">
             <div 
             onClick={() => handleItemClick("Dashboard")}
-            className={`flex min-h-4 items-center justify-between hover:text-white focus:bg-brand_background rounded-lg px-2.5 py-2 ${selectedItem === "Dashboard" ? "bg-brand_background text-white" : ""}`}>              
-                <div className="flex items-center justify-start text-subheadline gap-2.5">
-                  <Home size={24} />
-                  <h3 className="text-sm font-medium">Dashboard</h3>
+            className={`flex min-h-4 items-center justify-between hover:text-white rounded-lg px-2.5 py-2 ${selectedItem === "Dashboard" ? "bg-brand_background text-white" : ""}`}>              
+                <div className="flex w-full px-2 justify-between items-center">
+                  <div className="flex items-center justify-start text-subheadline gap-2.5">
+                    <Home size={16} />
+                    <h3 className="text-sm font-medium">Dashboard</h3>
+                  </div>
+                  <ChevronRight size={16} />
                 </div>
-                <ChevronRight size={24} />
             </div>
           </Link>
 
@@ -47,34 +49,40 @@ export default function SidebarNav() {
           <Link href="/posts">
             <div 
             onClick={() => handleItemClick("Posts")}
-            className={`flex min-h-4 items-center justify-between hover:text-white focus:bg-brand_background rounded-lg px-2.5 py-2 ${selectedItem === "Posts" ? "bg-brand_background text-white" : ""}`}>              
-                <div className="flex items-center justify-start text-subheadline gap-2.5">
-                  <FilePen size={24} />
-                  <h3 className="text-sm font-medium">Posts</h3>
+            className={`flex min-h-4 items-center justify-between hover:text-white rounded-lg px-2.5 py-2 ${selectedItem === "Posts" ? "bg-brand_background text-white" : ""}`}>              
+                <div className="flex w-full px-2 justify-between items-center">
+                  <div className="flex items-center justify-start text-subheadline gap-2.5">
+                    <FilePen size={16} />
+                    <h3 className="text-sm font-medium">Posts</h3>
+                  </div>
+                  <ChevronRight size={16} />
                 </div>
-                <ChevronRight size={24} />
             </div>
           </Link>
           <Link href="/themes">
             <div 
             onClick={() => handleItemClick("Themes")}
-            className={`flex min-h-4 items-center justify-between hover:text-white focus:bg-brand_background rounded-xl px-2.5 py-2 ${selectedItem === "Themes" ? "bg-brand_background text-white" : ""}`}>
-              <div className="flex items-center justify-start text-subheadline gap-2.5">
-                <ListChecks size={24} />
-                <h3 className="text-sm font-medium">Themes</h3>
+            className={`flex min-h-4 items-center justify-between hover:text-white rounded-xl px-2.5 py-2 ${selectedItem === "Themes" ? "bg-brand_background text-white" : ""}`}>
+              <div className="flex w-full px-2 justify-between items-center">
+                <div className="flex items-center justify-start text-subheadline gap-2.5">
+                  <ListChecks size={16} />
+                  <h3 className="text-sm font-medium">Themes</h3>
+                </div>
+                <ChevronRight size={16} />
               </div>
-              <ChevronRight size={24} />
             </div>
           </Link>
           <Link href="/calendar">
             <div 
             onClick={() => handleItemClick("Calendar")}
-            className={`flex min-h-4 items-center justify-between hover:text-white focus:bg-brand_background rounded-xl px-2.5 py-2 ${selectedItem === "Calendar" ? "bg-brand_background text-white" : ""}`}>
-              <div className="flex items-center justify-start text-subheadline gap-2.5">
-                <CalendarIcon size={24} />
-                <h3 className="text-sm font-medium">Calendar</h3>
+            className={`flex min-h-4 items-center justify-between hover:text-white rounded-xl px-2.5 py-2 ${selectedItem === "Calendar" ? "bg-brand_background text-white" : ""}`}>
+              <div className="flex w-full px-2 justify-between items-center">
+                <div className="flex items-center justify-start text-subheadline gap-2.5">
+                  <CalendarIcon size={16} />
+                  <h3 className="text-sm font-medium">Calendar</h3>
+                </div>
+                <ChevronRight size={16} />
               </div>
-              <ChevronRight size={24} />
             </div>
           </Link>
           <div className="flex w-full justify-start items-center mt-2 gap-2.5 px-2.5">
@@ -84,23 +92,27 @@ export default function SidebarNav() {
           <Link href="/industries">
             <div 
             onClick={() => handleItemClick("Industries")}
-            className={`flex min-h-4 items-center justify-between hover:text-white focus:bg-brand_background rounded-xl px-2.5 py-2 ${selectedItem === "Industries" ? "bg-brand_background text-white" : ""}`}>
-              <div className="flex items-center justify-start text-subheadline gap-2.5">
-                <Building2 size={24} />
-                <h3 className="text-sm font-medium">Industries</h3>
+            className={`flex min-h-4 items-center justify-between hover:text-white rounded-xl px-2.5 py-2 ${selectedItem === "Industries" ? "bg-brand_background text-white" : ""}`}>
+              <div className="flex w-full px-2 justify-between items-center">
+                <div className="flex items-center justify-start text-subheadline gap-2.5">
+                  <Building2 size={16} />
+                  <h3 className="text-sm font-medium">Industries</h3>
+                </div>
+                <ChevronRight size={16} />
               </div>
-              <ChevronRight size={24} />
             </div>
           </Link>
           <Link href="/assets">
             <div 
             onClick={() => handleItemClick("Assets")}
-            className={`flex min-h-4 items-center justify-between hover:text-white focus:bg-brand_background rounded-xl px-2.5 py-2 ${selectedItem === "Assets" ? "bg-brand_background text-white" : ""}`}>
-              <div className="flex items-center justify-start text-subheadline gap-2.5">
-                <Folder size={24} />
-                <h3 className="text-sm font-medium">Assets</h3>
+            className={`flex min-h-4 items-center justify-between hover:text-white rounded-xl px-2.5 py-2 ${selectedItem === "Assets" ? "bg-brand_background text-white" : ""}`}>
+              <div className="flex w-full px-2 justify-between items-center">
+                <div className="flex items-center justify-start text-subheadline gap-2.5">
+                  <Folder size={16} />
+                  <h3 className="text-sm font-medium">Assets</h3>
+                </div>
+                <ChevronRight size={16} />
               </div>
-              <ChevronRight size={24} />
             </div>
           </Link>
         </div>
