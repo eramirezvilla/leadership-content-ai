@@ -63,42 +63,46 @@ model call_to_action {
 }
 
 model themes {
-  id                  BigInt     @id @default(autoincrement())
-  title               String?
-  description         String?
-  audience_connection String?
-  company_connection  String?
-  created_at          DateTime   @default(now()) @db.Timestamptz(6)
-  schedule            BigInt?
-  post                post[]
-  scheduler           scheduler? @relation(fields: [schedule], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                                    BigInt      @id @default(autoincrement())
+  title                                 String?
+  description                           String?
+  audience_connection                   String?
+  company_connection                    String?
+  created_at                            DateTime    @default(now()) @db.Timestamptz(6)
+  schedule                              BigInt?
+  post                                  post[]
+  scheduler_scheduler_item_typeTothemes scheduler[] @relation("scheduler_item_typeTothemes")
+  scheduler                             scheduler?  @relation(fields: [schedule], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model post {
-  id                         BigInt                      @id @default(autoincrement())
-  title                      String?
-  content                    String?
-  call_to_action_id          BigInt?
-  created_at                 DateTime                    @default(now()) @db.Timestamptz(6)
-  created_from_topic         BigInt?
-  relevant_files             Int[]
-  user_id                    String?
-  created_from_theme         BigInt?
-  schedule                   BigInt?
-  approved                   Boolean?
-  call_to_action             call_to_action?             @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  themes                     themes?                     @relation(fields: [created_from_theme], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  industry_challenge_mapping industry_challenge_mapping? @relation(fields: [created_from_topic], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  scheduler                  scheduler?                  @relation(fields: [schedule], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                                  BigInt                      @id @default(autoincrement())
+  title                               String?
+  content                             String?
+  call_to_action_id                   BigInt?
+  created_at                          DateTime                    @default(now()) @db.Timestamptz(6)
+  created_from_topic                  BigInt?
+  relevant_files                      Int[]
+  user_id                             String?
+  created_from_theme                  BigInt?
+  schedule                            BigInt?
+  approved                            Boolean?
+  call_to_action                      call_to_action?             @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  themes                              themes?                     @relation(fields: [created_from_theme], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  industry_challenge_mapping          industry_challenge_mapping? @relation(fields: [created_from_topic], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  scheduler                           scheduler?                  @relation(fields: [schedule], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  scheduler_scheduler_item_typeTopost scheduler[]                 @relation("scheduler_item_typeTopost")
 }
 
 model scheduler {
-  id                  BigInt    @id @default(autoincrement())
-  created_at          DateTime  @default(now()) @db.Timestamptz(6)
-  item_type           String?
-  start_from          DateTime? @db.Timestamptz(6)
-  end_on              DateTime? @db.Timestamptz(6)
-  frequency_sun_start Boolean[] @default([false, false, false, false, false, false, false])
-  post                post[]
-  themes              themes[]
+  id                                 BigInt    @id @default(autoincrement())
+  created_at                         DateTime  @default(now()) @db.Timestamptz(6)
+  item_type                          BigInt?
+  start_from                         DateTime? @db.Timestamptz(6)
+  end_on                             DateTime? @db.Timestamptz(6)
+  frequency_sun_start                Boolean[] @default([false, false, false, false, false, false, false])
+  post                               post[]
+  themes_scheduler_item_typeTothemes themes?   @relation("scheduler_item_typeTothemes", fields: [item_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  post_scheduler_item_typeTopost     post?     @relation("scheduler_item_typeTopost", fields: [item_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "scheduler_item_type_fkey1")
+  themes                             themes[]
 }
