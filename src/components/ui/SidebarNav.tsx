@@ -20,7 +20,7 @@ export default function SidebarNav() {
     <div className="sticky left-0 top-0 flex h-screen min-w-60 border-r bg-brand_background/90 text-brand_white/75">
       <div className="flex w-full flex-col pt-4 gap-8 mt-4">
         <div className="flex flex-col items-center justify-center gap-2 object-cover">
-        {/* <Image src={logo} alt="Capo logo" width={50} height={50} className="rounded-2xl bg-gradient-to-b from-brand_purple/50 to-brand_purple/50 via-brand_purple/80" /> */}
+        <Image src={logo} alt="Capo logo" width={100} height={100} />
           <h1 className="text-md font-medium text-brand_white">Welcome, {user?.firstName} </h1>
         </div>
         <div className="flex w-full flex-col gap-4 pt-2">
