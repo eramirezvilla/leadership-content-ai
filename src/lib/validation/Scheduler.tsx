@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const createScheduleSchema = z.object({
-    title: z.string(),
+    title: z.string().optional(),
     item_type: z.string(),
-    start_from: z.date(),
-    end_on: z.date(),
+    start_from: z.date().default(() => new Date()),
+    end_on: z.date().optional(),
     frequency: z.array(z.boolean()).length(7)
 });
 
