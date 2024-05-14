@@ -1,5 +1,5 @@
 import { UserButton, useUser } from '@clerk/nextjs'
-import CalendarTest from '~/components/ui/CalendarTest';
+import CalendarTest from '~/components/ui/FullCalendar';
 import AddScheduler from '~/components/ui/AddScheduler';
 import prisma from '~/lib/server/prisma';
 
