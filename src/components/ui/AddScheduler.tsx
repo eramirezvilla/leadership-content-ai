@@ -14,6 +14,14 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
+import { Calendar } from "~/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
 import { type scheduler, themes } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { Button } from "./button";
@@ -44,6 +52,7 @@ export default function AddScheduler({
 }: SchedulerModalProps) {
   const [open, setOpen] = useState(false);
   const [deleteInProgress, setDeleteInProgress] = useState(false);
+  const [startDateOpen, setStartDateOpen] = useState(false);
 
   const form = useForm<CreateScheduleSchema>({
     resolver: zodResolver(createScheduleSchema),
@@ -57,6 +66,7 @@ export default function AddScheduler({
   });
 
   const router = useRouter();
+
 
   async function onSubmit(data: CreateScheduleSchema) {
     try {
@@ -139,15 +149,61 @@ export default function AddScheduler({
                             key={theme.id}
                             className={`${form.getValues("item_type") === Number(theme.id) ? "bg-brand_purple/15" : "bg-black/10"}  col-span-1 items-center justify-center rounded-lg px-2 py-1 hover:cursor-pointer`}
                             onClick={() => {
-                                form.setValue("item_type", Number(theme.id))
-                                console.log("item_type", form.getValues("item_type"))
-                            }
-                            }
+                              form.setValue("item_type", Number(theme.id));
+                              console.log(
+                                "item_type",
+                                form.getValues("item_type"),
+                              );
+                            }}
                           >
                             {theme.title}
                           </div>
                         ))}
                       </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="start_from"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Start Date</FormLabel>
+                    <FormControl>
+                      <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] justify-start text-left font-normal",
+                              !field.value && "text-muted-foreground",
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={(date) => {
+                                field.onChange(date)
+                                setStartDateOpen(false)
+                            }}
+                            disabled={(date) =>
+                                date < new Date()
+                              }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
