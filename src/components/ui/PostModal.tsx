@@ -18,7 +18,7 @@ export default function PostModal({
   open,
   setOpen,
 }: PostModalProps) {
-  const { title, content, created_at, created_from_mapping, relevant_files } =
+  const { title, content, created_at, created_from_topic, relevant_files } =
     postToEdit;
 
   return (

@@ -45,6 +45,7 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }){
             <GridPost post={post} key={post.id} />
           ))
         ) : (
+            //TODO: add instructions to make a post
           <p>No posts found</p>
         )}
       </div>

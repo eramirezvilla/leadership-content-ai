@@ -1,4 +1,4 @@
-import CalendarTest from "~/components/ui/CalendarTest"
+import CalendarTest from "~/components/ui/FullCalendar"
 
 export default function Calendar(){
 
