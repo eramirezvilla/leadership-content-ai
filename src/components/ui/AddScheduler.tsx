@@ -152,7 +152,7 @@ export default function AddScheduler({
           <p className="text-subheadline text-white"> New Schedule</p>
         </div>
       </Button>
-      <Dialog open={open} onOpenChange={setOpen} modal={false}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create New Posting Schedule</DialogTitle>
