@@ -23,7 +23,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { type scheduler, themes } from "@prisma/client";
+import type { scheduler, themes } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { Button } from "./button";
 import { cn } from "~/lib/utils";
@@ -106,24 +106,13 @@ export default function AddScheduler({
 
   async function onSubmit(data: CreateScheduleSchema) {
     try {
-      // if (noteToEdit) {
-      //   const response = await fetch("/api/notes", {
-      //     method: "PUT",
-      //     body: JSON.stringify({
-      //       id: noteToEdit.id.toString(),
-      //       ...input,
-      //       }),
-      //     });
-      //     if (!response.ok) {
-      //       throw Error("An error occurred");
-      //     }
-
-      // } else {
-
-      console.log("data", data)
+        
       const response = await fetch("/api/scheduler", {
         method: "POST",
-        body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
       });
 
       if (!response.ok) {
