@@ -119,6 +119,8 @@ export default function AddScheduler({
       //     }
 
       // } else {
+
+      console.log("data", data)
       const response = await fetch("/api/scheduler", {
         method: "POST",
         body: JSON.stringify(data),
@@ -180,21 +182,28 @@ export default function AddScheduler({
                     <FormLabel>Industry Name</FormLabel>
                     <FormControl>
                       <div className="grid grid-cols-2 gap-2">
-                        {availableThemes.map((theme) => (
-                          <div
-                            key={theme.id}
-                            className={`${form.getValues("item_type") === Number(theme.id) ? "bg-brand_purple/15" : "bg-black/10"}  col-span-1 items-center justify-center rounded-lg px-2 py-1 hover:cursor-pointer`}
-                            onClick={() => {
-                              form.setValue("item_type", Number(theme.id));
-                              console.log(
-                                "item_type",
-                                form.getValues("item_type"),
-                              );
-                            }}
-                          >
-                            {theme.title}
-                          </div>
-                        ))}
+                        {/* {availableThemes.map((theme) => ( */}
+                        {/* //   <div
+                        //     key={theme.id}
+                        //     className={`${form.getValues("item_type") === Number(theme.id) ? "bg-brand_purple/15" : "bg-black/10"}  col-span-1 items-center justify-center rounded-lg px-2 py-1 hover:cursor-pointer`}
+                        //     onClick={() => {
+                        //       form.setValue("item_type", Number(theme.id));
+                        //       console.log(
+                        //         "item_type",
+                        //         form.getValues("item_type"),
+                        //       );
+                        //     }}
+                        //   >
+                        //     {theme.title}
+                        //   </div> */}
+                        <select {...field} className="border border-1 pl-2 py-1 rounded-lg" onChange={(e) => field.onChange(Number(e.target.value))}>
+                            {availableThemes.map((theme) => (
+                                <option key={theme.id} value={Number(theme.id)}>
+                                    {theme.title}
+                                </option>
+                            ))}
+                        </select>
+                        {/* ))} */}
                       </div>
                     </FormControl>
                     <FormMessage />
