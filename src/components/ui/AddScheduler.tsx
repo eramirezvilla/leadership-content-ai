@@ -20,10 +20,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import {
-    ToggleGroup,
-    ToggleGroupItem,
-  } from "~/components/ui/toggle-group"
+import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { type scheduler, themes } from "@prisma/client";
@@ -31,7 +28,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "./button";
 import { cn } from "~/lib/utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadingButton from "./loadingbutton";
 import {
   type CreateScheduleSchema,
@@ -58,7 +55,37 @@ export default function AddScheduler({
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   const [startDateOpen, setStartDateOpen] = useState(false);
   const [endDateOpen, setEndDateOpen] = useState(false);
+  const [selectedDays, setSelectedDays] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
+  const daysOfWeek = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
+
+  const handleSelect = (day: string) => {
+    const dayIndex = daysOfWeek.indexOf(day);
+    setSelectedDays((prevSelectedDays) => {
+      const newSelectedDays = [...prevSelectedDays];
+      newSelectedDays[dayIndex] = !newSelectedDays[dayIndex];
+      return newSelectedDays;
+    });
+    // console.log("selectedDays", selectedDays);
+  };
+
+  
   const form = useForm<CreateScheduleSchema>({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
@@ -70,8 +97,12 @@ export default function AddScheduler({
     },
   });
 
-  const router = useRouter();
+  useEffect(() => {
+    console.log('Updated selected days:', selectedDays);
+    form.setValue("frequency", selectedDays)
+}, [selectedDays, form]);
 
+  const router = useRouter();
 
   async function onSubmit(data: CreateScheduleSchema) {
     try {
@@ -177,7 +208,10 @@ export default function AddScheduler({
                   <FormItem>
                     <FormLabel>Start Date</FormLabel>
                     <FormControl>
-                      <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
+                      <Popover
+                        open={startDateOpen}
+                        onOpenChange={setStartDateOpen}
+                      >
                         <PopoverTrigger asChild>
                           <Button
                             variant={"outline"}
@@ -199,12 +233,10 @@ export default function AddScheduler({
                             mode="single"
                             selected={field.value}
                             onSelect={(date) => {
-                                field.onChange(date)
-                                setStartDateOpen(false)
+                              field.onChange(date);
+                              setStartDateOpen(false);
                             }}
-                            disabled={(date) =>
-                                date < new Date()
-                              }
+                            disabled={(date) => date < new Date()}
                             initialFocus
                           />
                         </PopoverContent>
@@ -243,12 +275,13 @@ export default function AddScheduler({
                             mode="single"
                             selected={field.value}
                             onSelect={(date) => {
-                                field.onChange(date)
-                                setEndDateOpen(false)
+                              field.onChange(date);
+                              setEndDateOpen(false);
                             }}
                             disabled={(date) =>
-                                date < new Date() || date < form.getValues("start_from")
-                              }
+                              date < new Date() ||
+                              date < form.getValues("start_from")
+                            }
                             initialFocus
                           />
                         </PopoverContent>
@@ -259,37 +292,29 @@ export default function AddScheduler({
                 )}
               />
 
-                <FormField
+              <FormField
                 control={form.control}
                 name="frequency"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Frequency</FormLabel>
                     <FormControl>
-                    <ToggleGroup type="multiple" variant="outline">
-                        <ToggleGroupItem value="monday" aria-label="Toggle Monday">
-                            <div className="flex w-4 h-4 items-center justify-center">M</div>
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="tuesday" aria-label="Toggle Tuesday">
-                        <div className="flex w-4 h-4 items-center justify-center">T</div>
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="wednesday" aria-label="Toggle Wednesday">
-                        <div className="flex w-4 h-4 items-center justify-center">W</div>
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="thursday" aria-label="Toggle Thursday">
-                        <div className="flex w-4 h-4 items-center justify-center">Th</div>
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="friday" aria-label="Toggle Friday">
-                        <div className="flex w-4 h-4 items-center justify-center">F</div>
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="saturday" aria-label="Toggle Saturday">
-                        <div className="flex w-4 h-4 items-center justify-center">S</div>
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="sunday" aria-label="Toggle Sunday">
-                        <div className="flex w-4 h-4 items-center justify-center">Su</div>
-                        </ToggleGroupItem>
-                    </ToggleGroup>
-
+                      <ToggleGroup type="multiple" variant="outline">
+                        {daysOfWeek.map((day, index) => (
+                          <ToggleGroupItem
+                            key={day}
+                            value={day}
+                            aria-label={`Toggle ${day.charAt(0).toUpperCase() + day.slice(1)}`}
+                            onClick={() => {
+                                handleSelect(day)
+                            }}
+                          >
+                            <div className="flex h-4 w-4 items-center justify-center">
+                              {day.charAt(0).toUpperCase()}
+                            </div>
+                          </ToggleGroupItem>
+                        ))}
+                      </ToggleGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
