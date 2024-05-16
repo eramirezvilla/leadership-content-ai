@@ -91,7 +91,7 @@ export default function AddScheduler({
     defaultValues: {
       title: "Scheduled Theme " + new Date().toLocaleDateString(),
       item_type: 0,
-      start_from: new Date(),
+      start_from: undefined,
       end_on: undefined,
       frequency: [false, false, false, false, false, false, false],
     },
