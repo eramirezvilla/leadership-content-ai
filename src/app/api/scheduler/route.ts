@@ -6,15 +6,15 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const parseResult = createScheduleSchema.safeParse(body);
-
-    if (!parseResult.success) {
-      return Response.json({ error: "Invalid input" }, { status: 400 });
-    }
-
+    
     const { userId } = auth();
     if (!userId) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
+    if (!parseResult.success) {
+      return Response.json({ error: "Invalid input" }, { status: 400 });
+    }
+
 
     console.log("submitted data: ", parseResult.data);
 
