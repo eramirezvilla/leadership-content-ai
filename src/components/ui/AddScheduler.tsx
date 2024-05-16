@@ -160,15 +160,20 @@ export default function AddScheduler({
             <DialogTitle>Create New Posting Schedule</DialogTitle>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-8">
               <FormField
                 control={form.control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Title</FormLabel>
+                    {/* <FormLabel>Title</FormLabel> */}
                     <FormControl>
+                    <div className="flex items-center w-full">
+                        <div className="flex min-w-40">
+                            <p className="mr-2 text-sm font-medium">Title </p>
+                        </div>
                       <Input placeholder="Title" {...field} />
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,9 +184,12 @@ export default function AddScheduler({
                 name="item_type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Industry Name</FormLabel>
+                    {/* <FormLabel>Industry Name</FormLabel> */}
                     <FormControl>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="flex items-center w-full">
+                        <div className="flex min-w-40">
+                            <p className="mr-2 text-sm font-medium">Select Industry: </p>
+                        </div>
                         {/* {availableThemes.map((theme) => ( */}
                         {/* //   <div
                         //     key={theme.id}
@@ -215,8 +223,12 @@ export default function AddScheduler({
                 name="start_from"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Start Date</FormLabel>
+                    {/* <FormLabel>Start Date</FormLabel> */}
                     <FormControl>
+                    <div className="flex items-center w-full">
+                        <div className="flex min-w-40">
+                            <p className="mr-2 text-sm font-medium">Start Date </p>
+                        </div>
                       <Popover
                         open={startDateOpen}
                         onOpenChange={setStartDateOpen}
@@ -250,6 +262,7 @@ export default function AddScheduler({
                           />
                         </PopoverContent>
                       </Popover>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -260,8 +273,12 @@ export default function AddScheduler({
                 name="end_on"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>End Date</FormLabel>
+                    {/* <FormLabel>End Date</FormLabel> */}
                     <FormControl>
+                    <div className="flex items-center w-full">
+                        <div className="flex min-w-40">
+                            <p className="mr-2 text-sm font-medium">End Date </p>
+                        </div>
                       <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
                         <PopoverTrigger asChild>
                           <Button
@@ -295,6 +312,7 @@ export default function AddScheduler({
                           />
                         </PopoverContent>
                       </Popover>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -306,8 +324,12 @@ export default function AddScheduler({
                 name="frequency"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Frequency</FormLabel>
+                    {/* <FormLabel>Frequency</FormLabel> */}
                     <FormControl>
+                    <div className="flex items-center w-full">
+                        <div className="flex min-w-40">
+                            <p className="mr-2 text-sm font-medium">Frequency </p>
+                        </div>
                       <ToggleGroup type="multiple" variant="outline">
                         {daysOfWeek.map((day, index) => (
                           <ToggleGroupItem
@@ -324,6 +346,7 @@ export default function AddScheduler({
                           </ToggleGroupItem>
                         ))}
                       </ToggleGroup>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
