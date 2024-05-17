@@ -241,9 +241,9 @@ export default function AddScheduler({
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            selected={field.value}
+                            selected={new Date(field.value)}
                             onSelect={(date) => {
-                              field.onChange(date);
+                              field.onChange(date?.toISOString());
                               setStartDateOpen(false);
                             }}
                             disabled={(date) => date < new Date()}
@@ -286,19 +286,19 @@ export default function AddScheduler({
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={(date) => {
-                              field.onChange(date);
-                              setEndDateOpen(false);
-                            }}
-                            disabled={(date) =>
-                              date < new Date() ||
-                              date < form.getValues("start_from")
-                            }
-                            initialFocus
-                          />
+                            <Calendar
+                                mode="single"
+                                selected={new Date(field.value)}
+                                onSelect={(date) => {
+                                    field.onChange(date?.toISOString());
+                                    setEndDateOpen(false);
+                                }}
+                                disabled={(date) =>
+                                    date < new Date() ||
+                                    date < new Date(form.getValues("start_from"))
+                                }
+                                initialFocus
+                            />
                         </PopoverContent>
                       </Popover>
                       </div>
