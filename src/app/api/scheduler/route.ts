@@ -6,9 +6,10 @@ import { auth } from "@clerk/nextjs";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    console.log("body", body)
 
     const parseResult = createScheduleSchema.safeParse(body);
-
+    console.log("parseResult", parseResult)
     
     // const { userId } = auth();
     // if (!userId) {
@@ -17,28 +18,32 @@ export async function POST(req: Request) {
     if (!parseResult.success) {
         return Response.json({ error: "Invalid input" }, { status: 400 });
     }
-    
+
     const { title, item_type, start_from, end_on, frequency } = parseResult.data;
 
+    //TODO: add title to supabase & whatever item_type is
     // create schedule in database
     const newScheduler = await prisma.scheduler.create({
-      data: parseResult.data,
+        data: {
+            start_from: new Date(start_from),
+            end_on: new Date(end_on),
+            frequency,
+        },
     });
 
     // generate posts for the schedule with schedule_date between the start_from and end_on dates, according to the frequency
 
-    const currentDate = parseResult.data.start_from;
-    while (currentDate <= parseResult.data.end_on) {
+    const currentDate = new Date(parseResult.data.start_from);
+    while (currentDate <= new Date(parseResult.data.end_on)) {
       // get day of the week for currentDate
-      const day = currentDate.getDay();
+    const day = currentDate.getDay();
 
     //compare the day of the week with the frequency array
     if (!parseResult.data.frequency[day]) {
         currentDate.setDate(currentDate.getDate() + 1);
         continue;
-        }
-      
-      await prisma.post.create({
+    }
+      const newPost = await prisma.post.create({
         data: {
           title: parseResult.data.title,
           content: "",
@@ -49,6 +54,7 @@ export async function POST(req: Request) {
           schedule_id: newScheduler.id,
         },
       });
+      console.log("newPost: ", newPost);
       currentDate.setDate(currentDate.getDate() + 7);
     }
 
