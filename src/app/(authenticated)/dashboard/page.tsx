@@ -7,10 +7,6 @@ export default async function DashboardPage() {
 
   const availableThemes = await prisma.themes.findMany();
   const scheduledPostsForThisWeek = await prisma.post.findMany({
-    select: {
-      title: true,
-      schedule_date: true,
-    },
     where: {
       schedule_date: {
         gte: new Date(),
@@ -22,8 +18,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-    <UserButton />
-    <CalendarTest events={scheduledPostsForThisWeek.map(item => ({ title: item.title!, date: item.schedule_date! }))} />
+    <CalendarTest events={scheduledPostsForThisWeek} />
     <AddScheduler availableThemes={availableThemes} />
     </main>
   );
