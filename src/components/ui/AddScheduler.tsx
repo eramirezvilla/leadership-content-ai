@@ -88,7 +88,7 @@ export default function AddScheduler({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
       title: "New Scheduled Theme " + new Date().toLocaleDateString(),
-      theme_name: "",
+      theme_name: availableThemes[0]?.title,
       start_from: undefined,
       end_on: undefined,
       frequency: [false, false, false, false, false, false, false],
