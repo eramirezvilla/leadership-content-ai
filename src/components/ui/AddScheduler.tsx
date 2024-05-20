@@ -89,7 +89,7 @@ export default function AddScheduler({
   const form = useForm<CreateScheduleSchema>({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
-      title: "Scheduled Theme " + new Date().toLocaleDateString(),
+      title: "New Scheduled Theme " + new Date().toLocaleDateString(),
       item_type: 0,
       start_from: undefined,
       end_on: undefined,
