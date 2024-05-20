@@ -39,7 +39,7 @@ model image {
 
 model industry_challenge_mapping {
   id                BigInt   @id @default(autoincrement())
-  industry_name     String?
+  industry_name     String
   discussion_topic  String?
   topic_description String?
   source_file_id    Int?
@@ -89,6 +89,7 @@ model scheduler {
   end_on              DateTime? @db.Timestamptz(6)
   frequency_sun_start Boolean[] @default([false, false, false, false, false, false, false])
   title               String?
+  theme_name          String?
   post                post[]
   themes              themes[]
 }
