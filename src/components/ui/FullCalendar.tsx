@@ -33,10 +33,11 @@ export default function CalendarTest({ events }: CalendarTestProps) {
       ]}
       slotDuration={"00:15:00"}
       handleWindowResize={true}
-      // themeSystem="bootstrap"
+      height={"auto"}
+      themeSystem="standard"
       // headerToolbar={{
       //   // left: "prev,next today",
-      //   // center: "title",
+      //   center: "title",
       //   // right: "dayGridMonth,dayGridWeek,dayGridDay,listWeek",
       // }}
       events={eventsWithStringIds}
