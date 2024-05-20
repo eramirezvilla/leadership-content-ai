@@ -39,11 +39,12 @@ model image {
 
 model industry_challenge_mapping {
   id                BigInt   @id @default(autoincrement())
-  industry_name     String?
+  industry_name     String
   discussion_topic  String?
   topic_description String?
   source_file_id    Int?
   created_at        DateTime @default(now()) @db.Timestamptz(6)
+  already_used      Boolean  @default(false)
   file              file?    @relation(fields: [source_file_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_industry_challenge_mapping_source_file_id_fkey")
   post              post[]
 }
@@ -87,13 +88,15 @@ model scheduler {
   start_from          DateTime? @db.Timestamptz(6)
   end_on              DateTime? @db.Timestamptz(6)
   frequency_sun_start Boolean[] @default([false, false, false, false, false, false, false])
+  title               String?
+  theme_name          String?
   post                post[]
   themes              themes[]
 }
 
 model themes {
   id                  BigInt     @id @default(autoincrement())
-  title               String?
+  title               String
   description         String?
   audience_connection String?
   company_connection  String?

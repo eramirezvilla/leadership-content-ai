@@ -6,12 +6,15 @@ export const createPostSchema = z.object({
   discussion_topic: z.string(),
   topic_description: z.string(),
   mapping_id: z.number(),
+  schedule_date: z.string().datetime(),
+  schedule_id: z.number(),
 });
 
 export type CreatePostSchema = z.infer<typeof createPostSchema>;
 
 export const updatePostSchema = createPostSchema.extend({
   id: z.string().min(1),
+  approved: z.boolean().optional(),
 });
 
 export const deletePostSchema = z.object({

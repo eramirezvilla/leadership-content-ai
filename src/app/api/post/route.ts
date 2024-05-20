@@ -4,6 +4,7 @@ import openai, { getEmbedding } from "~/lib/server/openai";
 import { createPostSchema } from "~/lib/validation/Post";
 import { auth } from "@clerk/nextjs";
 
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -24,6 +25,8 @@ export async function POST(req: Request) {
       discussion_topic,
       topic_description,
       mapping_id,
+      schedule_date,
+      schedule_id
     } = parseResult.data;
 
     const themeVals = await prisma.themes.findFirst({
@@ -102,6 +105,8 @@ export async function POST(req: Request) {
           created_from_topic: mapping_id,
           relevant_files: relevantFileIds,
           user_id: userId,
+          schedule_date: schedule_date,
+          schedule_id: schedule_id,
         },
       });
     }
