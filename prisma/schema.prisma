@@ -95,7 +95,7 @@ model scheduler {
 
 model themes {
   id                  BigInt     @id @default(autoincrement())
-  title               String?
+  title               String
   description         String?
   audience_connection String?
   company_connection  String?
