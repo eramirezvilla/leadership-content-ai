@@ -82,10 +82,8 @@ export default function AddScheduler({
       newSelectedDays[dayIndex] = !newSelectedDays[dayIndex];
       return newSelectedDays;
     });
-    // console.log("selectedDays", selectedDays);
   };
 
-  
   const form = useForm<CreateScheduleSchema>({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
@@ -98,21 +96,20 @@ export default function AddScheduler({
   });
 
   useEffect(() => {
-    console.log('Updated selected days:', selectedDays);
-    form.setValue("frequency", selectedDays)
-}, [selectedDays, form]);
+    console.log("Updated selected days:", selectedDays);
+    form.setValue("frequency", selectedDays);
+  }, [selectedDays, form]);
 
   const router = useRouter();
 
   async function onSubmit(data: CreateScheduleSchema) {
     try {
-        
       const response = await fetch("/api/scheduler", {
         method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -122,7 +119,6 @@ export default function AddScheduler({
 
       form.reset();
 
-      // }
       router.refresh();
       setOpen(false);
     } catch (error) {
@@ -149,19 +145,21 @@ export default function AddScheduler({
             <DialogTitle>Create New Posting Schedule</DialogTitle>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="mt-8 space-y-8"
+            >
               <FormField
                 control={form.control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Title</FormLabel> */}
                     <FormControl>
-                    <div className="flex items-center w-full">
+                      <div className="flex w-full items-center">
                         <div className="flex min-w-40">
-                            <p className="mr-2 text-sm font-medium">Title </p>
+                          <p className="mr-2 text-sm font-medium">Title </p>
                         </div>
-                      <Input placeholder="Title" {...field} />
+                        <Input placeholder="Title" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -173,32 +171,25 @@ export default function AddScheduler({
                 name="item_type"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Industry Name</FormLabel> */}
                     <FormControl>
-                      <div className="flex items-center w-full">
+                      <div className="flex w-full items-center">
                         <div className="flex min-w-40">
-                            <p className="mr-2 text-sm font-medium">Select Industry: </p>
+                          <p className="mr-2 text-sm font-medium">
+                            Select Industry:{" "}
+                          </p>
                         </div>
-                        {/* {availableThemes.map((theme) => ( */}
-                        {/* //   <div
-                        //     key={theme.id}
-                        //     className={`${form.getValues("item_type") === Number(theme.id) ? "bg-brand_purple/15" : "bg-black/10"}  col-span-1 items-center justify-center rounded-lg px-2 py-1 hover:cursor-pointer`}
-                        //     onClick={() => {
-                        //       form.setValue("item_type", Number(theme.id));
-                        //       console.log(
-                        //         "item_type",
-                        //         form.getValues("item_type"),
-                        //       );
-                        //     }}
-                        //   >
-                        //     {theme.title}
-                        //   </div> */}
-                        <select {...field} className="border border-1 pl-2 py-1 rounded-lg" onChange={(e) => field.onChange(Number(e.target.value))}>
-                            {availableThemes.map((theme) => (
-                                <option key={theme.id} value={Number(theme.id)}>
-                                    {theme.title}
-                                </option>
-                            ))}
+                        <select
+                          {...field}
+                          className="border-1 rounded-lg border py-1 pl-2"
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                        >
+                          {availableThemes.map((theme) => (
+                            <option key={theme.id} value={Number(theme.id)}>
+                              {theme.title}
+                            </option>
+                          ))}
                         </select>
                         {/* ))} */}
                       </div>
@@ -212,45 +203,46 @@ export default function AddScheduler({
                 name="start_from"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Start Date</FormLabel> */}
                     <FormControl>
-                    <div className="flex items-center w-full">
+                      <div className="flex w-full items-center">
                         <div className="flex min-w-40">
-                            <p className="mr-2 text-sm font-medium">Start Date </p>
+                          <p className="mr-2 text-sm font-medium">
+                            Start Date{" "}
+                          </p>
                         </div>
-                      <Popover
-                        open={startDateOpen}
-                        onOpenChange={setStartDateOpen}
-                      >
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-[240px] justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground",
-                            )}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={new Date(field.value)}
-                            onSelect={(date) => {
-                              field.onChange(date?.toISOString());
-                              setStartDateOpen(false);
-                            }}
-                            disabled={(date) => date < new Date()}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
+                        <Popover
+                          open={startDateOpen}
+                          onOpenChange={setStartDateOpen}
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] justify-start text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={new Date(field.value)}
+                              onSelect={(date) => {
+                                field.onChange(date?.toISOString());
+                                setStartDateOpen(false);
+                              }}
+                              disabled={(date) => date < new Date()}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -262,45 +254,47 @@ export default function AddScheduler({
                 name="end_on"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>End Date</FormLabel> */}
                     <FormControl>
-                    <div className="flex items-center w-full">
+                      <div className="flex w-full items-center">
                         <div className="flex min-w-40">
-                            <p className="mr-2 text-sm font-medium">End Date </p>
+                          <p className="mr-2 text-sm font-medium">End Date </p>
                         </div>
-                      <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-[240px] justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground",
-                            )}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
+                        <Popover
+                          open={endDateOpen}
+                          onOpenChange={setEndDateOpen}
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] justify-start text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
                             <Calendar
-                                mode="single"
-                                selected={new Date(field.value)}
-                                onSelect={(date) => {
-                                    field.onChange(date?.toISOString());
-                                    setEndDateOpen(false);
-                                }}
-                                disabled={(date) =>
-                                    date < new Date() ||
-                                    date < new Date(form.getValues("start_from"))
-                                }
-                                initialFocus
+                              mode="single"
+                              selected={new Date(field.value)}
+                              onSelect={(date) => {
+                                field.onChange(date?.toISOString());
+                                setEndDateOpen(false);
+                              }}
+                              disabled={(date) =>
+                                date < new Date() ||
+                                date < new Date(form.getValues("start_from"))
+                              }
+                              initialFocus
                             />
-                        </PopoverContent>
-                      </Popover>
+                          </PopoverContent>
+                        </Popover>
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -313,28 +307,27 @@ export default function AddScheduler({
                 name="frequency"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel>Frequency</FormLabel> */}
                     <FormControl>
-                    <div className="flex items-center w-full">
+                      <div className="flex w-full items-center">
                         <div className="flex min-w-40">
-                            <p className="mr-2 text-sm font-medium">Frequency </p>
+                          <p className="mr-2 text-sm font-medium">Frequency </p>
                         </div>
-                      <ToggleGroup type="multiple" variant="outline">
-                        {daysOfWeek.map((day, index) => (
-                          <ToggleGroupItem
-                            key={day}
-                            value={day}
-                            aria-label={`Toggle ${day.charAt(0).toUpperCase() + day.slice(1)}`}
-                            onClick={() => {
-                                handleSelect(day)
-                            }}
-                          >
-                            <div className="flex h-4 w-4 items-center justify-center">
-                              {day.charAt(0).toUpperCase()}
-                            </div>
-                          </ToggleGroupItem>
-                        ))}
-                      </ToggleGroup>
+                        <ToggleGroup type="multiple" variant="outline">
+                          {daysOfWeek.map((day, index) => (
+                            <ToggleGroupItem
+                              key={day}
+                              value={day}
+                              aria-label={`Toggle ${day.charAt(0).toUpperCase() + day.slice(1)}`}
+                              onClick={() => {
+                                handleSelect(day);
+                              }}
+                            >
+                              <div className="flex h-4 w-4 items-center justify-center">
+                                {day.charAt(0).toUpperCase()}
+                              </div>
+                            </ToggleGroupItem>
+                          ))}
+                        </ToggleGroup>
                       </div>
                     </FormControl>
                     <FormMessage />
