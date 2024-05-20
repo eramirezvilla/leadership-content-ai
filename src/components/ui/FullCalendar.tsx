@@ -5,7 +5,15 @@ import interactionPlugin, { Draggable } from "@fullcalendar/interaction"
 // import BootstrapTheme from "@fullcalendar/bootstrap"
 import listPlugin from '@fullcalendar/list';
 
-export default function CalendarTest() {
+interface Event {
+  title: string,
+  date: Date
+}
+interface CalendarTestProps {
+  events: Event[]
+}
+
+export default function CalendarTest({ events } : CalendarTestProps) {
 
     return (
         <FullCalendar
@@ -22,10 +30,7 @@ export default function CalendarTest() {
                   center: "title",
                   right: "dayGridMonth,dayGridWeek,dayGridDay,listWeek",
                 }}
-                events={[
-                    { title: 'event 1', date: '2024-05-13' },
-                    { title: 'event 2', date: '2024-05-18' }
-                  ]}
+                events={events}
                 editable={true}
                 droppable={true}
                 selectable={true}
