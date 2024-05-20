@@ -6,7 +6,7 @@ export const createPostSchema = z.object({
   discussion_topic: z.string(),
   topic_description: z.string(),
   mapping_id: z.number(),
-  schedule_date: z.date(),
+  schedule_date: z.string().datetime(),
   schedule_id: z.number(),
 });
 
