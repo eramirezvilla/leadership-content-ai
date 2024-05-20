@@ -88,7 +88,7 @@ export default function AddScheduler({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
       title: "New Scheduled Theme " + new Date().toLocaleDateString(),
-      item_type: 0,
+      theme_name: "",
       start_from: undefined,
       end_on: undefined,
       frequency: [false, false, false, false, false, false, false],
@@ -168,25 +168,25 @@ export default function AddScheduler({
               />
               <FormField
                 control={form.control}
-                name="item_type"
+                name="theme_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <div className="flex w-full items-center">
                         <div className="flex min-w-40">
                           <p className="mr-2 text-sm font-medium">
-                            Select Industry:{" "}
+                            Select Theme:{" "}
                           </p>
                         </div>
                         <select
                           {...field}
                           className="border-1 rounded-lg border py-1 pl-2"
                           onChange={(e) =>
-                            field.onChange(Number(e.target.value))
+                            field.onChange(e.target.value)
                           }
                         >
                           {availableThemes.map((theme) => (
-                            <option key={theme.id} value={Number(theme.id)}>
+                            <option key={theme.id} value={theme.title}>
                               {theme.title}
                             </option>
                           ))}

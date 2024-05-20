@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { title, item_type, start_from, end_on, frequency } =
+    const { title, theme_name, start_from, end_on, frequency } =
       parseResult.data;
 
     //TODO: add title to supabase & whatever item_type is
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
         "\ncreated_at: ",
         currentDate,
         "\ncreated_from_topic: ",
-        parseResult.data.item_type,
+        parseResult.data.theme_name,
         "\nschedule_date: ",
         currentDate,
       );
