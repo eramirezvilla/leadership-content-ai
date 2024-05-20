@@ -87,6 +87,7 @@ model scheduler {
   start_from          DateTime? @db.Timestamptz(6)
   end_on              DateTime? @db.Timestamptz(6)
   frequency_sun_start Boolean[] @default([false, false, false, false, false, false, false])
+  title               String?
   post                post[]
   themes              themes[]
 }
