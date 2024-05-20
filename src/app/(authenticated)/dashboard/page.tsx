@@ -17,9 +17,14 @@ export default async function DashboardPage() {
 
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-center">
+    <div className="flex w-full px-8 gap-4">
+    <div className="flex-1 min-h-screen flex-col items-center justify-center">
     <CalendarTest events={scheduledPostsForThisWeek} />
+    </div>
+    <div className="flex-1 w-full justify-center items-center border border-red-500">
     <AddScheduler availableThemes={availableThemes} />
-    </main>
+    </div>
+
+    </div>
   );
 }
