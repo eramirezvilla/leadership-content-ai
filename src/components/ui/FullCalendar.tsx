@@ -25,21 +25,23 @@ export default function CalendarTest({ events }: CalendarTestProps) {
   });
 
   return (
+    <>
+    <h1 className="text-2xl font-bold">Upcoming Posts</h1>
     <FullCalendar
       plugins={[
-        dayGridPlugin,
-        interactionPlugin,
+        // dayGridPlugin,
+        // interactionPlugin,
         listPlugin,
       ]}
       slotDuration={"00:15:00"}
       handleWindowResize={true}
       height={"auto"}
       themeSystem="standard"
-      // headerToolbar={{
-      //   // left: "prev,next today",
-      //   center: "title",
-      //   // right: "dayGridMonth,dayGridWeek,dayGridDay,listWeek",
-      // }}
+      headerToolbar={{
+        left: "",
+        center: "",
+        right: "",
+      }}
       events={eventsWithStringIds}
       eventContent={function (arg) {
         return renderEventContent(arg.event._def.extendedProps.originalEvent as post);
@@ -49,6 +51,7 @@ export default function CalendarTest({ events }: CalendarTestProps) {
       selectable={false}
       initialView="listWeek"
     />
+  </>
   );
 }
 
