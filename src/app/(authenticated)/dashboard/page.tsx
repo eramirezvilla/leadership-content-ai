@@ -6,10 +6,12 @@ import { type post } from "@prisma/client";
 import Link from "next/link";
 import SnapshotWidget from "~/components/ui/UICard";
 import FullCalendar from "@fullcalendar/react";
-import { ExampleChart } from "~/components/ui/charts";
+import { ThemeChart } from "~/components/ui/charts";
 
 export default async function DashboardPage() {
   const availableThemes = await prisma.themes.findMany();
+
+  const themeNames = availableThemes.map((theme) => theme.title);
 
   const postsWithSchedule = await prisma.post.findMany({
     where: {
@@ -82,31 +84,7 @@ export default async function DashboardPage() {
         <div className="flex h-16 justify-end">
           <AddScheduler availableThemes={availableThemes} />
         </div>
-        <div className="flex justify-center gap-8">
-          <Link href="/posts">
-          <div className="border-1 flex h-40 w-40 flex-col items-center justify-center gap-2.5 rounded-lg border">
-            <div className="flex w-full flex-1 items-center justify-center">
-              <h2 className="text-3xl font-bold">{amtPostsWithSchedule}</h2>
-            </div>
-            <div className="flex w-full flex-1 items-start justify-center">
-              <p className="text-md whitespace-pre-wrap text-center font-medium">
-                Scheduled Posts
-              </p>
-            </div>
-          </div>
-          </Link>
-          <div className="border-1 flex h-40 w-40 flex-col items-center justify-center gap-2.5 rounded-lg border">
-            <div className="flex w-full flex-1 items-center justify-center">
-              <h2 className="text-3xl font-bold">{amtPostsNeedingApproval}</h2>
-            </div>
-            <div className="flex w-full flex-1 items-start justify-center">
-              <p className="text-md whitespace-pre-wrap text-center font-medium">
-                Posts Pending Approval
-              </p>
-            </div>
-          </div>
-        </div>
-        <ExampleChart />
+        <ThemeChart availableThemes={themeNames} postsWithSchedule={postsWithSchedule}/>
       </div>
     </div>
     </div>
