@@ -9,7 +9,7 @@ import logo from "public/new-capo-logo.svg";
 export default function SidebarNav() {
   const { user } = useUser();
 
-  const [selectedItem, setSelectedItem] = useState<string>("");
+  const [selectedItem, setSelectedItem] = useState<string>("Dashboard");
 
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
