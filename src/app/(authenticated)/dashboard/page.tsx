@@ -4,17 +4,11 @@ import AddScheduler from "~/components/ui/AddScheduler";
 import prisma from "~/lib/server/prisma";
 import { type post } from "@prisma/client";
 import Link from "next/link";
+import SnapshotWidget from "~/components/ui/UICard";
 
 export default async function DashboardPage() {
   const availableThemes = await prisma.themes.findMany();
-  // const scheduledPostsForThisWeek = await prisma.post.findMany({
-  //   where: {
-  //     schedule_date: {
-  //       gte: new Date(new Date().setHours(0, 0, 0, 0)),
-  //       lte: new Date(new Date().setDate(new Date().getDate() + 7)),
-  //     },
-  //   },
-  // });
+
   const postsWithSchedule = await prisma.post.findMany({
     where: {
       schedule_date: {
@@ -23,11 +17,36 @@ export default async function DashboardPage() {
     },
   });
 
+  const today = new Date();
+  
+  // Calculate the most recent Monday
+  const getMonday = (date: Date): Date => {
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
+    return new Date(date.setDate(diff));
+  };
+
+  const monday = getMonday(new Date(today));
+
+  // Calculate the upcoming Friday
+  const friday = new Date(monday);
+  friday.setDate(monday.getDate() + 4);
+
+  // const scheduledPostsForThisWeek = postsWithSchedule.filter(
+  //   (post) =>
+  //     post.schedule_date! >= new Date(new Date().setHours(0, 0, 0, 0)) &&
+  //     post.schedule_date! <=
+  //       new Date(new Date().setDate(new Date().getDate() + 7)),
+  // );
+
   const scheduledPostsForThisWeek = postsWithSchedule.filter(
     (post) =>
-      post.schedule_date! >= new Date(new Date().setHours(0, 0, 0, 0)) &&
-      post.schedule_date! <=
-        new Date(new Date().setDate(new Date().getDate() + 7)),
+      post.schedule_date! >= monday &&
+      post.schedule_date! <= friday,
+  );
+
+  const alreadyPostedThisWeek = scheduledPostsForThisWeek.filter(
+    (post) => post.schedule_date! <= new Date(),
   );
 
   const amtPostsWithSchedule = postsWithSchedule.length;
@@ -68,6 +87,7 @@ export default async function DashboardPage() {
             </div>
           </div>
         </div>
+          <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
       </div>
     </div>
   );
