@@ -67,25 +67,33 @@ export default async function DashboardPage() {
     (post) => post.approved === false || post.approved === null && post.schedule_date! <= new Date(),
   ).length;
 
-
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
 
   return (
-    <div className="flex flex-col w-full pt-4 gap-4">
-      <div className="flex w-full justify-evenly px-10">
-      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
-      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostForThisMonth.length} value={alreadyPostedThisMonth.length} frequency="This Month"/>
-      <SnapshotWidget title="Pending" whole={postsWithSchedule.length} value={amtPostsNeedingApproval} frequency="Current"/>
+    <div className="flex flex-col w-full pt-6 gap-8 mb-20">
+
+      <div className="flex flex-col w-full items-start gap-6">
+        <h1 className="font-medium text-lg text-brand_background px-10">Dashboard</h1>
+        <div className="flex w-full justify-evenly px-10">
+        <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
+        <SnapshotWidget title="Scheduled Posts" whole={scheduledPostForThisMonth.length} value={alreadyPostedThisMonth.length} frequency={monthNames[today.getMonth()]!}/>
+        <SnapshotWidget title="Pending" whole={postsWithSchedule.length} value={amtPostsNeedingApproval} frequency="Current"/>
+        </div>
       </div>
     <div className="flex w-full gap-4 px-8">
-      <div className="min-h-screen flex-1 flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center w-full border border-1 rounded-lg px-4 py-4">
         <CalendarTest events={scheduledPostsForThisWeek} />
       </div>
-      <div className="w-full flex-1 items-center justify-center">
-        <div className="flex h-16 justify-end">
-          <AddScheduler availableThemes={availableThemes} />
+      
+
+        <div className="flex-1 flex flex-col w-full items-center border border-1 rounded-lg px-4 py-4">
+        <h1 className="font-medium text-lg text-brand_background">Posts By Theme</h1>
+          <ThemeChart availableThemes={themeNames} postsWithSchedule={postsWithSchedule}/>
         </div>
-        <ThemeChart availableThemes={themeNames} postsWithSchedule={postsWithSchedule}/>
-      </div>
+      
     </div>
     </div>
   );
