@@ -6,6 +6,7 @@ import { type post } from "@prisma/client";
 import Link from "next/link";
 import SnapshotWidget from "~/components/ui/UICard";
 import FullCalendar from "@fullcalendar/react";
+import { ExampleChart } from "~/components/ui/charts";
 
 export default async function DashboardPage() {
   const availableThemes = await prisma.themes.findMany();
@@ -105,7 +106,7 @@ export default async function DashboardPage() {
             </div>
           </div>
         </div>
-          <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
+        <ExampleChart />
       </div>
     </div>
     </div>
