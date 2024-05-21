@@ -72,12 +72,11 @@ model post {
   created_from_topic         BigInt?
   relevant_files             Int[]
   user_id                    String?
-  created_from_theme         BigInt?
+  created_from_theme         String?
   schedule_id                BigInt?
   approved                   Boolean?
   schedule_date              DateTime?                   @db.Timestamptz(6)
   call_to_action             call_to_action?             @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  themes                     themes?                     @relation(fields: [created_from_theme], references: [id], onDelete: NoAction, onUpdate: NoAction)
   industry_challenge_mapping industry_challenge_mapping? @relation(fields: [created_from_topic], references: [id], onDelete: NoAction, onUpdate: NoAction)
   scheduler                  scheduler?                  @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -102,6 +101,5 @@ model themes {
   company_connection  String?
   created_at          DateTime   @default(now()) @db.Timestamptz(6)
   schedule            BigInt?
-  post                post[]
   scheduler           scheduler? @relation(fields: [schedule], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
