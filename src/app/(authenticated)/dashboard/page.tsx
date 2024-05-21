@@ -39,14 +39,27 @@ export default async function DashboardPage() {
       <div className="min-h-screen flex-1 flex-col items-center justify-center">
         <CalendarTest events={scheduledPostsForThisWeek} />
       </div>
-      <div className="w-full flex-1 items-center justify-center border border-red-500">
-        <div className="flex">
-          <div className="flex flex-col">
-            <h2>Posts needing approval: {amtPostsNeedingApproval}</h2>
-            <h2>Posts with schedule: {amtPostsWithSchedule}</h2>
-            <UserButton />
+      <div className="w-full flex-1 items-center justify-center">
+          <div className="flex justify-end h-16">
+            <AddScheduler availableThemes={availableThemes} />
           </div>
-          <AddScheduler availableThemes={availableThemes} />
+        <div className="flex justify-center gap-8">
+        <div className="flex flex-col items-center justify-center border border-1 rounded-lg h-40 w-40 gap-2.5">
+            <div className="flex w-full flex-1 items-center justify-center">
+              <h2 className="text-3xl font-bold">{amtPostsWithSchedule}</h2>
+            </div>
+            <div className="flex w-full flex-1 items-start justify-center">
+              <p className="text-md text-center font-medium whitespace-pre-wrap">Scheduled Posts</p>
+            </div>
+          </div>
+          <div className="flex flex-col items-center justify-center border border-1 rounded-lg h-40 w-40 gap-2.5">
+          <div className="flex w-full flex-1 items-center justify-center">
+            <h2 className="text-3xl font-bold">{amtPostsNeedingApproval}</h2>
+            </div>
+            <div className="flex w-full flex-1 items-start justify-center">
+            <p className="text-md text-center font-medium whitespace-pre-wrap">Posts Pending Approval</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
