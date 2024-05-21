@@ -103,6 +103,7 @@ export async function POST(req: Request) {
           title: discussion_topic,
           content: openaiResponse?.choices[0]?.message.content,
           created_from_topic: mapping_id,
+          created_from_theme: theme_name,
           relevant_files: relevantFileIds,
           user_id: userId,
           schedule_date: schedule_date,
