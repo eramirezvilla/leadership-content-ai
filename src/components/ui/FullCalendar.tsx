@@ -2,15 +2,10 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
-// import BootstrapTheme from "@fullcalendar/bootstrap"
 import listPlugin from "@fullcalendar/list";
 import GridPost from "./GridPost";
 import { type post } from "@prisma/client";
 
-interface Event {
-  title: string;
-  date: Date;
-}
 interface CalendarTestProps {
   events: post[];
 }
@@ -25,21 +20,24 @@ export default function CalendarTest({ events }: CalendarTestProps) {
   });
 
   return (
+    <div className="flex flex-col w-full items-center">
+      <h1 className="font-medium text-lg text-brand_background">Upcoming Posts</h1>
+    
     <FullCalendar
       plugins={[
-        dayGridPlugin,
-        interactionPlugin,
+        // dayGridPlugin,
+        // interactionPlugin,
         listPlugin,
       ]}
       slotDuration={"00:15:00"}
       handleWindowResize={true}
       height={"auto"}
       themeSystem="standard"
-      // headerToolbar={{
-      //   // left: "prev,next today",
-      //   center: "title",
-      //   // right: "dayGridMonth,dayGridWeek,dayGridDay,listWeek",
-      // }}
+      headerToolbar={{
+        left: "",
+        center: "",
+        right: "",
+      }}
       events={eventsWithStringIds}
       eventContent={function (arg) {
         return renderEventContent(arg.event._def.extendedProps.originalEvent as post);
@@ -49,6 +47,8 @@ export default function CalendarTest({ events }: CalendarTestProps) {
       selectable={false}
       initialView="listWeek"
     />
+    </div>
+
   );
 }
 

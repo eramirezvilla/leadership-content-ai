@@ -181,9 +181,7 @@ export default function AddScheduler({
                         <select
                           {...field}
                           className="border-1 rounded-lg border py-1 pl-2"
-                          onChange={(e) =>
-                            field.onChange(e.target.value)
-                          }
+                          onChange={(e) => field.onChange(e.target.value)}
                         >
                           {availableThemes.map((theme) => (
                             <option key={theme.id} value={theme.title}>

@@ -9,7 +9,7 @@ import logo from "public/new-capo-logo.svg";
 export default function SidebarNav() {
   const { user } = useUser();
 
-  const [selectedItem, setSelectedItem] = useState<string>("");
+  const [selectedItem, setSelectedItem] = useState<string>("Dashboard");
 
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
@@ -17,7 +17,7 @@ export default function SidebarNav() {
   };
 
   return (
-    <div className="sticky left-0 top-0 flex h-screen min-w-60 border-r bg-brand_background/90 text-brand_white/75">
+    <div className="sticky left-0 top-0 flex h-screen min-w-60 border-r bg-brand_background/90 text-brand_white">
       <div className="flex w-full flex-col pt-4 gap-8 mt-4">
         <div className="flex flex-col items-center justify-center gap-2 object-cover">
         <Image src={logo} alt="Capo logo" width={100} height={100} />
@@ -25,7 +25,7 @@ export default function SidebarNav() {
         </div>
         <div className="flex w-full flex-col gap-4 pt-2">
         <div className="flex w-full justify-start items-center gap-2.5 pl-2.5">
-            <Ellipsis size={12} />
+            <Ellipsis size={12} className="stroke-brand_primary"/>
             <h1 className="text-xs font-medium">Home</h1>
           </div>
           <Link href="/dashboard">
@@ -43,7 +43,7 @@ export default function SidebarNav() {
           </Link>
 
           <div className="flex w-full justify-start items-center gap-2.5 pl-2.5">
-            <Ellipsis size={12} />
+            <Ellipsis size={12} className="stroke-brand_primary"/>
             <h1 className="text-xs font-medium">Content</h1>
           </div>
           <Link href="/posts">
@@ -86,7 +86,7 @@ export default function SidebarNav() {
             </div>
           </Link>
           <div className="flex w-full justify-start items-center mt-2 gap-2.5 px-2.5">
-            <Ellipsis size={12} />
+            <Ellipsis size={12} className="stroke-brand_primary"/>
             <h1 className="text-xs font-medium">Data</h1>
           </div>
           <Link href="/industries">
