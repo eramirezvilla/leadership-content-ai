@@ -45,9 +45,9 @@ export default function PostModal({
         <p>Rel:{relevant_files}</p>
         <DialogFooter>
             <div className="flex gap-2.5">
-                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full"><X/></button>
-                <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full"><Redo2/></button>
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full"><Check/></button>
+                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full"><X size={24}/></button>
+                <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full"><Redo2 size={24}/></button>
+                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full"><Check size={24}/></button>
             </div>
           {/* <button onClick={() => setOpen(false)}>Close</button> */}
         </DialogFooter>
