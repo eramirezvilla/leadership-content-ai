@@ -9,7 +9,8 @@ export default async function DashboardPage() {
   const scheduledPostsForThisWeek = await prisma.post.findMany({
     where: {
       schedule_date: {
-        gte: new Date(),
+        //gte today starting from midnight
+        gte: new Date(new Date().setHours(0, 0, 0, 0)),
         lte: new Date(new Date().setDate(new Date().getDate() + 7)),
       },
     },
@@ -22,7 +23,9 @@ export default async function DashboardPage() {
     <CalendarTest events={scheduledPostsForThisWeek} />
     </div>
     <div className="flex-1 w-full justify-center items-center border border-red-500">
-    <AddScheduler availableThemes={availableThemes} />
+    <div className="flex">
+      <AddScheduler availableThemes={availableThemes} />
+    </div>
     </div>
 
     </div>
