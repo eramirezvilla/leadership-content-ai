@@ -33,18 +33,27 @@ export default async function DashboardPage() {
   const friday = new Date(monday);
   friday.setDate(monday.getDate() + 4);
 
-  // const scheduledPostsForThisWeek = postsWithSchedule.filter(
-  //   (post) =>
-  //     post.schedule_date! >= new Date(new Date().setHours(0, 0, 0, 0)) &&
-  //     post.schedule_date! <=
-  //       new Date(new Date().setDate(new Date().getDate() + 7)),
-  // );
-
   const scheduledPostsForThisWeek = postsWithSchedule.filter(
     (post) =>
       post.schedule_date! >= monday &&
       post.schedule_date! <= friday,
   );
+
+  // Calculate the first day of the current month
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  
+  // Calculate the last day of the current month
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  const scheduledPostForThisMonth = postsWithSchedule.filter(
+    (post) =>
+      post.schedule_date! >= firstDayOfMonth &&
+      post.schedule_date! <= lastDayOfMonth,
+  );
+  const alreadyPostedThisMonth = scheduledPostForThisMonth.filter(
+    (post) => post.schedule_date! <= new Date(),
+  );
+
 
   const alreadyPostedThisWeek = scheduledPostsForThisWeek.filter(
     (post) => post.schedule_date! <= new Date(),
@@ -52,17 +61,19 @@ export default async function DashboardPage() {
 
   const amtPostsWithSchedule = postsWithSchedule.length;
   const amtPostsNeedingApproval = postsWithSchedule.filter(
-    (post) => post.approved === false || post.approved === null,
+    (post) => post.approved === false || post.approved === null && post.schedule_date! <= new Date(),
   ).length;
 
+
+
   return (
-    <div className="flex flex-col w-full">
-      <div className="flex w-full gap-8 px-20 border border-red-500">
+    <div className="flex flex-col w-full pt-4 gap-4">
+      <div className="flex w-full justify-evenly px-10">
       <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
-      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
-      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
+      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostForThisMonth.length} value={alreadyPostedThisMonth.length} frequency="This Month"/>
+      <SnapshotWidget title="Pending" whole={postsWithSchedule.length} value={amtPostsNeedingApproval} frequency="Current"/>
       </div>
-    <div className="flex w-full gap-4 px-8 pt-4">
+    <div className="flex w-full gap-4 px-8">
       <div className="min-h-screen flex-1 flex-col items-center justify-center">
         <CalendarTest events={scheduledPostsForThisWeek} />
       </div>
