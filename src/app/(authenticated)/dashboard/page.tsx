@@ -5,6 +5,7 @@ import prisma from "~/lib/server/prisma";
 import { type post } from "@prisma/client";
 import Link from "next/link";
 import SnapshotWidget from "~/components/ui/UICard";
+import FullCalendar from "@fullcalendar/react";
 
 export default async function DashboardPage() {
   const availableThemes = await prisma.themes.findMany();
@@ -55,6 +56,12 @@ export default async function DashboardPage() {
   ).length;
 
   return (
+    <div className="flex flex-col w-full">
+      <div className="flex w-full gap-8 px-20 border border-red-500">
+      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
+      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
+      <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
+      </div>
     <div className="flex w-full gap-4 px-8 pt-4">
       <div className="min-h-screen flex-1 flex-col items-center justify-center">
         <CalendarTest events={scheduledPostsForThisWeek} />
@@ -89,6 +96,7 @@ export default async function DashboardPage() {
         </div>
           <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
       </div>
+    </div>
     </div>
   );
 }
