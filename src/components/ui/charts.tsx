@@ -30,6 +30,9 @@ export function ThemeChart({ availableThemes, postsWithSchedule }: ThemeChartPro
                 horizontal: true,
             }
         },
+        fill: {
+            colors: ['#3AAFB9']
+        },
       }
 
     const series = [{
