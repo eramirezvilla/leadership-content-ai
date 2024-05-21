@@ -3,16 +3,25 @@
 import dynamic from "next/dynamic";
 import type { ApexOptions } from 'apexcharts';
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+import type { post } from '@prisma/client'
 
+interface ThemeChartProps {
+    availableThemes: string[];
+    postsWithSchedule: post[];
+}
 
-export function ExampleChart(){
+export function ThemeChart({ availableThemes, postsWithSchedule }: ThemeChartProps){
+    const themePostCounts = availableThemes.map(theme => {
+        const count = postsWithSchedule.filter(post => post.created_from_theme === theme).length;
+        return count;
+      });
 
     const option: ApexOptions = {
         chart: {
-          id: 'apexchart-example'
+          id: 'theme-bar-chart'
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+          categories: availableThemes
         },
         plotOptions: {
             bar: {
@@ -24,13 +33,13 @@ export function ExampleChart(){
       }
 
     const series = [{
-        name: 'series-1',
-        data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+        name: 'Number of Posts',
+        data: themePostCounts
       }]
 
     return(
         <>
-            <ApexChart type="bar" options={option} series={series} height={200} width={500} />
+            <ApexChart type="bar" options={option} series={series} height={500} width={500} />
         </>
     )
     
