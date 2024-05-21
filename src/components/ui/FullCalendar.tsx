@@ -20,8 +20,9 @@ export default function CalendarTest({ events }: CalendarTestProps) {
   });
 
   return (
-    <>
-    <h1 className="text-2xl font-bold">Upcoming Posts</h1>
+    <div className="flex flex-col w-full items-center">
+      <h1 className="font-medium text-lg text-brand_background">Upcoming Posts</h1>
+    
     <FullCalendar
       plugins={[
         // dayGridPlugin,
@@ -46,7 +47,8 @@ export default function CalendarTest({ events }: CalendarTestProps) {
       selectable={false}
       initialView="listWeek"
     />
-  </>
+    </div>
+
   );
 }
 
