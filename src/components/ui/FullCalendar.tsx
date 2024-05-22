@@ -36,9 +36,9 @@ export default function CalendarTest({ events, view }: CalendarTestProps) {
       height={"auto"}
       themeSystem="standard"
       headerToolbar={{
-        left: "",
+        left: view === "dayGridMonth" ? "title" : "",
         center: "",
-        right: "",
+        right: view === "dayGridMonth" ? "today prev,next" : "",
       }}
       events={eventsWithStringIds}
       eventContent={function (arg) {
