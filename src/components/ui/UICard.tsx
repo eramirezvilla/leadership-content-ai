@@ -24,7 +24,7 @@ export default function SnapshotWidget({ title, value, whole, frequency }: Snaps
             </div>
             <div className="text-right">
               <span className="text-gray-500 text-xs">
-                Remaining
+                Completed
               </span>
             </div>
           </div>
