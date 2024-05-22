@@ -12,7 +12,7 @@ export const createPostSchema = z.object({
 
 export type CreatePostSchema = z.infer<typeof createPostSchema>;
 
-export const updatePostSchema = createPostSchema.extend({
+export const updatePostSchema = z.object({
   id: z.string().min(1),
   approved: z.boolean().optional(),
 });

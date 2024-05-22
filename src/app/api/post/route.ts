@@ -1,7 +1,7 @@
 import { productDataIndx } from "~/lib/server/pinecone";
 import prisma from "~/lib/server/prisma";
 import openai, { getEmbedding } from "~/lib/server/openai";
-import { createPostSchema } from "~/lib/validation/Post";
+import { createPostSchema, updatePostSchema } from "~/lib/validation/Post";
 import { auth } from "@clerk/nextjs";
 
 
@@ -112,6 +112,32 @@ export async function POST(req: Request) {
       });
     }
     return Response.json(relevantFiles);
+  } catch (error) {
+    console.error(error);
+    return Response.json("An error occurred", { status: 500 });
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+    const parseResult = updatePostSchema.safeParse(body);
+
+    if (!parseResult.success) {
+      return Response.json({ error: "Invalid input" }, { status: 400 });
+    }
+    //update post approval in database with prisma
+    const { id, approved } = parseResult.data;
+    await prisma.post.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        approved: approved,
+      },
+    });
+
+    return Response.json("Post approval updated successfully", { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json("An error occurred", { status: 500 });
