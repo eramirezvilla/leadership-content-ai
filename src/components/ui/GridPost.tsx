@@ -19,8 +19,10 @@ export default function GridPost({ post }: { post: post }) {
           <p className="text-sm font-medium text-black/50">
             {schedule_date?.toLocaleDateString("en-US")}
           </p>
-          {approved ? (
+          {approved === true ? (
             <p className="text-sm font-medium text-green-500">Approved</p>
+          ) : approved === false ? (
+            <p className="text-sm font-medium text-yellow-500">Rejected</p>
           ) : (
             <p className="text-sm font-medium text-red-500">Pending</p>
           )}
