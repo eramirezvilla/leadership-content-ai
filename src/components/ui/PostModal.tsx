@@ -82,7 +82,7 @@ export default function PostModal({
         <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
           <p className="text-sm">{content}</p>
         </div>
-        <p>Rel:{relevant_files}</p>
+        {/* <p>Rel:{relevant_files}</p> */}
         <DialogFooter>
           <div className="flex gap-2.5">
             <div className="flex" onClick={() => updateApproval(id.toString(), false)}>
