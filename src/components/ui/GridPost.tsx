@@ -22,9 +22,9 @@ export default function GridPost({ post }: { post: post }) {
           {approved === true ? (
             <p className="text-sm font-medium text-green-500">Approved</p>
           ) : approved === false ? (
-            <p className="text-sm font-medium text-yellow-500">Rejected</p>
+            <p className="text-sm font-medium text-red-500">Rejected</p>
           ) : (
-            <p className="text-sm font-medium text-red-500">Pending</p>
+            <p className="text-sm font-medium text-yellow-500">Pending</p>
           )}
         </div>
         <h1 className="text-sm font-semibold">{title}</h1>

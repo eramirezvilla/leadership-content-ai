@@ -74,9 +74,9 @@ export default function PostModal({
           {approved === true ? (
             <p className="text-sm font-medium text-green-500">Approved</p>
           ) : approved === false ? (
-            <p className="text-sm font-medium text-yellow-500">Rejected</p>
+            <p className="text-sm font-medium text-red-500">Rejected</p>
           ) : (
-            <p className="text-sm font-medium text-red-500">Pending</p>
+            <p className="text-sm font-medium text-yellow-500">Pending</p>
           )}
         </div>
         <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
