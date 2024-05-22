@@ -5,7 +5,6 @@ import prisma from "~/lib/server/prisma";
 import { type post } from "@prisma/client";
 import Link from "next/link";
 import SnapshotWidget from "~/components/ui/UICard";
-import FullCalendar from "@fullcalendar/react";
 import { ThemeChart } from "~/components/ui/charts";
 
 export default async function DashboardPage() {
@@ -80,7 +79,7 @@ export default async function DashboardPage() {
         <div className="flex w-full justify-evenly px-10">
         <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
         <SnapshotWidget title="Scheduled Posts" whole={scheduledPostForThisMonth.length} value={alreadyPostedThisMonth.length} frequency={monthNames[today.getMonth()]!}/>
-        <SnapshotWidget title="Pending" whole={postsWithSchedule.length} value={amtPostsNeedingApproval} frequency="Current"/>
+        <SnapshotWidget title="Pending" whole={amtPostsWithSchedule} value={amtPostsNeedingApproval} frequency="Current"/>
         </div>
       </div>
     <div className="flex w-full gap-4 px-8">
