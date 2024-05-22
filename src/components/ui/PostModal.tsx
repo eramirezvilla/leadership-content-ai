@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./dialog";
-import { Check, X, Redo2} from "lucide-react"
+import { Check, X, Redo2 } from "lucide-react";
 
 interface PostModalProps {
   postToEdit: post;
@@ -14,13 +14,38 @@ interface PostModalProps {
   setOpen: (open: boolean) => void;
 }
 
+async function updateApproval(post_id: string, approved: boolean) {
+    // console.log("post with id: ", post_id, " has been approved: ", approved)
+  const response = await fetch(`/api/post`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: post_id, approved: approved }),
+  });
+
+  if (response.ok) {
+    console.log("Post approval updated successfully");
+  } else {
+    console.error("Failed to update post approval status");
+  }
+}
+
 export default function PostModal({
   postToEdit,
   open,
   setOpen,
 }: PostModalProps) {
-  const { title, content, created_at, created_from_topic, relevant_files, schedule_date, approved } =
-    postToEdit;
+  const {
+    id,
+    title,
+    content,
+    created_at,
+    created_from_topic,
+    relevant_files,
+    schedule_date,
+    approved,
+  } = postToEdit;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -28,27 +53,33 @@ export default function PostModal({
         <DialogHeader>
           <DialogTitle className="max-w-prose">{title}</DialogTitle>
         </DialogHeader>
-        <div className="flex gap-2 5">
-            <p className="text-sm font-bold text-black/50">Scheduled For: </p>
-            <p className="text-sm font-medium text-black/50">
-              {created_at.toLocaleDateString("en-US")}
-            </p>
-            {approved ? (
+        <div className="5 flex gap-2">
+          <p className="text-sm font-bold text-black/50">Scheduled For: </p>
+          <p className="text-sm font-medium text-black/50">
+            {created_at.toLocaleDateString("en-US")}
+          </p>
+          {approved === true ? (
             <p className="text-sm font-medium text-green-500">Approved</p>
+          ) : approved === false ? (
+            <p className="text-sm font-medium text-yellow-500">Rejected</p>
           ) : (
             <p className="text-sm font-medium text-red-500">Pending</p>
           )}
         </div>
-        <div className="flex max-w-prose whitespace-break-spaces px-6 border border-1 py-4 rounded-lg">
-            <p className="text-sm">{content}</p>
+        <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
+          <p className="text-sm">{content}</p>
         </div>
         <p>Rel:{relevant_files}</p>
         <DialogFooter>
-            <div className="flex gap-2.5">
-                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full"><X size={24}/></button>
-                <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full"><Redo2 size={24}/></button>
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full"><Check size={24}/></button>
-            </div>
+          <div className="flex gap-2.5">
+            <button className="rounded-full bg-red-500 px-4 py-2 text-white hover:bg-red-600" onClick={() => updateApproval(id.toString(), false)}>
+              <X size={24} />
+            </button>
+            {/* <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full"><Redo2 size={24}/></button> */}
+            <button className="rounded-full bg-green-500 px-4 py-2 text-white hover:bg-green-600" onClick={() => updateApproval(id.toString(), true)}>
+              <Check size={24} />
+            </button>
+          </div>
           {/* <button onClick={() => setOpen(false)}>Close</button> */}
         </DialogFooter>
       </DialogContent>
