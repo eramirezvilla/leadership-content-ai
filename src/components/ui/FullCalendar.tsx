@@ -5,6 +5,7 @@ import interactionPlugin, { Draggable } from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import GridPost from "./GridPost";
 import { type post } from "@prisma/client";
+import CalendarPost from "./CalendarPost";
 
 interface CalendarTestProps {
   events: post[];
@@ -41,7 +42,7 @@ export default function CalendarTest({ events, view }: CalendarTestProps) {
       }}
       events={eventsWithStringIds}
       eventContent={function (arg) {
-        return renderEventContent(arg.event._def.extendedProps.originalEvent as post);
+        return renderEventContent(arg.event._def.extendedProps.originalEvent as post, view);
       }}
       editable={false}
       droppable={false}
@@ -53,7 +54,12 @@ export default function CalendarTest({ events, view }: CalendarTestProps) {
   );
 }
 
-function renderEventContent(eventInfo: post) {
+function renderEventContent(eventInfo: post, view?: string) {
+  if (view === "dayGridMonth") {
+    return <div className="flex flex-col border border-red-500">
+      <CalendarPost post={eventInfo} />
+    </div>;
+  }
   return <GridPost post={eventInfo} />;
   
 }
