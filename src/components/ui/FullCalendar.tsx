@@ -56,7 +56,7 @@ export default function CalendarTest({ events, view }: CalendarTestProps) {
 
 function renderEventContent(eventInfo: post, view?: string) {
   if (view === "dayGridMonth") {
-    return <div className="flex flex-col border border-red-500">
+    return <div className="flex flex-col w-fit overflow-hidden">
       <CalendarPost post={eventInfo} />
     </div>;
   }
