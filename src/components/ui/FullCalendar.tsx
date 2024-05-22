@@ -8,9 +8,10 @@ import { type post } from "@prisma/client";
 
 interface CalendarTestProps {
   events: post[];
+  view?: string;
 }
 
-export default function CalendarTest({ events }: CalendarTestProps) {
+export default function CalendarTest({ events, view }: CalendarTestProps) {
   const eventsWithStringIds = events.map((event) => {
     return {
       title: event.title!,
@@ -25,7 +26,7 @@ export default function CalendarTest({ events }: CalendarTestProps) {
     
     <FullCalendar
       plugins={[
-        // dayGridPlugin,
+        dayGridPlugin,
         // interactionPlugin,
         listPlugin,
       ]}
@@ -45,7 +46,7 @@ export default function CalendarTest({ events }: CalendarTestProps) {
       editable={false}
       droppable={false}
       selectable={false}
-      initialView="listWeek"
+      initialView={view ?? "listWeek"}
     />
     </div>
 
