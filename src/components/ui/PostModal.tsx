@@ -39,7 +39,7 @@ export default function PostModal({
             <p className="text-sm font-medium text-red-500">Pending</p>
           )}
         </div>
-        <div className="flex max-w-prose px-6 border border-1 py-4 rounded-lg">
+        <div className="flex max-w-prose whitespace-break-spaces px-6 border border-1 py-4 rounded-lg">
             <p className="text-sm">{content}</p>
         </div>
         <p>Rel:{relevant_files}</p>
