@@ -1,3 +1,4 @@
+"use client"
 import { type post } from "@prisma/client";
 import {
   Dialog,
@@ -6,7 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./dialog";
-import { Check, X, Redo2 } from "lucide-react";
+import { Check, X, Redo2, ZoomOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import ZoomOutLoader from "./ZoomOutLoader";
 
 interface PostModalProps {
   postToEdit: post;
@@ -14,28 +18,36 @@ interface PostModalProps {
   setOpen: (open: boolean) => void;
 }
 
-async function updateApproval(post_id: string, approved: boolean) {
-    // console.log("post with id: ", post_id, " has been approved: ", approved)
-  const response = await fetch(`/api/post`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id: post_id, approved: approved }),
-  });
 
-  if (response.ok) {
-    console.log("Post approval updated successfully");
-  } else {
-    console.error("Failed to update post approval status");
-  }
-}
 
 export default function PostModal({
   postToEdit,
   open,
   setOpen,
 }: PostModalProps) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    async function updateApproval(post_id: string, approved: boolean) {
+        // console.log("post with id: ", post_id, " has been approved: ", approved)
+        setIsSubmitting(true);
+      const response = await fetch(`/api/post`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: post_id, approved: approved }),
+      });
+        setIsSubmitting(false);
+    
+      router.refresh();
+      setOpen(false);
+      if (response.ok) {
+        console.log("Post approval updated successfully");
+      } else {
+        console.error("Failed to update post approval status");
+      }
+    }
+
   const {
     id,
     title,
@@ -46,6 +58,7 @@ export default function PostModal({
     schedule_date,
     approved,
   } = postToEdit;
+  const router = useRouter();
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -72,15 +85,18 @@ export default function PostModal({
         <p>Rel:{relevant_files}</p>
         <DialogFooter>
           <div className="flex gap-2.5">
-            <button className="rounded-full bg-red-500 px-4 py-2 text-white hover:bg-red-600" onClick={() => updateApproval(id.toString(), false)}>
-              <X size={24} />
-            </button>
+            <div className="flex" onClick={() => updateApproval(id.toString(), false)}>
+                <ZoomOutLoader color="red" size="l" style="zoom-out" loading={isSubmitting}>
+                <X size={24} />
+                </ZoomOutLoader>
+            </div>
+            <div className="flex" onClick={() => updateApproval(id.toString(), true)}>
+                <ZoomOutLoader color="green" size="l" style="zoom-out" loading={isSubmitting}>
+                    <Check size={24} />
+                </ZoomOutLoader>
+            </div>
             {/* <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full"><Redo2 size={24}/></button> */}
-            <button className="rounded-full bg-green-500 px-4 py-2 text-white hover:bg-green-600" onClick={() => updateApproval(id.toString(), true)}>
-              <Check size={24} />
-            </button>
           </div>
-          {/* <button onClick={() => setOpen(false)}>Close</button> */}
         </DialogFooter>
       </DialogContent>
     </Dialog>
