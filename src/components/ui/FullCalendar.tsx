@@ -23,7 +23,9 @@ export default function CalendarTest({ events, view }: CalendarTestProps) {
 
   return (
     <div className="flex flex-col w-full items-center">
+      {view != "dayGridMonth" ?? (
       <h1 className="font-medium text-lg text-brand_background">Upcoming Posts</h1>
+      )}
     
     <FullCalendar
       plugins={[
