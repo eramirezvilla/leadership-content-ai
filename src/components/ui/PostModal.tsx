@@ -69,7 +69,7 @@ export default function PostModal({
         <div className="5 flex gap-2">
           <p className="text-sm font-bold text-black/50">Scheduled For: </p>
           <p className="text-sm font-medium text-black/50">
-            {created_at.toLocaleDateString("en-US")}
+            {schedule_date?.toLocaleDateString("en-US")}
           </p>
           {approved === true ? (
             <p className="text-sm font-medium text-green-500">Approved</p>
