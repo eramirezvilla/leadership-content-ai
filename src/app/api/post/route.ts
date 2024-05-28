@@ -127,13 +127,15 @@ export async function PUT(req: Request) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
     //update post approval in database with prisma
-    const { id, approved } = parseResult.data;
+    const { id, approved, content, title } = parseResult.data;
     await prisma.post.update({
       where: {
         id: Number(id),
       },
       data: {
         approved: approved,
+        content: content,
+        title: title,
       },
     });
 
