@@ -82,7 +82,15 @@ export default function PostModal({
           )}
         </div>
         <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
+          {isEditing ? (
+            <textarea
+              className="w-full min-h-80"
+              defaultValue={content ?? ""}
+              placeholder="Enter content here"
+            ></textarea>
+          ) : (
           <p className="text-sm">{content}</p>
+          )}
         </div>
         {/* <p>Rel:{relevant_files}</p> */}
         <DialogFooter>
@@ -102,6 +110,18 @@ export default function PostModal({
               >
                 Delete
               </Button>
+              {isEditing && (
+                <Button
+                  onClick={() => {
+                    console.log("Save post with id: ", id);
+                    setIsEditing(false);
+                  }
+                  }
+                  variant="default"
+                >
+                  Save
+                </Button>
+              )}
           </div>
             <div className="flex gap-2.5">
               <div className="flex" onClick={() => updateApproval(id.toString(), false)}>
