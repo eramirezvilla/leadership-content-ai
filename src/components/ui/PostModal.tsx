@@ -52,6 +52,25 @@ export default function PostModal({
       }
     }
 
+    async function deletePost(post_id: string) {
+        setIsSubmitting(true);
+        const response = await fetch(`/api/post`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: post_id }),
+        });
+        setIsSubmitting(false);
+        router.refresh();
+        setOpen(false);
+        if (response.ok) {
+          console.log("Post deleted successfully");
+        } else {
+          console.error("Failed to delete post");
+        }
+      }
+
   const {
     id,
     title,
@@ -124,9 +143,7 @@ export default function PostModal({
           <div className="flex w-full justify-between">
           <div className="flex gap-2.5">
               <Button
-                onClick={() => {
-                  console.log("Delete post with id: ", id);
-                }}
+                onClick={() => deletePost(id.toString())}
                 variant="destructive"
               >
                 <Trash2 size={16} />
@@ -139,12 +156,12 @@ export default function PostModal({
               </Button>
           </div>
               {isEditing && (
-                <Button
-                  onClick={handleClick}
-                  variant="default"
-                >
-                  Save
-                </Button>
+
+                <div className="flex" onClick={handleClick}>
+                  <ZoomOutLoader color="green" size="l" style="zoom-out" loading={isSubmitting}>
+                    Save
+                  </ZoomOutLoader>
+                </div>
               )}
           {!isEditing && (
             <div className="flex gap-2.5">
