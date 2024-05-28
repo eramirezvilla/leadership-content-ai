@@ -69,7 +69,7 @@ export default function PostModal({
         <div className="5 flex gap-2">
           <p className="text-sm font-bold text-black/50">Scheduled For: </p>
           <p className="text-sm font-medium text-black/50">
-            {created_at.toLocaleDateString("en-US")}
+            {schedule_date?.toLocaleDateString("en-US")}
           </p>
           {approved === true ? (
             <p className="text-sm font-medium text-green-500">Approved</p>
@@ -82,7 +82,7 @@ export default function PostModal({
         <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
           <p className="text-sm">{content}</p>
         </div>
-        <p>Rel:{relevant_files}</p>
+        {/* <p>Rel:{relevant_files}</p> */}
         <DialogFooter>
           <div className="flex gap-2.5">
             <div className="flex" onClick={() => updateApproval(id.toString(), false)}>

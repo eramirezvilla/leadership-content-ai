@@ -7,7 +7,10 @@ interface SnapshotWidgetProps {
     }
 
 export default function SnapshotWidget({ title, value, whole, frequency }: SnapshotWidgetProps) {
-    const percentage = (value / whole) * 100;
+    let percentage = (value / whole) * 100;
+    if (title === "Pending") {
+      percentage = 100 - percentage;
+    }
   return (
     <div className="md:col-6 xl:col-3 mb-4">
       <div className="relative bg-white shadow rounded-lg overflow-hidden border border-1">
@@ -24,7 +27,7 @@ export default function SnapshotWidget({ title, value, whole, frequency }: Snaps
             </div>
             <div className="text-right">
               <span className="text-gray-500 text-xs">
-                Completed
+                {title === "Pending" ? "Remaining" : "Completed"}
               </span>
             </div>
           </div>
