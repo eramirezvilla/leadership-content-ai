@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./dialog";
-import { Check, X, Redo2, ZoomOut } from "lucide-react";
+import { Check, X, Redo2, ZoomOut, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ZoomOutLoader from "./ZoomOutLoader";
@@ -69,19 +69,20 @@ export default function PostModal({
         <DialogHeader>
           <DialogTitle className="max-w-prose">{title}</DialogTitle>
         </DialogHeader>
-        <div className="flex gap-2">
-          <p className="text-sm font-bold text-black/50">Scheduled For: </p>
-          <p className="text-sm font-medium text-black/50">
-            {schedule_date?.toLocaleDateString("en-US")}
-          </p>
-          {approved === true ? (
-            <p className="text-sm font-medium text-green-500">Approved</p>
-          ) : approved === false ? (
-            <p className="text-sm font-medium text-red-500">Rejected</p>
-          ) : (
-            <p className="text-sm font-medium text-yellow-500">Pending</p>
-          )}
-        </div>
+          <div className="flex gap-2">
+            <p className="text-sm font-bold text-black/50">Scheduled For: </p>
+            <p className="text-sm font-medium text-black/50">
+              {schedule_date?.toLocaleDateString("en-US")}
+            </p>
+            {approved === true ? (
+              <p className="text-sm font-medium text-green-500">Approved</p>
+            ) : approved === false ? (
+              <p className="text-sm font-medium text-red-500">Rejected</p>
+            ) : (
+              <p className="text-sm font-medium text-yellow-500">Pending</p>
+            )}
+          </div>
+          
         <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
           {isEditing ? (
             <textarea
@@ -99,11 +100,20 @@ export default function PostModal({
           <div className="flex w-full justify-between">
           <div className="flex gap-2.5">
               <Button
+                onClick={() => {
+                  console.log("Delete post with id: ", id);
+                }}
+                variant="destructive"
+              >
+                <Trash2 size={16} />
+              </Button>
+              <Button
                 onClick={() => setIsEditing(!isEditing)}
                 variant="secondary"
               >
                 {isEditing ? "Cancel" : "Edit"}
               </Button>
+          </div>
               {isEditing && (
                 <Button
                   onClick={() => {
@@ -117,28 +127,21 @@ export default function PostModal({
                   Save
                 </Button>
               )}
-              <Button
-                onClick={() => {
-                  console.log("Delete post with id: ", id);
-                }}
-                variant="destructive"
-              >
-                Delete
-              </Button>
-          </div>
+          {!isEditing && (
             <div className="flex gap-2.5">
               <div className="flex" onClick={() => updateApproval(id.toString(), false)}>
                   <ZoomOutLoader color="red" size="l" style="zoom-out" loading={isSubmitting}>
-                  <X size={24} />
+                  <X size={16} />
                   </ZoomOutLoader>
               </div>
               <div className="flex" onClick={() => updateApproval(id.toString(), true)}>
                   <ZoomOutLoader color="green" size="l" style="zoom-out" loading={isSubmitting}>
-                      <Check size={24} />
+                      <Check size={16} />
                   </ZoomOutLoader>
               </div>
-              {/* <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full"><Redo2 size={24}/></button> */}
             </div>
+          )}
+              {/* <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full"><Redo2 size={24}/></button> */}
           </div>
         </DialogFooter>
       </DialogContent>
