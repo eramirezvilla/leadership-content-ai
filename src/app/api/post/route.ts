@@ -139,7 +139,7 @@ export async function PUT(req: Request) {
       },
     });
 
-    return Response.json("Post approval updated successfully", { status: 200 });
+    return Response.json("Post updated successfully", { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json("An error occurred", { status: 500 });
