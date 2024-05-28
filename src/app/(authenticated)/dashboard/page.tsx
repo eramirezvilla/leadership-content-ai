@@ -63,7 +63,7 @@ export default async function DashboardPage() {
 
   const amtPostsWithSchedule = postsWithSchedule.length;
   const amtPostsNeedingApproval = postsWithSchedule.filter(
-    (post) => post.approved === null && post.schedule_date! <= new Date(),
+    (post) => post.approved === null && post.schedule_date! >= new Date(),
   ).length;
 
   const monthNames = [
