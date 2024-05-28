@@ -29,8 +29,9 @@ export default function PostModal({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [updatedContent, setUpdatedContent] = useState(postToEdit.content);
+    const [updatedTitle, setUpdatedTitle] = useState(postToEdit.title);
 
-    async function updateApproval(post_id: string, approved: boolean) {
+    async function updateApproval(post_id: string, approved: boolean, content: string, title: string) {
         // console.log("post with id: ", post_id, " has been approved: ", approved)
         setIsSubmitting(true);
       const response = await fetch(`/api/post`, {
@@ -38,7 +39,7 @@ export default function PostModal({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: post_id, approved: approved }),
+        body: JSON.stringify({ id: post_id, approved: approved, content: content, title: title}),
       });
         setIsSubmitting(false);
     
@@ -63,11 +64,34 @@ export default function PostModal({
   } = postToEdit;
   const router = useRouter();
 
+  const handleClick = async () => {
+    console.log("Save post with id: ", id);
+    console.log("New content: ", updatedContent);
+    await updateApproval(
+      id.toString(),
+      approved!,
+      updatedContent!,
+      updatedTitle!,
+    );
+    setIsEditing(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="max-w-prose">{title}</DialogTitle>
+          <DialogTitle className="max-w-prose">
+            {isEditing ? (
+              <input
+                className="w-full"
+                defaultValue={title ?? ""}
+                placeholder="Enter title here"
+                onChange={(e) => setUpdatedTitle(e.target.value)}
+              />
+            ) : (
+              <h2>{title}</h2>
+            )}
+          </DialogTitle>
         </DialogHeader>
           <div className="flex gap-2">
             <p className="text-sm font-bold text-black/50">Scheduled For: </p>
@@ -116,12 +140,7 @@ export default function PostModal({
           </div>
               {isEditing && (
                 <Button
-                  onClick={() => {
-                    console.log("Save post with id: ", id);
-                    console.log("New content: ", updatedContent);
-                    setIsEditing(false);
-                  }
-                  }
+                  onClick={handleClick}
                   variant="default"
                 >
                   Save
@@ -129,12 +148,12 @@ export default function PostModal({
               )}
           {!isEditing && (
             <div className="flex gap-2.5">
-              <div className="flex" onClick={() => updateApproval(id.toString(), false)}>
+              <div className="flex" onClick={() => updateApproval(id.toString(), false, updatedContent!, updatedTitle!)}>
                   <ZoomOutLoader color="red" size="l" style="zoom-out" loading={isSubmitting}>
                   <X size={16} />
                   </ZoomOutLoader>
               </div>
-              <div className="flex" onClick={() => updateApproval(id.toString(), true)}>
+              <div className="flex" onClick={() => updateApproval(id.toString(), true, updatedContent!, updatedTitle!)}>
                   <ZoomOutLoader color="green" size="l" style="zoom-out" loading={isSubmitting}>
                       <Check size={16} />
                   </ZoomOutLoader>
