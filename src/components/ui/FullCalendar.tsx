@@ -6,20 +6,46 @@ import listPlugin from "@fullcalendar/list";
 import GridPost from "./GridPost";
 import { type post } from "@prisma/client";
 import CalendarPost from "./CalendarPost";
+import { use, useEffect, useState } from "react";
 
 interface CalendarTestProps {
   events: post[];
   view?: string;
 }
 
+interface EventWithStringId{
+  title: string;
+  date: Date;
+  originalEvent: post;
+}
+
 export default function CalendarTest({ events, view }: CalendarTestProps) {
-  const eventsWithStringIds = events.map((event) => {
-    return {
-      title: event.title!,
-      date: event.schedule_date!,
-      originalEvent: event
-    };
-  });
+  const [eventsToDisplay, setEventsToDisplay] = useState<post[]>(events);
+  const [eventsWithStringIds, setEventsWithStringIds] = useState<EventWithStringId[]>([]);
+
+  useEffect(() => {
+    setEventsToDisplay(events);
+  }, [events]);
+
+  useEffect(() => {
+    const eventsWithStringIds = events.map((event) => {
+      return {
+        title: event.title!,
+        date: event.schedule_date!,
+        originalEvent: event
+      };
+    });
+    setEventsWithStringIds(eventsWithStringIds);
+  }
+  , [events]);
+
+  // const eventsWithStringIds = events.map((event) => {
+  //   return {
+  //     title: event.title!,
+  //     date: event.schedule_date!,
+  //     originalEvent: event
+  //   };
+  // });
 
   return (
     <div className="flex flex-col w-full items-center">
