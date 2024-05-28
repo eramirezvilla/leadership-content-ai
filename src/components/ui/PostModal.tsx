@@ -28,6 +28,7 @@ export default function PostModal({
 }: PostModalProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [updatedContent, setUpdatedContent] = useState(postToEdit.content);
 
     async function updateApproval(post_id: string, approved: boolean) {
         // console.log("post with id: ", post_id, " has been approved: ", approved)
@@ -87,6 +88,7 @@ export default function PostModal({
               className="w-full min-h-80"
               defaultValue={content ?? ""}
               placeholder="Enter content here"
+              onChange={(e) => setUpdatedContent(e.target.value)}
             ></textarea>
           ) : (
           <p className="text-sm">{content}</p>
@@ -102,18 +104,11 @@ export default function PostModal({
               >
                 {isEditing ? "Cancel" : "Edit"}
               </Button>
-              <Button
-                onClick={() => {
-                  console.log("Delete post with id: ", id);
-                }}
-                variant="destructive"
-              >
-                Delete
-              </Button>
               {isEditing && (
                 <Button
                   onClick={() => {
                     console.log("Save post with id: ", id);
+                    console.log("New content: ", updatedContent);
                     setIsEditing(false);
                   }
                   }
@@ -122,6 +117,14 @@ export default function PostModal({
                   Save
                 </Button>
               )}
+              <Button
+                onClick={() => {
+                  console.log("Delete post with id: ", id);
+                }}
+                variant="destructive"
+              >
+                Delete
+              </Button>
           </div>
             <div className="flex gap-2.5">
               <div className="flex" onClick={() => updateApproval(id.toString(), false)}>
