@@ -4,6 +4,50 @@ import { productDataIndx } from "~/lib/server/pinecone";
 import openai, { getEmbedding } from "~/lib/server/openai";
 import { auth } from "@clerk/nextjs";
 
+async function getRelatedTopics(keyword : string) {
+  const words = keyword.split(' ').map(word => word.trim()).filter(word => word.length > 0);
+
+  const searchConditions = words.map(word => ({
+    OR: [
+      {
+        industry_name: {
+          contains: word,
+          mode: 'insensitive',
+        },
+      },
+      {
+        discussion_topic: {
+          contains: word,
+          mode: 'insensitive',
+        },
+      },
+      {
+        topic_description: {
+          contains: word,
+          mode: 'insensitive',
+        },
+      },
+    ],
+  }));
+
+  const relatedTopics = await prisma.industry_challenge_mapping.findMany({
+    where: {
+      AND: [
+        { already_used: false },
+        ...searchConditions,
+      ],
+    },
+  });
+
+  if (relatedTopics.length === 0) {
+    console.log("No related topics available");
+    return [];
+  }
+
+  return relatedTopics;
+}
+
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -20,7 +64,7 @@ export async function POST(req: Request) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { title, theme_name, start_from, end_on, frequency } =
+    const { title, theme_name, start_from, end_on, frequency, focus_topic } =
       parseResult.data;
 
     // create schedule in database
@@ -58,6 +102,9 @@ export async function POST(req: Request) {
         currentDate.setDate(currentDate.getDate() + 1);
         continue;
       }
+
+      //TODO: create way to include natural language query for industry_challenge_mapping i.e. "Focus on RFID technology in the healthcare industry."
+      
 
       const industryChallengeMapping =
         await prisma.industry_challenge_mapping.findFirst({
