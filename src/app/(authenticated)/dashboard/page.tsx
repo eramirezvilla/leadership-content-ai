@@ -77,7 +77,7 @@ export default async function DashboardPage() {
       <div className="flex flex-col w-full items-start gap-6">
         <h1 className="font-medium text-lg text-brand_background px-10">Dashboard</h1>
         <div className="flex w-full justify-evenly px-10">
-        <SnapshotWidget title="Scheduled Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
+        <SnapshotWidget title="Upcoming Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
         <SnapshotWidget title="Scheduled Posts" whole={scheduledPostForThisMonth.length} value={alreadyPostedThisMonth.length} frequency={monthNames[today.getMonth()]!}/>
         <SnapshotWidget title="Pending" whole={amtPostsWithSchedule} value={amtPostsNeedingApproval} frequency="Current"/>
         </div>
