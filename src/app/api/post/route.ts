@@ -1,7 +1,7 @@
 import { productDataIndx } from "~/lib/server/pinecone";
 import prisma from "~/lib/server/prisma";
 import openai, { getEmbedding } from "~/lib/server/openai";
-import { createPostSchema, updatePostSchema } from "~/lib/validation/Post";
+import { createPostSchema, updatePostSchema, deletePostSchema } from "~/lib/validation/Post";
 import { auth } from "@clerk/nextjs";
 
 
@@ -140,6 +140,29 @@ export async function PUT(req: Request) {
     });
 
     return Response.json("Post updated successfully", { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return Response.json("An error occurred", { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const parseResult = deletePostSchema.safeParse(body);
+
+    if (!parseResult.success) {
+      return Response.json({ error: "Invalid input" }, { status: 400 });
+    }
+
+    const { id } = parseResult.data;
+    await prisma.post.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    return Response.json("Post deleted successfully", { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json("An error occurred", { status: 500 });
