@@ -15,6 +15,8 @@ export type CreatePostSchema = z.infer<typeof createPostSchema>;
 export const updatePostSchema = z.object({
   id: z.string().min(1),
   approved: z.boolean().optional(),
+  content: z.string().optional(),
+  title: z.string().optional(),
 });
 
 export const deletePostSchema = z.object({
