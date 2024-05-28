@@ -64,6 +64,7 @@ export default function AddScheduler({
     false,
     false,
   ]);
+  const [focusTopic, setFocusTopic] = useState<string>("");
 
   const daysOfWeek = [
     "sunday",
@@ -92,6 +93,7 @@ export default function AddScheduler({
       start_from: undefined,
       end_on: undefined,
       frequency: [false, false, false, false, false, false, false],
+      focus_topic: "",
     },
   });
 
@@ -175,7 +177,7 @@ export default function AddScheduler({
                       <div className="flex w-full items-center">
                         <div className="flex min-w-40">
                           <p className="mr-2 text-sm font-medium">
-                            Select Theme:{" "}
+                            Select Theme{" "}
                           </p>
                         </div>
                         <select
@@ -326,6 +328,23 @@ export default function AddScheduler({
                             </ToggleGroupItem>
                           ))}
                         </ToggleGroup>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="focus_topic"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex w-full items-center">
+                        <div className="flex min-w-40">
+                          <p className="mr-2 text-sm font-medium">Focus Topic </p>
+                        </div>
+                        <Input placeholder="(optional) i.e. 'RFID in healthcare'" {...field} />
                       </div>
                     </FormControl>
                     <FormMessage />
