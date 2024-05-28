@@ -74,7 +74,7 @@ export async function POST(req: Request) {
 
       //create post from api call
       const newPostValues = {
-        theme_name: parseResult.data.theme_name,
+        created_from_theme: parseResult.data.theme_name,
         industry_name: industry_name,
         discussion_topic: discussion_topic,
         topic_description: topic_description,
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
       console.log("newPostValues: ", newPostValues);
 
         await createPost(
-            newPostValues.theme_name,
+            newPostValues.created_from_theme,
             newPostValues.industry_name,
             newPostValues.discussion_topic!,
             newPostValues.topic_description!,
@@ -194,6 +194,7 @@ async function createPost( theme_name: string, industry_name: string, discussion
             user_id: userId,
             schedule_date: schedule_date,
             schedule_id: schedule_id,
+            created_from_theme: theme_name,
           },
         });
       }
