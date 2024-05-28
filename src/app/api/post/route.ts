@@ -84,7 +84,7 @@ export async function POST(req: Request) {
             discussion_topic +
             ".\n\nThe topic description is: " +
             topic_description +
-            ".\n\nPlease generate a post that will engage the audience and promote the products. Remember to include a call to action.",
+            ".\n\nGenerate a post that will engage the audience and promote the products/company value. Remember to include a call to action and mention your company name, Levata. Use a friendly, inviting, easy to read writing style.",
         },
       ],
       model: "gpt-3.5-turbo",
