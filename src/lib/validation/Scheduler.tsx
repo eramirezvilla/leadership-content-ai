@@ -5,7 +5,8 @@ export const createScheduleSchema = z.object({
     theme_name: z.string(),
     start_from: z.string().datetime(),
     end_on: z.string().datetime(),
-    frequency: z.array(z.boolean()).length(7)
+    frequency: z.array(z.boolean()).length(7),
+    focus_topic: z.string().optional(),
 });
 
 export type CreateScheduleSchema = z.infer<typeof createScheduleSchema>;
