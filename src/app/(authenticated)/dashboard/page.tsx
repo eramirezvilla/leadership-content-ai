@@ -83,7 +83,7 @@ export default async function DashboardPage() {
         </div>
       </div>
     <div className="flex w-full gap-4 px-8">
-      <div className="flex-1 flex flex-col items-center justify-center w-full border border-1 rounded-lg px-4 py-4">
+      <div className="flex-1 flex flex-col items-center justify-start w-full max-h-screen overflow-scroll border border-1 rounded-lg px-4 py-4">
         <CalendarTest events={scheduledPostsForThisWeek} />
       </div>
       
