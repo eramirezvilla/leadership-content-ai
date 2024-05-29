@@ -129,7 +129,7 @@ export default function PostModal({
         <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
           {isEditing ? (
             <textarea
-              className="w-full min-h-80"
+              className="w-full min-h-80 text-sm"
               defaultValue={content ?? ""}
               placeholder="Enter content here"
               onChange={(e) => setUpdatedContent(e.target.value)}
