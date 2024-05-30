@@ -49,16 +49,20 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
   return (
     <>
       <div className="flex w-full justify-start gap-2.5 pl-20">
-        <LayoutGrid
-          size={20}
-          className={`hover:cursor-pointer hover:stroke-brand_gradient1_purple ${layoutView === "grid" ? "stroke-brand_gradient1_purple" : ""}`}
-          onClick={() => setLayoutView("grid")}
-        />
+        <div className={`flex border border-1 rounded-md hover:bg-brand_light_grey p-1 ${layoutView === "grid" ? "bg-white" : "bg-brand_light_grey"}`}>
+            <LayoutGrid
+              size={22}
+              className={`hover:cursor-pointer hover:stroke-brand_gradient2_blue ${layoutView === "grid" ? "stroke-brand_gradient1_purple" : ""}`}
+              onClick={() => setLayoutView("grid")}
+            />
+        </div>
+        <div className={`flex border border-1 rounded-md hover:bg-brand_light_grey p-1 ${layoutView === "list" ? "bg-white" : "bg-brand_light_grey"}`}>
         <MenuIcon
-          size={20}
-          className={`hover:cursor-pointer hover:stroke-brand_gradient1_purple ${layoutView === "list" ? "stroke-brand_gradient1_purple" : ""}`}
+          size={22}
+          className={`hover:cursor-pointer hover:stroke-brand_gradient2_blue ${layoutView === "list" ? "stroke-brand_gradient1_purple" : ""}`}
           onClick={() => setLayoutView("list")}
         />
+        </div>
       </div>
       {layoutView === "grid" ? (
         <div className="flex flex-col">
