@@ -1,7 +1,15 @@
 "use client";
 import { type post } from "@prisma/client";
 import GridPost from "./GridPost";
-import { LayoutGrid, MenuIcon, Clock, Check, X } from "lucide-react";
+import {
+  LayoutGrid,
+  MenuIcon,
+  Clock,
+  Check,
+  X,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 import { useState } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
@@ -30,6 +38,9 @@ const columns: ColumnDef<post>[] = [
 
 export default function PostsContent({ allPosts }: { allPosts: post[] }) {
   const [layoutView, setLayoutView] = useState("grid");
+  const [openPending, setOpenPending] = useState(true);
+  const [openApproved, setOpenApproved] = useState(true);
+  const [openRejected, setOpenRejected] = useState(true);
 
   const pendingPosts = allPosts.filter((post) => post.approved === null);
   const approvedPosts = allPosts.filter((post) => post.approved === true);
@@ -52,64 +63,101 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
       {layoutView === "grid" ? (
         <div className="flex flex-col">
           <div className="flex w-full flex-col gap-2.5 pb-8">
-            <div className="flex h-10 w-full items-center gap-2.5 bg-brand_black/60 pl-8 text-brand_white">
-              <Clock size={20} className="stroke-yellow-300" />
-              <p className="text-sm">Pending Posts</p>
+            <div
+              className="flex h-10 w-full items-center justify-between  bg-brand_black/60 px-20 text-brand_white hover:cursor-pointer hover:bg-brand_black/80"
+              onClick={() => setOpenPending(!openPending)}
+            >
+              <div className="flex w-full gap-2.5">
+                <Clock size={20} className="stroke-yellow-300" />
+                <p className="text-sm">Pending Posts</p>
+                <p className="text-sm font-bold text-white/40">
+                  {pendingPosts.length}
+                </p>
+              </div>
+              {openPending ? (
+                <ChevronUp size={20} className="stroke-white" />
+              ) : (
+                <ChevronDown size={20} className="stroke-white" />
+              )}
+            </div>
+            {openPending && (
+              <div className="flex w-full px-4">
+                {pendingPosts.length > 0 ? (
+                  <div className="flex w-full flex-wrap justify-evenly gap-4">
+                    {pendingPosts.map((post) => (
+                      <GridPost post={post} key={post.id} />
+                    ))}
+                  </div>
+                ) : (
+                  <p>No pending posts found</p>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex w-full flex-col gap-2.5 pb-8">
+            <div
+              className="flex h-10 w-full items-center justify-between  bg-brand_black/60 px-20 text-brand_white hover:cursor-pointer hover:bg-brand_black/80"
+              onClick={() => setOpenApproved(!openApproved)}
+            >
+              <div className="flex w-full gap-2.5">
+                <Check size={20} className="stroke-green-300" />
+                <p className="text-sm">Approved Posts</p>
+                <p className="text-sm font-bold text-white/40">
+                  {approvedPosts.length}
+                </p>
+              </div>
+              {openApproved ? (
+                <ChevronUp size={20} className="stroke-white" />
+              ) : (
+                <ChevronDown size={20} className="stroke-white" />
+              )}
+            </div>
+            {openApproved && (
+              <div className="flex w-full px-4">
+                {approvedPosts.length > 0 ? (
+                  <div className="flex w-full flex-wrap justify-evenly gap-4">
+                    {approvedPosts.map((post) => (
+                      <GridPost post={post} key={post.id} />
+                    ))}
+                  </div>
+                ) : (
+                  <p>No approved posts found</p>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="flex w-full flex-col gap-2.5 pb-8">
+          <div
+              className="flex h-10 w-full items-center justify-between  bg-brand_black/60 px-20 text-brand_white hover:cursor-pointer hover:bg-brand_black/80"
+              onClick={() => setOpenRejected(!openRejected)}
+            >
+              <div className="flex w-full gap-2.5">
+              <X size={20} className="stroke-red-300" />
+              <p className="text-sm">Rejected Posts</p>
               <p className="text-sm font-bold text-white/40">
-                {pendingPosts.length}
+                {rejectedPosts.length}
               </p>
             </div>
+            {openRejected ? (
+              <ChevronUp size={20} className="stroke-white" />
+            ) : (
+              <ChevronDown size={20} className="stroke-white" />
+            )}
+            </div>
+            {openRejected && (
             <div className="flex w-full px-4">
-              {pendingPosts.length > 0 ? (
+              {rejectedPosts.length > 0 ? (
                 <div className="flex w-full flex-wrap justify-evenly gap-4">
-                  {pendingPosts.map((post) => (
+                  {rejectedPosts.map((post) => (
                     <GridPost post={post} key={post.id} />
                   ))}
                 </div>
               ) : (
-                <p>No pending posts found</p>
+                <p>No rejected posts found</p>
               )}
             </div>
-          </div>
-          <div className="flex w-full flex-col gap-2.5 pb-8">
-          <div className="flex h-10 w-full items-center gap-2.5 bg-brand_black/60 pl-8 text-white">
-            <Check size={20} className="stroke-green-300" />
-            <p className="text-sm">Approved Posts</p>
-            <p className="text-sm font-bold text-white/40">
-              {approvedPosts.length}
-            </p>
-          </div>
-            <div className="flex w-full px-4">
-                {approvedPosts.length > 0 ? (
-                <div className="flex w-full flex-wrap justify-evenly gap-4">
-                    {approvedPosts.map((post) => (
-                    <GridPost post={post} key={post.id} />
-                    ))}
-                </div>
-                ) : (
-                <p>No approved posts found</p>
-                )}
-            </div>
-          </div>
-          <div className="flex w-full flex-col gap-2.5 pb-8">
-          <div className="flex h-10 w-full items-center gap-2.5 bg-brand_black/60 pl-8 text-white">
-            <X size={20} className="stroke-red-300" />
-            <p className="text-sm">Rejected Posts</p>
-            <p className="text-sm font-bold text-white/40">
-              {rejectedPosts.length}
-            </p>
-          </div>
-            <div className="flex w-full px-4">
-                {rejectedPosts.length > 0 ? (
-                <div className="flex w-full flex-wrap justify-evenly gap-4">
-                    {rejectedPosts.map((post) => (
-                        <GridPost post={post} key={post.id}/>
-                    ))}
-                </div>
-                ) : (
-                <p>No rejected posts found</p>
-                )}
-            </div>
+            )}
           </div>
           <div className="flex w-full flex-wrap gap-4 px-8">
             {/* {allPosts.length > 0 ? (
