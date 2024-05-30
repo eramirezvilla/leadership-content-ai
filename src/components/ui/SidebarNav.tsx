@@ -32,7 +32,7 @@ export default function SidebarNav() {
           <Link href="/dashboard">
             <div 
             onClick={() => handleItemClick("Dashboard")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-lg px-2.5 py-2 ${selectedItem === "Dashboard" ? "bg-brand_periwinkle text-white" : ""}`}>              
+            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-lg px-2.5 py-2 ${selectedItem === "Dashboard" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>              
                 <div className="flex w-full px-2 justify-between items-center">
                   <div className="flex items-center justify-start text-subheadline gap-2.5">
                     <Home size={16} />
@@ -50,7 +50,7 @@ export default function SidebarNav() {
           <Link href="/posts">
             <div 
             onClick={() => handleItemClick("Posts")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-lg px-2.5 py-2 ${selectedItem === "Posts" ? "bg-brand_periwinkle text-white" : ""}`}>              
+            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-lg px-2.5 py-2 ${selectedItem === "Posts" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>              
                 <div className="flex w-full px-2 justify-between items-center">
                   <div className="flex items-center justify-start text-subheadline gap-2.5">
                     <FilePen size={16} />
@@ -63,7 +63,7 @@ export default function SidebarNav() {
           <Link href="/themes">
             <div 
             onClick={() => handleItemClick("Themes")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Themes" ? "bg-brand_periwinkle text-white" : ""}`}>
+            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Themes" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
               <div className="flex w-full px-2 justify-between items-center">
                 <div className="flex items-center justify-start text-subheadline gap-2.5">
                   <ListChecks size={16} />
@@ -76,7 +76,7 @@ export default function SidebarNav() {
           <Link href="/calendar">
             <div 
             onClick={() => handleItemClick("Calendar")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Calendar" ? "bg-brand_periwinkle text-white" : ""}`}>
+            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Calendar" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
               <div className="flex w-full px-2 justify-between items-center">
                 <div className="flex items-center justify-start text-subheadline gap-2.5">
                   <CalendarIcon size={16} />
@@ -93,7 +93,7 @@ export default function SidebarNav() {
           <Link href="/industries">
             <div 
             onClick={() => handleItemClick("Industries")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Industries" ? "bg-brand_periwinkle text-white" : ""}`}>
+            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Industries" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
               <div className="flex w-full px-2 justify-between items-center">
                 <div className="flex items-center justify-start text-subheadline gap-2.5">
                   <Building2 size={16} />
@@ -106,7 +106,7 @@ export default function SidebarNav() {
           <Link href="/assets">
             <div 
             onClick={() => handleItemClick("Assets")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Assets" ? "bg-brand_periwinkle text-white" : ""}`}>
+            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Assets" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
               <div className="flex w-full px-2 justify-between items-center">
                 <div className="flex items-center justify-start text-subheadline gap-2.5">
                   <Folder size={16} />
