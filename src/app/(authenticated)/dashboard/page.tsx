@@ -21,7 +21,7 @@ export default async function DashboardPage() {
   });
 
   const today = new Date();
-  
+
   // Calculate the most recent Monday
   const getMonday = (date: Date): Date => {
     const day = date.getDay();
@@ -36,14 +36,12 @@ export default async function DashboardPage() {
   friday.setDate(monday.getDate() + 4);
 
   const scheduledPostsForThisWeek = postsWithSchedule.filter(
-    (post) =>
-      post.schedule_date! >= monday &&
-      post.schedule_date! <= friday,
+    (post) => post.schedule_date! >= monday && post.schedule_date! <= friday,
   );
 
   // Calculate the first day of the current month
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-  
+
   // Calculate the last day of the current month
   const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
@@ -56,7 +54,6 @@ export default async function DashboardPage() {
     (post) => post.schedule_date! <= new Date(),
   );
 
-
   const alreadyPostedThisWeek = scheduledPostsForThisWeek.filter(
     (post) => post.schedule_date! <= new Date(),
   );
@@ -67,33 +64,60 @@ export default async function DashboardPage() {
   ).length;
 
   const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   return (
-    <div className="flex flex-col w-full pt-6 gap-8 mb-20">
-
-      <div className="flex flex-col w-full items-start gap-6">
-        <h1 className="font-medium text-lg text-black px-10">Dashboard</h1>
+    <div className="mb-20 flex w-full flex-col gap-8 pt-6">
+      <div className="flex w-full flex-col items-start gap-6 bg-white rounded-lg border border-1 p-4">
+        <h1 className="pl-20 text-lg font-medium text-black">Dashboard</h1>
         <div className="flex w-full justify-evenly px-10">
-        <SnapshotWidget title="Upcoming Posts" whole={scheduledPostsForThisWeek.length} value={alreadyPostedThisWeek.length} frequency="This Week"/>
-        <SnapshotWidget title="Scheduled Posts" whole={scheduledPostForThisMonth.length} value={alreadyPostedThisMonth.length} frequency={monthNames[today.getMonth()]!}/>
-        <SnapshotWidget title="Pending" whole={amtPostsWithSchedule} value={amtPostsNeedingApproval} frequency="Current"/>
+          <SnapshotWidget
+            title="Upcoming Posts"
+            whole={scheduledPostsForThisWeek.length}
+            value={alreadyPostedThisWeek.length}
+            frequency="This Week"
+          />
+          <SnapshotWidget
+            title="Scheduled Posts"
+            whole={scheduledPostForThisMonth.length}
+            value={alreadyPostedThisMonth.length}
+            frequency={monthNames[today.getMonth()]!}
+          />
+          <SnapshotWidget
+            title="Pending"
+            whole={amtPostsWithSchedule}
+            value={amtPostsNeedingApproval}
+            frequency="Current"
+          />
         </div>
       </div>
-    <div className="flex w-full gap-4 px-8">
-      <div className="flex-1 flex flex-col items-center justify-start w-full max-h-screen overflow-scroll border border-1 rounded-lg px-4 py-4">
-        <CalendarTest events={scheduledPostsForThisWeek} />
-      </div>
-      
+      <div className="flex w-full gap-4 px-8">
+        <div className="border-1 flex max-h-screen w-full flex-1 flex-col items-center justify-start overflow-scroll rounded-lg border bg-white px-4 py-4">
+          <CalendarTest events={scheduledPostsForThisWeek} />
+        </div>
 
-        <div className="flex-1 flex flex-col w-full items-center border border-1 rounded-lg px-4 py-4">
-        <h1 className="font-medium text-lg text-brand_background">Posts By Theme</h1>
-          <ThemeChart availableThemes={themeNames} postsWithSchedule={postsWithSchedule}/>
+        <div className="border-1 flex w-full flex-1 flex-col items-center rounded-lg border bg-white px-4 py-4">
+          <h1 className="text-lg font-medium text-brand_background">
+            Posts By Theme
+          </h1>
+          <ThemeChart
+            availableThemes={themeNames}
+            postsWithSchedule={postsWithSchedule}
+          />
         </div>
-      
-    </div>
+      </div>
     </div>
   );
 }
