@@ -15,7 +15,7 @@ const availableThemes = await prisma.themes.findMany();
 
 export default function Calendar() {
   return (
-    <div className="flex w-full px-4 py-2">
+    <div className="flex w-full px-4 py-2 bg-white">
         <CalendarContent availableThemes={availableThemes} postsWithSchedule={postsWithSchedule} />
 
       {/* <div className="border-1 grid h-full w-full grid-cols-3 items-center justify-center rounded-lg border px-4 py-2">

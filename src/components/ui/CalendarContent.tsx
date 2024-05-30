@@ -37,7 +37,7 @@ export default function CalendarContent({
       <div className="col-span-1 h-full px-6">
         <div className="flex h-full w-full flex-col justify-start gap-4 py-2 pl-2 pr-6">
           <AddScheduler availableThemes={availableThemes} />
-          <div className="flex h-full w-full flex-col gap-2.5 rounded-lg bg-white px-4 py-2">
+          <div className="flex h-full w-full flex-col gap-2.5 rounded-lg px-4 py-2">
             <div className="border-1 flex w-full flex-col gap-2.5 rounded-lg border px-6 py-4">
               <h1 className="text-sm">Themes</h1>
               {availableThemes.map((theme) => (
