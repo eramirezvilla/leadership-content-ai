@@ -96,13 +96,14 @@ export default function AddScheduler({
   });
 
   useEffect(() => {
-    console.log("Updated selected days:", selectedDays);
+    // console.log("Updated selected days:", selectedDays);
     form.setValue("frequency", selectedDays);
   }, [selectedDays, form]);
 
   const router = useRouter();
 
   async function onSubmit(data: CreateScheduleSchema) {
+    console.log("theme_name", data.theme_name);
     try {
       const response = await fetch("/api/scheduler", {
         method: "POST",
@@ -182,6 +183,7 @@ export default function AddScheduler({
                           {...field}
                           className="border-1 rounded-lg border py-1 pl-2"
                           onChange={(e) => field.onChange(e.target.value)}
+                          value={field.value}
                         >
                           {availableThemes.map((theme) => (
                             <option key={theme.id} value={theme.title}>

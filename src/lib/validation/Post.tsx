@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createPostSchema = z.object({
-  theme_name: z.string(),
+  created_from_theme: z.string(),
   industry_name: z.string(),
   discussion_topic: z.string(),
   topic_description: z.string(),
