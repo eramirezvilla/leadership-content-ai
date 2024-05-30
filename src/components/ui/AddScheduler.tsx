@@ -133,7 +133,7 @@ export default function AddScheduler({
       <Button
         type="button"
         onClick={() => setOpen(true)}
-        className="bg-brand_purple"
+        className="bg-gradient-to-r from-brand_gradient1_purple to-brand_gradient1_blue hover:bg-gradient-to-r hover:from-brand_gradient2_purple hover:to-brand_gradient2_blue"
       >
         <div className="flex items-center justify-center gap-2.5">
           <PlusIcon size={20} />
