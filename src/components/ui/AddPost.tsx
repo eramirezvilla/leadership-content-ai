@@ -81,7 +81,7 @@ export default function AddPost({
   const form = useForm<CreatePostSchema>({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
-      theme_name: "",
+      created_from_theme: "",
       industry_name: "",
       discussion_topic: "Select topic",
       topic_description: "None selected",
@@ -166,7 +166,7 @@ export default function AddPost({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             <FormField
               control={form.control}
-              name="theme_name"
+              name="created_from_theme"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Theme Name</FormLabel>
@@ -204,7 +204,7 @@ export default function AddPost({
                               value={theme.title ?? ""}
                               key={theme.id.toString()}
                               onSelect={() => {
-                                form.setValue("theme_name", theme.title!);
+                                form.setValue("created_from_theme", theme.title);
                                 setThemeOpen(false);
                               }}
                             >
