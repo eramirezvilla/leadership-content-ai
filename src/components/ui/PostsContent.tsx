@@ -48,7 +48,7 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
 
   return (
     <>
-      <div className="flex gap-2.5 pl-8">
+      <div className="flex w-full justify-start gap-2.5 pl-20">
         <LayoutGrid
           size={20}
           className={`hover:cursor-pointer hover:stroke-brand_gradient1_purple ${layoutView === "grid" ? "stroke-brand_gradient1_purple" : ""}`}
