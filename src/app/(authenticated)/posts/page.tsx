@@ -21,7 +21,7 @@ export default async function PostsPage() {
 
   return (
     <div className="my-8 flex w-full flex-col gap-4">
-      <div className="flex justify-between gap-6 px-8">
+      <div className="flex justify-between gap-6 px-20">
         <div className="flex flex-col gap-2.5">
           <h1 className="text-title_2">Posts</h1>
           {/* <div className="flex gap-2.5">

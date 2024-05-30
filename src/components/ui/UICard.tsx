@@ -17,7 +17,7 @@ export default function SnapshotWidget({ title, value, whole, frequency }: Snaps
         <div className="p-4">
           <div className="mb-4 flex justify-between items-center">
             <h5 className="text-md font-semibold min-w-52">{title}</h5>
-            <p className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded min-w-12 text-center">
+            <p className="bg-brand_periwinkle text-white text-xs font-medium px-2 py-0.5 rounded min-w-12 text-center">
               {frequency}
             </p>
           </div>
@@ -32,7 +32,7 @@ export default function SnapshotWidget({ title, value, whole, frequency }: Snaps
             </div>
           </div>
           <div className="h-1 bg-gray-200 rounded-full">
-            <div className="h-1 bg-brand_purple rounded-full" style={{ width: `${percentage}%` }}></div>
+            <div className="h-1 bg-gradient-to-r from-brand_gradient2_purple to-brand_gradient2_blue rounded-full" style={{ width: `${percentage}%` }}></div>
           </div>
         </div>
         <div className="absolute inset-0 bg-gray-200 opacity-80 cursor-progress hidden">
