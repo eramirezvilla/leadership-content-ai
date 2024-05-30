@@ -63,7 +63,7 @@ const config = {
         brand_gradient2_blue: "#1898FF",
         brand_periwinkle: "#7070FF",
         brand_dark_purple_grey: "#727392",
-        brand_light_purple_grey: "82839F",
+        brand_light_purple_grey: "#82839F",
         brand_word_mark_purple: "#240053"
       }
     },
