@@ -11,7 +11,7 @@ export default function GridPost({ post }: { post: post }) {
   return (
     <>
       <div
-        className="flex max-h-52 w-72 flex-col items-start gap-2 rounded-lg border border-black px-4 py-2 hover:cursor-pointer"
+        className="flex max-h-52 w-72 flex-col items-start gap-2 rounded-lg border border-black bg-white px-4 py-2 hover:cursor-pointer"
         onClick={() => setShowEditModal(true)}
       >
         <div className="flex items-center justify-center gap-2.5">
