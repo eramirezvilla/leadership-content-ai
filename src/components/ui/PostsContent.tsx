@@ -51,12 +51,12 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
       <div className="flex gap-2.5 pl-8">
         <LayoutGrid
           size={20}
-          className={`hover:cursor-pointer hover:stroke-brand_purple ${layoutView === "grid" ? "stroke-brand_purple" : ""}`}
+          className={`hover:cursor-pointer hover:stroke-brand_gradient1_purple ${layoutView === "grid" ? "stroke-brand_gradient1_purple" : ""}`}
           onClick={() => setLayoutView("grid")}
         />
         <MenuIcon
           size={20}
-          className={`hover:cursor-pointer hover:stroke-brand_purple ${layoutView === "list" ? "stroke-brand_purple" : ""}`}
+          className={`hover:cursor-pointer hover:stroke-brand_gradient1_purple ${layoutView === "list" ? "stroke-brand_gradient1_purple" : ""}`}
           onClick={() => setLayoutView("list")}
         />
       </div>
@@ -64,7 +64,7 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
         <div className="flex flex-col">
           <div className="flex w-full flex-col gap-2.5 pb-8">
             <div
-              className="flex h-10 w-full items-center justify-between  bg-brand_black/60 px-20 text-brand_white hover:cursor-pointer hover:bg-brand_black/80"
+              className="flex h-10 w-full items-center justify-between  bg-black/60 px-20 text-white hover:cursor-pointer hover:bg-black/80"
               onClick={() => setOpenPending(!openPending)}
             >
               <div className="flex w-full gap-2.5">
@@ -96,7 +96,7 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
           </div>
           <div className="flex w-full flex-col gap-2.5 pb-8">
             <div
-              className="flex h-10 w-full items-center justify-between  bg-brand_black/60 px-20 text-brand_white hover:cursor-pointer hover:bg-brand_black/80"
+              className="flex h-10 w-full items-center justify-between  bg-black/60 px-20 text-white hover:cursor-pointer hover:bg-black/80"
               onClick={() => setOpenApproved(!openApproved)}
             >
               <div className="flex w-full gap-2.5">
@@ -129,7 +129,7 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
 
           <div className="flex w-full flex-col gap-2.5 pb-8">
           <div
-              className="flex h-10 w-full items-center justify-between  bg-brand_black/60 px-20 text-brand_white hover:cursor-pointer hover:bg-brand_black/80"
+              className="flex h-10 w-full items-center justify-between  bg-black/60 px-20 text-white hover:cursor-pointer hover:bg-black/80"
               onClick={() => setOpenRejected(!openRejected)}
             >
               <div className="flex w-full gap-2.5">
