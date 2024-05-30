@@ -64,13 +64,13 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
         <div className="flex flex-col">
           <div className="flex w-full flex-col gap-2.5 pb-8">
             <div
-              className="flex h-10 w-full items-center justify-between  bg-black/60 px-20 text-white hover:cursor-pointer hover:bg-black/80"
+              className="flex h-10 w-full items-center justify-between bg-gradient-to-br from-brand_gradient1_purple to-brand_gradient1_blue px-20 text-white hover:cursor-pointer hover:to-brand_gradient2_blue"
               onClick={() => setOpenPending(!openPending)}
             >
               <div className="flex w-full gap-2.5">
                 <Clock size={20} className="stroke-yellow-300" />
-                <p className="text-sm">Pending Posts</p>
-                <p className="text-sm font-bold text-white/40">
+                <p className="text-sm font-semibold">Pending</p>
+                <p className="text-sm font-bold text-brand_light_grey/80">
                   {pendingPosts.length}
                 </p>
               </div>
@@ -96,13 +96,13 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
           </div>
           <div className="flex w-full flex-col gap-2.5 pb-8">
             <div
-              className="flex h-10 w-full items-center justify-between  bg-black/60 px-20 text-white hover:cursor-pointer hover:bg-black/80"
+              className="flex h-10 w-full items-center justify-between bg-gradient-to-br from-brand_gradient1_purple to-brand_gradient1_blue px-20 text-white hover:cursor-pointer hover:to-brand_gradient2_blue"
               onClick={() => setOpenApproved(!openApproved)}
             >
               <div className="flex w-full gap-2.5">
                 <Check size={20} className="stroke-green-300" />
-                <p className="text-sm">Approved Posts</p>
-                <p className="text-sm font-bold text-white/40">
+                <p className="text-sm font-semibold">Approved</p>
+                <p className="text-sm font-bold text-brand_light_grey/80">
                   {approvedPosts.length}
                 </p>
               </div>
@@ -129,13 +129,13 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
 
           <div className="flex w-full flex-col gap-2.5 pb-8">
           <div
-              className="flex h-10 w-full items-center justify-between  bg-black/60 px-20 text-white hover:cursor-pointer hover:bg-black/80"
+              className="flex h-10 w-full items-center justify-between bg-gradient-to-br from-brand_gradient1_purple to-brand_gradient1_blue px-20 text-white hover:cursor-pointer hover:to-brand_gradient2_blue"
               onClick={() => setOpenRejected(!openRejected)}
             >
               <div className="flex w-full gap-2.5">
               <X size={20} className="stroke-red-300" />
-              <p className="text-sm">Rejected Posts</p>
-              <p className="text-sm font-bold text-white/40">
+              <p className="text-sm font-semibold">Rejected</p>
+              <p className="text-sm font-bold text-brand_light_grey/80">
                 {rejectedPosts.length}
               </p>
             </div>
