@@ -1,5 +1,6 @@
 import SidebarNav from "~/components/ui/SidebarNav";
 import Header from "~/components/ui/Header";
+import Footer from "~/components/ui/Footer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <main className="w-full">
           {children}
         </main>
+        <Footer />
       </div>
       </div>
   );
