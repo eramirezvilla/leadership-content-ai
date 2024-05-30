@@ -55,13 +55,16 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       colors: {
-        brand_purple: "#AB47F6",
-        brand_background: "#093A3E",
-        brand_primary: "#3AAFB9",
-        brand_secondary: "#64E9EE",
-        brand_alternate: "#97C8EB",
-        brand_black: "#001011",
-        brand_white: "#E9E8DC"
+        brand_purple_black: "#000021",
+        brand_light_grey: "#F5F5F5",
+        brand_gradient1_purple: "#784DFF",
+        brand_gradient1_blue: "#1F69FF",
+        brand_gradient2_purple: "#784DFF",
+        brand_gradient2_blue: "#1898FF",
+        brand_periwinkle: "#7070FF",
+        brand_dark_purple_grey: "#727392",
+        brand_light_purple_grey: "82839F",
+        brand_word_mark_purple: "#240053"
       }
     },
   },
