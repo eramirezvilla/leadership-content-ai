@@ -1,33 +1,44 @@
-import CalendarTest from "~/components/ui/FullCalendar"
-import prisma from "~/lib/server/prisma"
+import CalendarTest from "~/components/ui/FullCalendar";
+import prisma from "~/lib/server/prisma";
 import AddScheduler from "~/components/ui/AddScheduler";
+import CalendarContent from "~/components/ui/CalendarContent";
 
 const postsWithSchedule = await prisma.post.findMany({
-    where: {
-      schedule_date: {
-        not: null,
-      },
+  where: {
+    schedule_date: {
+      not: null,
     },
-  });
+  },
+});
 
-  const availableThemes = await prisma.themes.findMany();
+const availableThemes = await prisma.themes.findMany();
 
+export default function Calendar() {
+  return (
+    <div className="flex w-full px-4 py-2 bg-white">
+        <CalendarContent availableThemes={availableThemes} postsWithSchedule={postsWithSchedule} />
 
-export default function Calendar(){
-
-    return (
-        <div className="flex w-full py-2 px-4">
-            <div className="grid grid-cols-3 w-full h-full justify-center items-center py-2 px-4 border border-1 rounded-lg">
-            <div className="col-span-1 h-full px-6">
-                <div className="flex flex-col w-full h-full pr-6 pl-2 py-2 justify-start gap-4">
-                    <AddScheduler availableThemes={availableThemes}/>
-                    <div className="flex h-full w-full bg-gradient-to-b from-brand_gradient1_purple to-brand_gradient1_blue rounded-lg"/>
+      {/* <div className="border-1 grid h-full w-full grid-cols-3 items-center justify-center rounded-lg border px-4 py-2">
+        <div className="col-span-1 h-full px-6">
+          <div className="flex h-full w-full flex-col justify-start gap-4 py-2 pl-2 pr-6">
+            <AddScheduler availableThemes={availableThemes} />
+            <div className="flex h-full w-full flex-col rounded-lg bg-white px-4 py-2">
+              <h1 className="text-sm">Themes</h1>
+              {availableThemes.map((theme) => (
+                <div
+                  key={theme.id}
+                  className="flex w-full flex-row items-center justify-between py-2"
+                >
+                  <p className="text-sm">{theme.title}</p>
                 </div>
+              ))}
             </div>
-            <div className="col-span-2 w-full">
-                <CalendarTest events={postsWithSchedule} view="dayGridMonth"/>
-            </div>
-            </div>
+          </div>
         </div>
-    )
+        <div className="col-span-2 w-full">
+          <CalendarTest events={postsWithSchedule} view="dayGridMonth" />
+        </div>
+      </div> */}
+    </div>
+  );
 }
