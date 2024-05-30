@@ -7,7 +7,7 @@ export const createPostSchema = z.object({
   topic_description: z.string(),
   mapping_id: z.number(),
   schedule_date: z.string().datetime(),
-  schedule_id: z.number(),
+  schedule_id: z.number().optional(),
 });
 
 export type CreatePostSchema = z.infer<typeof createPostSchema>;

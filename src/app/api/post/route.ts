@@ -107,7 +107,7 @@ export async function POST(req: Request) {
           relevant_files: relevantFileIds,
           user_id: userId,
           schedule_date: schedule_date,
-          schedule_id: schedule_id,
+          schedule_id: schedule_id ?? null,
         },
       });
     }

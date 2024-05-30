@@ -38,6 +38,9 @@ import { Button } from "./button";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { PlusIcon } from 'lucide-react'
 import { cn } from "~/lib/utils";
+import { Calendar } from "~/components/ui/Calendar";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
 
 
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
@@ -62,6 +65,7 @@ export default function AddPost({
   const [dicussionOpen, setDicussionOpen] = useState(false);
   const [industryTopics, setIndustryTopics] = useState<Omit<industry_challenge_mapping, "industry_name">[]>([]);
   const [open, setOpen] = useState(false);
+  const [scheduleDateOpen, setScheduleDateOpen] = useState(false);
 
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   
@@ -86,6 +90,7 @@ export default function AddPost({
       discussion_topic: "Select topic",
       topic_description: "None selected",
       mapping_id: 0,
+      schedule_date: new Date().toISOString(),
     },
   });
 
@@ -303,6 +308,22 @@ export default function AddPost({
                   <Popover open={dicussionOpen} onOpenChange={setDicussionOpen}>
                     <PopoverTrigger asChild>
                       <FormControl>
+                        {form.getValues("industry_name") === "" ?
+                        (
+                          <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-full justify-between",
+                            !field.value && "text-muted-foreground",
+                          )}
+                          disabled
+                        >
+                          {field.value ?? "Select topic"}
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                        )
+                        : (
                         <Button
                           variant="outline"
                           role="combobox"
@@ -314,6 +335,7 @@ export default function AddPost({
                           {field.value ?? "Select topic"}
                           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
+                        )}
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-full h-full p-0 overflow-scroll">
@@ -357,9 +379,62 @@ export default function AddPost({
               )}
             />
             <div className="flex flex-col gap-2 w-full">
-              <h1 className="text-lg font-semibold">Topic Description</h1>
-              <p className="text-sm text-muted-foreground"> {form.watch("topic_description")}</p>
+              <h1 className="text-sm font-medium">Topic Description</h1>
+              <div className="flex border border-1 rounded-md px-4 py-2">
+                <p className={`text-sm ${form.getValues("topic_description") === "None selected" ? "text-black/40" : "text-black"}`}> {form.watch("topic_description")}</p>
+              </div>
             </div>
+            <FormField
+                control={form.control}
+                name="schedule_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex flex-col w-full items-start justify-center gap-2.5">
+                        <div className="flex min-w-40">
+                          <p className="mr-2 text-sm font-medium">
+                            Scheduled Date{" "}
+                          </p>
+                        </div>
+                        <Popover
+                          open={scheduleDateOpen}
+                          onOpenChange={setScheduleDateOpen}
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[240px] justify-start text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={new Date(field.value)}
+                              onSelect={(date) => {
+                                field.onChange(date?.toISOString());
+                                setScheduleDateOpen(false);
+                              }}
+                              disabled={(date) => date < new Date()}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             <DialogFooter className="gap-1 sm:gap-0">
               {/* {noteToEdit && (
                 <LoadingButton
