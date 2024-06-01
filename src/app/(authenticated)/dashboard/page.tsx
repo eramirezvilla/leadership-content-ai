@@ -6,6 +6,7 @@ import { type post } from "@prisma/client";
 import Link from "next/link";
 import SnapshotWidget from "~/components/ui/UICard";
 import { ThemeChart } from "~/components/ui/charts";
+import LinkedInPost from "~/components/ui/LinkedInPost";
 
 export default async function DashboardPage() {
   const availableThemes = await prisma.themes.findMany();
@@ -103,13 +104,22 @@ export default async function DashboardPage() {
           />
         </div>
       </div>
-      <div className="flex w-full gap-4 px-8">
-        <div className="border-1 flex max-h-screen w-full flex-1 flex-col items-center justify-start overflow-scroll rounded-lg border bg-white px-4 py-4">
-          <CalendarTest events={scheduledPostsForThisWeek} />
+      <div className="flex w-full gap-4 px-4">
+        <div className="border-1 flex max-h-screen w-full gap-4 flex-1 flex-col items-center justify-start overflow-x-scroll rounded-lg border bg-white px-4 py-4">
+          <h1 className="text-lg font-medium text-black">Posts This Week<span className="text-sm text-black/50 font-semibold pl-2.5">LinkedIn</span></h1>
+          {/* <CalendarTest events={scheduledPostsForThisWeek} /> */}
+          {scheduledPostsForThisWeek.length > 0 ? (
+          scheduledPostsForThisWeek.map((post) => (
+            <LinkedInPost post={post} key={post.id}/>
+          ))
+          ) : (
+          <p className="text-black/50 font-semibold text-lg">No posts scheduled for this week</p>
+          )} 
+
         </div>
 
         <div className="border-1 flex w-full flex-1 flex-col items-center rounded-lg border bg-white px-4 py-4">
-          <h1 className="text-lg font-medium text-brand_background">
+          <h1 className="text-lg font-medium text-black">
             Posts By Theme
           </h1>
           <ThemeChart
