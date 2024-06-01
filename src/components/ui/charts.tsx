@@ -56,7 +56,7 @@ export function ThemeChart({ availableThemes, postsWithSchedule }: ThemeChartPro
             }
         },
         fill: {
-            colors: ['#3AAFB9']
+            colors: ['#7070FF']
         },
       }
 
