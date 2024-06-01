@@ -3,10 +3,9 @@ import { z } from "zod";
 
 export const createIndustrySchema = z.object({
     industry_name: z
-    .string()
-    .optional(),
-    discussion_topic: z.string().optional(),
-    topic_description: z.string().optional()
+    .string(),
+    discussion_topic: z.string(),
+    topic_description: z.string()
 });
 
 export type CreateIndustrySchema = z.infer<typeof createIndustrySchema>;
