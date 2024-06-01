@@ -15,6 +15,22 @@ export default function LinkedInListView({
   const [thursdayOpen, setThursdayOpen] = useState(false);
   const [fridayOpen, setFridayOpen] = useState(false);
 
+  const mondayCount = scheduledPostsForThisWeek.filter(
+    (post) => post.schedule_date!.getDay() === 1
+  ).length;
+    const tuesdayCount = scheduledPostsForThisWeek.filter(
+        (post) => post.schedule_date!.getDay() === 2
+    ).length;
+    const wednesdayCount = scheduledPostsForThisWeek.filter(
+        (post) => post.schedule_date!.getDay() === 3
+    ).length;
+    const thursdayCount = scheduledPostsForThisWeek.filter(
+        (post) => post.schedule_date!.getDay() === 4
+    ).length;
+    const fridayCount = scheduledPostsForThisWeek.filter(
+        (post) => post.schedule_date!.getDay() === 5
+    ).length;
+
   return (
     <>
       <div className="border-1 flex max-h-screen w-full flex-1 flex-col items-center justify-start gap-4 overflow-x-scroll rounded-lg border bg-white py-4">
@@ -36,7 +52,7 @@ export default function LinkedInListView({
           className="bg-brand_periwinkle flex w-full justify-between px-4 py-2 hover:cursor-pointer"
           onClick={() => setMondayOpen(!mondayOpen)}
         >
-          <h1 className="text-lg font-medium text-white">Monday</h1>
+          <h1 className="text-lg font-medium text-white">Monday<span className=" pl-2.5 text-sm text-white/50 font-bold">({mondayCount})</span></h1>
           {mondayOpen ? (
             <ChevronUp stroke="white" />
           ) : (
@@ -52,7 +68,7 @@ export default function LinkedInListView({
           className="bg-brand_periwinkle flex w-full justify-between px-4 py-2 hover:cursor-pointer"
           onClick={() => setTuesdayOpen(!tuesdayOpen)}
         >
-          <h1 className="text-lg font-medium text-white">Tuesday</h1>
+          <h1 className="text-lg font-medium text-white">Tuesday<span className=" pl-2.5 text-sm text-white/50 font-bold">({tuesdayCount})</span></h1>
           {tuesdayOpen ? (
             <ChevronUp stroke="white" />
           ) : (
@@ -68,7 +84,7 @@ export default function LinkedInListView({
           className="bg-brand_periwinkle flex w-full justify-between px-4 py-2 hover:cursor-pointer"
           onClick={() => setWednesdayOpen(!wednesdayOpen)}
         >
-          <h1 className="text-lg font-medium text-white">Wednesday</h1>
+          <h1 className="text-lg font-medium text-white">Wednesday<span className=" pl-2.5 text-sm text-white/50 font-bold">({wednesdayCount})</span></h1>
           {wednesdayOpen ? (
             <ChevronUp stroke="white" />
           ) : (
@@ -84,7 +100,7 @@ export default function LinkedInListView({
           className="bg-brand_periwinkle flex w-full justify-between px-4 py-2 hover:cursor-pointer"
           onClick={() => setThursdayOpen(!thursdayOpen)}
         >
-          <h1 className="text-lg font-medium text-white">Thursday</h1>
+          <h1 className="text-lg font-medium text-white">Thursday<span className=" pl-2.5 text-sm text-white/50 font-bold">({thursdayCount})</span></h1>
           {thursdayOpen ? (
             <ChevronUp stroke="white" />
           ) : (
@@ -100,7 +116,7 @@ export default function LinkedInListView({
           className="bg-brand_periwinkle flex w-full justify-between px-4 py-2 hover:cursor-pointer"
           onClick={() => setFridayOpen(!fridayOpen)}
         >
-          <h1 className="text-lg font-medium text-white">Friday</h1>
+          <h1 className="text-lg font-medium text-white">Friday<span className=" pl-2.5 text-sm text-white/50 font-bold">({fridayCount})</span></h1>
           {fridayOpen ? (
             <ChevronUp stroke="white" />
           ) : (
