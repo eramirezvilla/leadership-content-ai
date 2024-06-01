@@ -7,6 +7,7 @@ import GridPost from "./GridPost";
 import { type post } from "@prisma/client";
 import CalendarPost from "./CalendarPost";
 import { use, useEffect, useState } from "react";
+import LinkedInPost from "./LinkedInPost";
 
 interface CalendarTestProps {
   events: post[];
@@ -59,7 +60,7 @@ export default function CalendarTest({ events, view }: CalendarTestProps) {
         // interactionPlugin,
         listPlugin,
       ]}
-      slotDuration={"00:15:00"}
+      // slotDuration={"00:15:00"}
       handleWindowResize={true}
       height={"auto"}
       themeSystem="standard"
@@ -88,6 +89,7 @@ function renderEventContent(eventInfo: post, view?: string) {
       <CalendarPost post={eventInfo} />
     </div>;
   }
-  return <GridPost post={eventInfo} />;
+  // return <GridPost post={eventInfo} />;
+  return <LinkedInPost post={eventInfo} />;
   
 }
