@@ -13,16 +13,16 @@ export default function LinkedInPost({ post }: { post: post }) {
   return (
     <>
       <div
-        className="flex max-h-80 w-[555px] flex-col items-start gap-2 rounded-lg border border-black bg-white px-4 py-2 hover:cursor-pointer"
+        className="flex max-h-96 w-[555px] flex-col items-start gap-2 rounded-lg border border-1 shadow-md bg-white px-4 py-2 hover:cursor-pointer"
         onClick={() => setShowEditModal(true)}
       >
           <div className="flex w-full justify-center">
               {approved === true ? (
-                <p className="text-sm font-medium text-green-500">Approved</p>
-              ) : approved === false ? (
-                <p className="text-sm font-medium text-red-500">Rejected</p>
+                  <p className="text-sm font-semibold text-green-500">Approved<span className="pl-2.5 text-sx text-black/50">Will Post On: {post.schedule_date?.toLocaleDateString("en-US")}</span></p>
+                  ) : approved === false ? (
+                      <p className="text-sm font-semibold text-red-500">Rejected</p>
               ) : (
-                <p className="text-sm font-medium text-yellow-500">Pending</p>
+                <p className="text-sm font-semibold text-yellow-500">Pending</p>
               )}
           </div>
         <div className="flex items-center justify-center gap-2.5">
