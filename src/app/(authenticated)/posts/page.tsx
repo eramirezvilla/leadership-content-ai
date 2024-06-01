@@ -102,20 +102,20 @@ export default async function PostsPage() {
   );
 }
 
-export function getIndustryMapping(
-  id: number,
-  allIndustries: industry_challenge_mapping[],
-) {
-  return allIndustries.find((industry) => Number(industry.id) === id);
-}
+// export function getIndustryMapping(
+//   id: number,
+//   allIndustries: industry_challenge_mapping[],
+// ) {
+//   return allIndustries.find((industry) => Number(industry.id) === id);
+// }
 
-export async function getRelevantFiles(ids: number[]) {
-  const relevantFiles = await prisma.file.findMany({
-    where: {
-      id: {
-        in: ids,
-      },
-    },
-  });
-  return relevantFiles;
-}
+// export async function getRelevantFiles(ids: number[]) {
+//   const relevantFiles = await prisma.file.findMany({
+//     where: {
+//       id: {
+//         in: ids,
+//       },
+//     },
+//   });
+//   return relevantFiles;
+// }
