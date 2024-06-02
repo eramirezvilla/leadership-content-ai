@@ -37,6 +37,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "lucide-react";
 import { Input } from "./input";
+import ProgressBar from "./ProgressBar";
 
 interface SchedulerModalProps {
   schedulerToEdit?: scheduler;
@@ -64,6 +65,7 @@ export default function AddScheduler({
     false,
     false,
   ]);
+  const [percentageComplete, setPercentageComplete] = useState(0);
 
   const daysOfWeek = [
     "sunday",
@@ -104,6 +106,10 @@ export default function AddScheduler({
 
   async function onSubmit(data: CreateScheduleSchema) {
     console.log("theme_name", data.theme_name);
+    const interval = setInterval(() => {
+      setPercentageComplete((prev) => (prev < 95 ? prev + 5 : prev));
+    }, 2000);
+
     try {
       const response = await fetch("/api/scheduler", {
         method: "POST",
@@ -119,9 +125,11 @@ export default function AddScheduler({
       }
 
       form.reset();
-
+      setPercentageComplete(100);
+      clearInterval(interval);
       router.refresh();
       setOpen(false);
+      setPercentageComplete(0);
     } catch (error) {
       console.error(error);
       alert("something went wrong");
@@ -334,12 +342,15 @@ export default function AddScheduler({
                   </FormItem>
                 )}
               />
-
+                {form.formState.isSubmitting && (
+                  <ProgressBar percentage={percentageComplete} />
+                )}
               <DialogFooter className="gap-1 sm:gap-0">
                 <LoadingButton
                   type="submit"
                   loading={form.formState.isSubmitting}
                   disabled={deleteInProgress}
+                  className="bg-gradient-to-r from-brand_gradient1_purple to-brand_gradient1_blue hover:to-brand_gradient2_blue"
                 >
                   Submit
                 </LoadingButton>
