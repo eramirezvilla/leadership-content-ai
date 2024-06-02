@@ -13,6 +13,9 @@ import {
 import { useState } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
+import ListViewPost from "./ListViewPost";
+import LinkedInListView from "./LinkedInListView";
+import LinkedInPost from "./LinkedInPost";
 
 const columns: ColumnDef<post>[] = [
   {
@@ -64,7 +67,6 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
         />
         </div>
       </div>
-      {layoutView === "grid" ? (
         <div className="flex flex-col">
           <div className="flex w-full flex-col gap-2.5 pb-8">
             <div
@@ -87,9 +89,13 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
             {openPending && (
               <div className="flex w-full px-4">
                 {pendingPosts.length > 0 ? (
-                  <div className="flex w-full flex-wrap justify-evenly gap-4">
+                  <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                     {pendingPosts.map((post) => (
-                      <GridPost post={post} key={post.id} />
+                      layoutView === "grid" ? (
+                        <LinkedInPost post={post} key={post.id} />
+                        ) : (
+                          <ListViewPost post={post} key={post.id} />
+                      )
                     ))}
                   </div>
                 ) : (
@@ -119,9 +125,13 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
             {openApproved && (
               <div className="flex w-full px-4">
                 {approvedPosts.length > 0 ? (
-                  <div className="flex w-full flex-wrap justify-evenly gap-4">
+                  <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                     {approvedPosts.map((post) => (
-                      <GridPost post={post} key={post.id} />
+                      layoutView === "grid" ? (
+                        <LinkedInPost post={post} key={post.id} />
+                        ) : (
+                          <ListViewPost post={post} key={post.id} />
+                      )
                     ))}
                   </div>
                 ) : (
@@ -152,9 +162,13 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
             {openRejected && (
             <div className="flex w-full px-4">
               {rejectedPosts.length > 0 ? (
-                <div className="flex w-full flex-wrap justify-evenly gap-4">
+                <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                   {rejectedPosts.map((post) => (
-                    <GridPost post={post} key={post.id} />
+                    layoutView === "grid" ? (
+                      <LinkedInPost post={post} key={post.id} />
+                      ) : (
+                        <ListViewPost post={post} key={post.id} />
+                    )
                   ))}
                 </div>
               ) : (
@@ -163,21 +177,7 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
             </div>
             )}
           </div>
-          <div className="flex w-full flex-wrap gap-4 px-8">
-            {/* {allPosts.length > 0 ? (
-            allPosts.map((post) => <GridPost post={post} key={post.id} />)
-          ) : (
-            //TODO: add instructions to make a post
-            <p>No posts found</p>
-          )} */}
-          </div>
         </div>
-      ) : (
-        // list view
-        <div className="flex px-8">
-          <DataTable columns={columns} data={allPosts} />
-        </div>
-      )}
     </>
   );
 }

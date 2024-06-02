@@ -13,7 +13,7 @@ export default function LinkedInPost({ post }: { post: post }) {
   return (
     <>
       <div
-        className="flex max-h-96 w-[555px] flex-col items-start gap-2 rounded-lg border border-1 shadow-md bg-white px-4 py-2 hover:cursor-pointer"
+        className="flex w-[555px] flex-col items-start gap-2 rounded-lg border border-1 shadow-md bg-white px-4 pt-2 pb-6 hover:cursor-pointer"
         onClick={() => setShowEditModal(true)}
       >
           <div className="flex w-full justify-center">
