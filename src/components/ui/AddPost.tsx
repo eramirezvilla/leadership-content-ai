@@ -451,6 +451,7 @@ export default function AddPost({
                 type="submit"
                 loading={form.formState.isSubmitting}
                 disabled={deleteInProgress}
+                className="bg-gradient-to-r from-brand_gradient1_purple to-brand_gradient1_blue hover:to-brand_gradient2_blue"
               >
                 Submit
               </LoadingButton>
