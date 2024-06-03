@@ -83,7 +83,7 @@ export default function PostModal({
   } = postToEdit;
   const router = useRouter();
 
-  const handleClick = async () => {
+  async function handleClick() {
     console.log("Save post with id: ", id);
     console.log("New content: ", updatedContent);
     await updateApproval(
@@ -93,6 +93,7 @@ export default function PostModal({
       updatedTitle!,
     );
     setIsEditing(false);
+    router.refresh();
   };
 
   return (
@@ -157,7 +158,7 @@ export default function PostModal({
           </div>
               {isEditing && (
 
-                <div className="flex" onClick={handleClick}>
+                <div className="flex" onClick={() => handleClick()}>
                   <ZoomOutLoader color="green" size="l" style="zoom-out" loading={isSubmitting}>
                     Save
                   </ZoomOutLoader>
