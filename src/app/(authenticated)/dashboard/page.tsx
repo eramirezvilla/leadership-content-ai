@@ -35,7 +35,9 @@ export default async function DashboardPage() {
   const getMonday = (date: Date): Date => {
     const day = date.getDay();
     const diff = date.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday
-    return new Date(date.setDate(diff));
+    const monday = new Date(date.setDate(diff));
+    monday.setHours(0,0,0,0)
+    return monday
   };
 
   const monday = getMonday(new Date(today));
@@ -43,6 +45,7 @@ export default async function DashboardPage() {
   // Calculate the upcoming Friday
   const friday = new Date(monday);
   friday.setDate(monday.getDate() + 4);
+  friday.setHours(23,59,59,999)
 
   const scheduledPostsForThisWeek = postsWithSchedule.filter(
     (post) => post.schedule_date! >= monday && post.schedule_date! <= friday,
