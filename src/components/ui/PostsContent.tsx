@@ -52,104 +52,120 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
   return (
     <>
       <div className="flex w-full justify-start gap-2.5 pl-20">
-        <div className={`flex border border-1 rounded-md hover:bg-brand_light_grey p-1 ${layoutView === "grid" ? "bg-white" : "bg-brand_light_grey"}`}>
-            <LayoutGrid
-              size={22}
-              className={`hover:cursor-pointer hover:stroke-brand_gradient2_blue ${layoutView === "grid" ? "stroke-brand_gradient1_purple" : ""}`}
-              onClick={() => setLayoutView("grid")}
-            />
+        <div
+          className={`border-1 hover:bg-brand_light_grey flex rounded-md border p-1 ${layoutView === "grid" ? "bg-white" : "bg-brand_light_grey"}`}
+        >
+          <LayoutGrid
+            size={22}
+            className={`hover:stroke-brand_gradient2_blue hover:cursor-pointer ${layoutView === "grid" ? "stroke-brand_gradient1_purple" : ""}`}
+            onClick={() => setLayoutView("grid")}
+          />
         </div>
-        <div className={`flex border border-1 rounded-md hover:bg-brand_light_grey p-1 ${layoutView === "list" ? "bg-white" : "bg-brand_light_grey"}`}>
-        <MenuIcon
-          size={22}
-          className={`hover:cursor-pointer hover:stroke-brand_gradient2_blue ${layoutView === "list" ? "stroke-brand_gradient1_purple" : ""}`}
-          onClick={() => setLayoutView("list")}
-        />
+        <div
+          className={`border-1 hover:bg-brand_light_grey flex rounded-md border p-1 ${layoutView === "list" ? "bg-white" : "bg-brand_light_grey"}`}
+        >
+          <MenuIcon
+            size={22}
+            className={`hover:stroke-brand_gradient2_blue hover:cursor-pointer ${layoutView === "list" ? "stroke-brand_gradient1_purple" : ""}`}
+            onClick={() => setLayoutView("list")}
+          />
         </div>
       </div>
-        <div className="flex flex-col">
-          <div className="flex w-full flex-col gap-2.5 pb-8">
-            <div
-              className="flex h-10 w-full items-center justify-between bg-gradient-to-br from-brand_gradient1_purple to-brand_gradient1_blue px-20 text-white hover:cursor-pointer hover:to-brand_gradient2_blue"
-              onClick={() => setOpenPending(!openPending)}
-            >
-              <div className="flex w-full gap-2.5">
-                <Clock size={20} className="stroke-yellow-300" />
-                <p className="text-sm font-semibold">Pending</p>
-                <p className="text-sm font-bold text-brand_light_grey/80">
-                  {pendingPosts.length}
-                </p>
-              </div>
-              {openPending ? (
-                <ChevronUp size={20} className="stroke-white" />
-              ) : (
-                <ChevronDown size={20} className="stroke-white" />
-              )}
-            </div>
-            {openPending && (
-              <div className="flex w-full px-4">
-                {pendingPosts.length > 0 ? (
-                  <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
-                    {pendingPosts.map((post) => (
-                      layoutView === "grid" ? (
-                        <LinkedInPost post={post} key={post.id} />
-                        ) : (
-                          <ListViewPost post={post} key={post.id} />
-                      )
-                    ))}
-                  </div>
-                ) : (
-                  <p>No pending posts found</p>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="flex w-full flex-col gap-2.5 pb-8">
-            <div
-              className="flex h-10 w-full items-center justify-between bg-gradient-to-br from-brand_gradient1_purple to-brand_gradient1_blue px-20 text-white hover:cursor-pointer hover:to-brand_gradient2_blue"
-              onClick={() => setOpenApproved(!openApproved)}
-            >
-              <div className="flex w-full gap-2.5">
-                <Check size={20} className="stroke-green-300" />
-                <p className="text-sm font-semibold">Approved</p>
-                <p className="text-sm font-bold text-brand_light_grey/80">
-                  {approvedPosts.length}
-                </p>
-              </div>
-              {openApproved ? (
-                <ChevronUp size={20} className="stroke-white" />
-              ) : (
-                <ChevronDown size={20} className="stroke-white" />
-              )}
-            </div>
-            {openApproved && (
-              <div className="flex w-full px-4">
-                {approvedPosts.length > 0 ? (
-                  <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
-                    {approvedPosts.map((post) => (
-                      layoutView === "grid" ? (
-                        <LinkedInPost post={post} key={post.id} />
-                        ) : (
-                          <ListViewPost post={post} key={post.id} />
-                      )
-                    ))}
-                  </div>
-                ) : (
-                  <p>No approved posts found</p>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="flex w-full flex-col gap-2.5 pb-8">
+      <div className="flex flex-col">
+        <div className="flex w-full flex-col gap-2.5 pb-8">
           <div
-              className="flex h-10 w-full items-center justify-between bg-gradient-to-br from-brand_gradient1_purple to-brand_gradient1_blue px-20 text-white hover:cursor-pointer hover:to-brand_gradient2_blue"
-              onClick={() => setOpenRejected(!openRejected)}
-            >
-              <div className="flex w-full gap-2.5">
+            className="from-brand_gradient1_purple to-brand_gradient1_blue hover:to-brand_gradient2_blue flex h-10 w-full items-center justify-between bg-gradient-to-br px-20 text-white hover:cursor-pointer"
+            onClick={() => setOpenPending(!openPending)}
+          >
+            <div className="flex w-full gap-2.5">
+              <Clock size={20} className="stroke-yellow-300" />
+              <p className="text-sm font-semibold">Pending</p>
+              <p className="text-brand_light_grey/80 text-sm font-bold">
+                {pendingPosts.length}
+              </p>
+            </div>
+            {openPending ? (
+              <ChevronUp size={20} className="stroke-white" />
+            ) : (
+              <ChevronDown size={20} className="stroke-white" />
+            )}
+          </div>
+          {openPending && (
+            <div className="flex w-full px-4">
+              {pendingPosts.length > 0 ? (
+                <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
+                  {pendingPosts.map((post) =>
+                    layoutView === "grid" ? (
+                      <LinkedInPost post={post} key={post.id} />
+                    ) : (
+                      <ListViewPost post={post} key={post.id} />
+                    ),
+                  )}
+                </div>
+              ) : (
+                <div className="flex w-full px-20">
+                  <div className="bg-brand_periwinkle flex w-full px-8 py-4">
+                    <p className="text-sm font-bold text-white">
+                      No pending posts found
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="flex w-full flex-col gap-2.5 pb-8">
+          <div
+            className="from-brand_gradient1_purple to-brand_gradient1_blue hover:to-brand_gradient2_blue flex h-10 w-full items-center justify-between bg-gradient-to-br px-20 text-white hover:cursor-pointer"
+            onClick={() => setOpenApproved(!openApproved)}
+          >
+            <div className="flex w-full gap-2.5">
+              <Check size={20} className="stroke-green-300" />
+              <p className="text-sm font-semibold">Approved</p>
+              <p className="text-brand_light_grey/80 text-sm font-bold">
+                {approvedPosts.length}
+              </p>
+            </div>
+            {openApproved ? (
+              <ChevronUp size={20} className="stroke-white" />
+            ) : (
+              <ChevronDown size={20} className="stroke-white" />
+            )}
+          </div>
+          {openApproved && (
+            <div className="flex w-full px-4">
+              {approvedPosts.length > 0 ? (
+                <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
+                  {approvedPosts.map((post) =>
+                    layoutView === "grid" ? (
+                      <LinkedInPost post={post} key={post.id} />
+                    ) : (
+                      <ListViewPost post={post} key={post.id} />
+                    ),
+                  )}
+                </div>
+              ) : (
+                <div className="flex w-full px-20">
+                  <div className="bg-brand_periwinkle flex w-full px-8 py-4">
+                    <p className="text-sm font-bold text-white">
+                      No approved posts found
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="flex w-full flex-col gap-2.5 pb-8">
+          <div
+            className="from-brand_gradient1_purple to-brand_gradient1_blue hover:to-brand_gradient2_blue flex h-10 w-full items-center justify-between bg-gradient-to-br px-20 text-white hover:cursor-pointer"
+            onClick={() => setOpenRejected(!openRejected)}
+          >
+            <div className="flex w-full gap-2.5">
               <X size={20} className="stroke-red-300" />
               <p className="text-sm font-semibold">Rejected</p>
-              <p className="text-sm font-bold text-brand_light_grey/80">
+              <p className="text-brand_light_grey/80 text-sm font-bold">
                 {rejectedPosts.length}
               </p>
             </div>
@@ -158,26 +174,32 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
             ) : (
               <ChevronDown size={20} className="stroke-white" />
             )}
-            </div>
-            {openRejected && (
+          </div>
+          {openRejected && (
             <div className="flex w-full px-4">
               {rejectedPosts.length > 0 ? (
                 <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
-                  {rejectedPosts.map((post) => (
+                  {rejectedPosts.map((post) =>
                     layoutView === "grid" ? (
                       <LinkedInPost post={post} key={post.id} />
-                      ) : (
-                        <ListViewPost post={post} key={post.id} />
-                    )
-                  ))}
+                    ) : (
+                      <ListViewPost post={post} key={post.id} />
+                    ),
+                  )}
                 </div>
               ) : (
-                <p>No rejected posts found</p>
+                <div className="flex w-full px-20">
+                  <div className="bg-brand_periwinkle flex w-full px-8 py-4">
+                    <p className="text-sm font-bold text-white">
+                      No rejected posts found
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
-            )}
-          </div>
+          )}
         </div>
+      </div>
     </>
   );
 }

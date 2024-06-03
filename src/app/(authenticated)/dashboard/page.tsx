@@ -8,8 +8,14 @@ import SnapshotWidget from "~/components/ui/UICard";
 import { ThemeChart } from "~/components/ui/charts";
 import LinkedInPost from "~/components/ui/LinkedInPost";
 import LinkedInListView from "~/components/ui/LinkedInListView";
+import { auth } from "@clerk/nextjs";
 
 export default async function DashboardPage() {
+  const { userId } = auth();
+  if (!userId) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const availableThemes = await prisma.themes.findMany();
 
   const themeNames = availableThemes.map((theme) => theme.title);
@@ -19,6 +25,7 @@ export default async function DashboardPage() {
       schedule_date: {
         not: null,
       },
+      user_id: userId,
     },
   });
 
