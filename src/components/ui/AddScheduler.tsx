@@ -126,6 +126,7 @@ export default function AddScheduler({
 
       form.reset();
       setPercentageComplete(100);
+      setSelectedDays([false, false, false, false, false, false, false]);
       clearInterval(interval);
       router.refresh();
       setOpen(false);
