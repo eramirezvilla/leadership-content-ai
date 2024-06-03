@@ -90,7 +90,7 @@ export default function AddScheduler({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
       title: "New Scheduled Theme " + new Date().toLocaleDateString(),
-      theme_name: availableThemes[0]?.title,
+      created_from_theme: availableThemes[0]?.title,
       start_from: undefined,
       end_on: undefined,
       frequency: [false, false, false, false, false, false, false],
@@ -105,7 +105,7 @@ export default function AddScheduler({
   const router = useRouter();
 
   async function onSubmit(data: CreateScheduleSchema) {
-    console.log("theme_name", data.theme_name);
+    console.log("theme_name", data.created_from_theme);
     const interval = setInterval(() => {
       setPercentageComplete((prev) => (prev < 95 ? prev + 5 : prev));
     }, 2000);
@@ -177,7 +177,7 @@ export default function AddScheduler({
               />
               <FormField
                 control={form.control}
-                name="theme_name"
+                name="created_from_theme"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
