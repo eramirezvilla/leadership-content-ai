@@ -2,18 +2,25 @@ import CalendarTest from "~/components/ui/FullCalendar";
 import prisma from "~/lib/server/prisma";
 import AddScheduler from "~/components/ui/AddScheduler";
 import CalendarContent from "~/components/ui/CalendarContent";
+import { auth } from "@clerk/nextjs";
 
-const postsWithSchedule = await prisma.post.findMany({
-  where: {
-    schedule_date: {
-      not: null,
+export default async function Calendar() {
+  const { userId } = auth();
+  if (!userId) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const postsWithSchedule = await prisma.post.findMany({
+    where: {
+      schedule_date: {
+        not: null,
+      },
+      user_id: userId,
     },
-  },
-});
+  });
+  
+  const availableThemes = await prisma.themes.findMany();
 
-const availableThemes = await prisma.themes.findMany();
 
-export default function Calendar() {
   return (
     <div className="flex w-full px-4 py-2 bg-white">
         <CalendarContent availableThemes={availableThemes} postsWithSchedule={postsWithSchedule} />
