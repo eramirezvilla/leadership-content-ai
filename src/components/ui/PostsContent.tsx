@@ -10,7 +10,7 @@ import {
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
 import ListViewPost from "./ListViewPost";
@@ -44,10 +44,15 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
   const [openPending, setOpenPending] = useState(true);
   const [openApproved, setOpenApproved] = useState(true);
   const [openRejected, setOpenRejected] = useState(true);
+  const [pendingPosts, setPendingPosts] = useState<post[]>([]);
+  const [approvedPosts, setApprovedPosts] = useState<post[]>([]);
+  const [rejectedPosts, setRejectedPosts] = useState<post[]>([]);
 
-  const pendingPosts = allPosts.filter((post) => post.approved === null);
-  const approvedPosts = allPosts.filter((post) => post.approved === true);
-  const rejectedPosts = allPosts.filter((post) => post.approved === false);
+  useEffect(() => {
+    setPendingPosts(allPosts.filter((post) => post.approved === null));
+    setApprovedPosts(allPosts.filter((post) => post.approved === true))
+    setRejectedPosts(allPosts.filter((post) => post.approved === false))
+  }, [allPosts]);
 
   return (
     <>
