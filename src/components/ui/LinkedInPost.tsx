@@ -5,7 +5,12 @@ import { useState } from "react";
 import PostModal from "./PostModal";
 import { UserButton, useUser } from "@clerk/nextjs";
 
-export default function LinkedInPost({ post }: { post: post }) {
+interface LinkedInPostProps {
+  post: post;
+  allImages: string[];
+}
+
+export default function LinkedInPost({ post, allImages }: LinkedInPostProps) {
   const { title, content, schedule_date, approved } = post;
   const [showEditModal, setShowEditModal] = useState(false);
   const { user } = useUser();
@@ -47,6 +52,7 @@ export default function LinkedInPost({ post }: { post: post }) {
         open={showEditModal}
         setOpen={setShowEditModal}
         postToEdit={post}
+        images={allImages}
       ></PostModal>
     </>
   );
