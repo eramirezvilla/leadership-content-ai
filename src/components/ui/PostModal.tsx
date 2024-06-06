@@ -142,9 +142,13 @@ export default function PostModal({
           <p className="text-sm">{content}</p>
           )}
         </div>
-        
        <div className="flex flex-col gap-4">
-        <h1 className="text-sm">Relevant Images:</h1>
+        {images.length > 0 ? (
+          <h1 className="text-sm">Relevant Images:</h1>
+        ): (
+          <h1 className="text-sm">No relevant images found</h1>
+        )}
+        
         <div className="flex flex-wrap w-full gap-2.5">
           {images.map((image) => (
             <div key={image} className="relative">
