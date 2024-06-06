@@ -12,11 +12,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ZoomOutLoader from "./ZoomOutLoader";
 import { Button } from "./button";
+import Image from "next/image";
 
 interface PostModalProps {
   postToEdit: post;
   open: boolean;
   setOpen: (open: boolean) => void;
+  images: string[];
 }
 
 
@@ -25,6 +27,7 @@ export default function PostModal({
   postToEdit,
   open,
   setOpen,
+  images,
 }: PostModalProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -139,7 +142,18 @@ export default function PostModal({
           <p className="text-sm">{content}</p>
           )}
         </div>
-        {/* <p>Rel:{relevant_files}</p> */}
+        
+       <div className="flex flex-col gap-4">
+        <h1 className="text-sm">Relevant Images:</h1>
+        <div className="flex flex-wrap w-full gap-2.5">
+          {images.map((image) => (
+            <div key={image} className="relative">
+              <Image src={image} alt="extracted image" height={200} width={200} />
+            </div>
+          ))}
+          </div>
+       </div>
+
         <DialogFooter>
           <div className="flex w-full justify-between">
           <div className="flex gap-2.5">
