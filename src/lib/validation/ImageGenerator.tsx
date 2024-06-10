@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const genImageSchema = z.object({
+  id: z.string(),
   post_content: z.string(),
 });
 
