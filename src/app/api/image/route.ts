@@ -1,8 +1,30 @@
 import prisma from "~/lib/server/prisma";
 import { supabase } from "~/lib/server/supabase";
 import { querySchema } from "~/lib/validation/Post";
-import { genImageSchema } from "~/lib/validation/ImageGenerator";
+import { genImageSchema, updateImageSchema } from "~/lib/validation/ImageGenerator";
 import openai from "~/lib/server/openai";
+
+export async function PUT(req: Request) {
+  const body = await req.json();
+  const parseResult = updateImageSchema.safeParse(body);
+
+  if (!parseResult.success) {
+    return Response.json({ error: "Invalid input" }, { status: 400 });
+  }
+  const { id, image_url } = parseResult.data;
+  const response = await prisma.post.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      featured_image_filename: image_url,
+    },
+  });
+  if(!response) {
+    return Response.json("An error occurred updating the post", { status: 500 });
+  }
+  return Response.json("Post updated successfully", { status: 200 });
+}
 
 export async function POST(req: Request) {
   const body = await req.json();
