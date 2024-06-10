@@ -53,9 +53,21 @@ export default function PostsContent({ allPosts }: PostsContentProps) {
   const [rejectedPosts, setRejectedPosts] = useState<post[]>([]);
 
   useEffect(() => {
-    setPendingPosts(allPosts.filter((post) => post.approved === null));
-    setApprovedPosts(allPosts.filter((post) => post.approved === true))
-    setRejectedPosts(allPosts.filter((post) => post.approved === false))
+    const sortedPendingPosts = allPosts
+      .filter((post) => post.approved === null)
+      .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime());
+      
+    const sortedApprovedPosts = allPosts
+      .filter((post) => post.approved === true)
+      .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime());
+      
+    const sortedRejectedPosts = allPosts
+      .filter((post) => post.approved === false)
+      .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime());
+      
+    setPendingPosts(sortedPendingPosts);
+    setApprovedPosts(sortedApprovedPosts);
+    setRejectedPosts(sortedRejectedPosts);
   }, [allPosts]);
 
   return (
