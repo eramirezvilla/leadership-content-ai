@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import ZoomOutLoader from "./ZoomOutLoader";
 import { Button } from "./button";
 import Image from "next/image";
+import prisma from "~/lib/server/prisma";
 
 interface PostModalProps {
   postToEdit: post;
@@ -32,6 +33,23 @@ export default function PostModal({
   const [availImages, setImages] = useState<string[]>([]);
   const [genImage, setGenImage] = useState<string>("");
   const [generatingImage, setGeneratingImage] = useState(false);
+
+  async function updateFeaturedImage(post_id: string, image_id: string) {
+    try {
+      const response = await prisma.post.update({
+        where: {
+          id: parseInt(post_id),
+        },
+        data: {
+          title: image_id,
+        },
+      });
+      console.log("Updated post: ", response);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
 
   async function generateImage() {
     try {
