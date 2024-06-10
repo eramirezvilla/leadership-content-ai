@@ -39,27 +39,6 @@ export async function GET(req: Request) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           allImages.push(...images);
         });
-            
-      // const allImages = await prisma.image.findMany({
-      //   where: {
-      //     source_file: Number(params.id)
-      //   }
-      // });
-
-
-      // if (!allImages) {
-      //   return Response.json("No images found", { status: 404 });
-      // }
-
-      // const allAvailableImages: { id: number; filename: string; url: string; }[] = []
-      // allImages.forEach((image) => {
-      //   allAvailableImages.push({
-      //     id: image.id,
-      //     filename: image.filename,
-      //     url: supabase.storage.from("extracted-images").getPublicUrl(image.filename).data.publicUrl ?? null
-      //   })
-      // }
-      // )
 
     return Response.json(allImages, { status: 200 });
   } catch (error) {
