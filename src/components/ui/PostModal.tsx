@@ -33,9 +33,11 @@ export default function PostModal({
     const [updatedTitle, setUpdatedTitle] = useState(postToEdit.title);
     const [availImages, setImages] = useState<string[]>([]);
     const [genImage, setGenImage] = useState<string>("");
+    const [generatingImage, setGeneratingImage] = useState(false);
 
     async function generateImage() {
         try {
+          setGeneratingImage(true);
           const response = await fetch(`/api/image`, {
             method: "POST",
             headers: {
@@ -55,6 +57,7 @@ export default function PostModal({
         catch (error) {
           console.error(error);
         }
+        setGeneratingImage(false);
     }
 
     useEffect(() => {
@@ -202,11 +205,13 @@ export default function PostModal({
             </div>
           </div>
         ) : (
-          <h1 className="text-sm">No relevant images found</h1>
+          <h1 className="text-sm font-bold text-red-300">No relevant product images found</h1>
         )}
-        <Button onClick={() => generateImage()}>
+        <div className="flex" onClick={() => generateImage()}>
+        <ZoomOutLoader color="brand" size="l" style="zoom-out" loading={generatingImage}>
           Generate Image
-        </Button>
+        </ZoomOutLoader>
+        </div>
         {genImage && (
           <div className="relative">
             <Image src={genImage} alt="generated image" height={200} width={200} />
