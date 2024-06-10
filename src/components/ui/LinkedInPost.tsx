@@ -1,18 +1,28 @@
 "use client";
 import { type post } from "@prisma/client";
 import { Clock, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostModal from "./PostModal";
 import { UserButton, useUser } from "@clerk/nextjs";
+import Image from "next/image";
 
 interface LinkedInPostProps {
   post: post;
 }
 
 export default function LinkedInPost({ post }: LinkedInPostProps) {
-  const { title, content, schedule_date, approved } = post;
+  const { title, content, schedule_date, approved, featured_image_filename } = post;
   const [showEditModal, setShowEditModal] = useState(false);
+  const [featuredImage, setFeaturedImage] = useState(featured_image_filename ?? "");
   const { user } = useUser();
+
+  useEffect(() => {
+    if (featured_image_filename) {
+      setFeaturedImage(featured_image_filename);
+    }
+  }, [featured_image_filename]);
+
+  
 
   return (
     <>
@@ -46,6 +56,16 @@ export default function LinkedInPost({ post }: LinkedInPostProps) {
         <p className="overflow-scroll whitespace-break-spaces max-w-prose text-xs font-normal text-black/70">
           {content}
         </p>
+        {featuredImage && (
+          <div className="flex justify-center hover:cursor-pointer">
+            <Image
+              src={featuredImage}
+              alt="featured image"
+              height={400}
+              width={400}
+            />
+          </div>
+        )}
       </div>
       <PostModal
         open={showEditModal}
