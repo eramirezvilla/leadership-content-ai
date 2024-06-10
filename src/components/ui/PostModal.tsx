@@ -18,7 +18,6 @@ interface PostModalProps {
   postToEdit: post;
   open: boolean;
   setOpen: (open: boolean) => void;
-  images: string[];
 }
 
 
@@ -27,7 +26,6 @@ export default function PostModal({
   postToEdit,
   open,
   setOpen,
-  images,
 }: PostModalProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -168,20 +166,6 @@ export default function PostModal({
           <p className="text-sm">{content}</p>
           )}
         </div>
-        {images && images.length > 0 ? (
-       <div className="flex flex-col gap-4">
-          <h1 className="text-sm">Relevant Images:</h1>
-        <div className="flex flex-wrap w-full gap-2.5">
-          {images.map((image) => (
-            <div key={image} className="relative">
-              <Image src={image} alt="extracted image" height={200} width={200} />
-            </div>
-          ))}
-          </div>
-       </div>
-        ): (
-          <h1 className="text-sm">No relevant images found</h1>
-        )}
         {availImages && availImages.length > 0 ? (
           <div className="flex flex-col gap-4">
             <h1 className="text-sm">Relevant Images:</h1>
