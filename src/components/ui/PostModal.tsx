@@ -44,25 +44,33 @@ export default function PostModal({
 
   async function updateFeaturedImage(post_id: string, image_id: string) {
     try {
-      const response = await prisma.post.update({
-        where: {
-          id: parseInt(post_id),
+      const response = await fetch(`/api/image`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-        data: {
-          featured_image_filename: image_id,
-        },
+        body: JSON.stringify({ id: post_id, image_id: image_id }),
       });
-      console.log("Updated post: ", response);
+      if (response.ok) {
+        console.log("Featured Image updated successfully");
+      } else {
+        throw new Error("Failed to update featured image");
+      }
     }
     catch (error) {
       console.error(error);
     }
   }
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    void updateFeaturedImage(postToEdit.id.toString(), featuredImage);
-  }, [featuredImage]);
+  function handleFeatureImage(image: string) {
+    setFeaturedImage(image);
+    void updateFeaturedImage(postToEdit.id.toString(), image.toString());
+  }
+
+  // useEffect(() => {
+  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  //   void updateFeaturedImage(postToEdit.id.toString(), featuredImage);
+  // }, [featuredImage]);
 
   async function generateImage() {
     try {
@@ -97,7 +105,7 @@ export default function PostModal({
           const data = await response.json();
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           setImages(data);
-          console.log("Images: ", data);
+          //console.log("Images: ", data);
         } else {
           throw new Error("Failed to fetch images");
         }
@@ -218,6 +226,16 @@ export default function PostModal({
             <p className="text-sm font-medium text-yellow-500">Pending</p>
           )}
         </div>
+        {featuredImage && (
+          <div className={`flex justify-center hover:cursor-pointer`}>
+            <Image
+              src={featuredImage}
+              alt="featured image"
+              height={400}
+              width={400}
+            />
+          </div>
+        )}
 
         <div className="border-1 flex max-w-prose whitespace-break-spaces rounded-lg border px-6 py-4">
           {isEditing ? (
@@ -236,7 +254,7 @@ export default function PostModal({
             <h1 className="text-sm">Relevant Images:</h1>
             <div className="flex w-full flex-wrap gap-2.5">
               {availImages.map((image) => (
-                <div key={image} className="relative">
+                <div key={image} className={`relative hover:cursor-pointer p-2 ${featuredImage === image ? 'border-brand_gradient1_purple border-2' : ''}`} onClick={() => handleFeatureImage(image)}>
                   <Image
                     src={image}
                     alt="extracted image"
@@ -272,12 +290,14 @@ export default function PostModal({
             />
           </div>
         )} */}
+       
         {generatedImages && generatedImages.length > 0 ? (
           <div className="flex flex-col gap-4">
             <h1 className="text-sm">Generated Images:</h1>
             <div className="flex w-full flex-wrap justify-start">
               {generatedImages.map((image) => (
-                <div key={image} className="relative p-2">
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                <div key={image} className={`relative p-2 hover:cursor-pointer ${featuredImage === image ? 'border-brand_gradient1_purple border-2' : ''}`} onClick={() => handleFeatureImage(image)}>
                   <Image
                     src={image}
                     alt="generated image"
