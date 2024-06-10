@@ -107,6 +107,6 @@ function renderEventContent(eventInfo: post, allFiles: file[], allImages: Record
   }
   const imageUrls = getImageUrlsForEachPost(eventInfo, allFiles, allImages);
   // return <GridPost post={eventInfo} />;
-  return <LinkedInPost post={eventInfo} allImages={imageUrls}/>;
+  return <LinkedInPost post={eventInfo}/>;
   
 }
