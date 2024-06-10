@@ -3,6 +3,7 @@ import prisma from "~/lib/server/prisma";
 import AddScheduler from "~/components/ui/AddScheduler";
 import CalendarContent from "~/components/ui/CalendarContent";
 import { auth } from "@clerk/nextjs";
+import { supabase } from "~/lib/server/supabase";
 
 export default async function Calendar() {
   const { userId } = auth();
@@ -19,6 +20,36 @@ export default async function Calendar() {
   });
   
   const availableThemes = await prisma.themes.findMany();
+
+  const allFiles = await prisma.file.findMany();
+  const filesWithImageURL: Record<string, string[]> = {};
+
+  await Promise.all(
+    allFiles.map(async (file) => {
+      if (file.extracted_imgs && file.extracted_imgs.length > 0) {
+        await Promise.all(
+          file.extracted_imgs.map(async (img: number) => {
+            const imageURL = await prisma.image.findUnique({
+              select: {
+                filename: true,
+              },
+              where: {
+                id: img,
+              },
+            });
+            if (!imageURL) return;
+            const { data } = supabase.storage
+              .from("extracted-images")
+              .getPublicUrl(imageURL.filename);
+            filesWithImageURL[file.filename] = [
+              ...(filesWithImageURL[file.filename] ?? []),
+              data.publicUrl,
+            ];
+          }),
+        );
+      }
+    }),
+  );
 
 
   return (

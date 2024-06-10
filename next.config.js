@@ -13,6 +13,9 @@ const config = {
         },
         {
           hostname: "niwddwyedzpeqdmbrkws.supabase.co"
+        },
+        {
+          hostname: "oaidalleapiprodscus.blob.core.windows.net"
         }
       ],
     },

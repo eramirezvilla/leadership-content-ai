@@ -4,7 +4,11 @@ import { useState } from "react";
 import PostModal from "./PostModal";
 import { Clock } from "lucide-react"
 
-export default function ListViewPost({ post } : { post: post }){
+interface ListViewPostProps {
+    post: post;
+}
+
+export default function ListViewPost({ post }: ListViewPostProps){
     const { title, content, created_from_theme, approved, schedule_date } = post;
     const [showEditModal, setShowEditModal] = useState(false);
 

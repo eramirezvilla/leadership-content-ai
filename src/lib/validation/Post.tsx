@@ -22,3 +22,7 @@ export const updatePostSchema = z.object({
 export const deletePostSchema = z.object({
   id: z.string().min(1),
 });
+
+export const querySchema = z.object({
+  id: z.string().min(1),
+});

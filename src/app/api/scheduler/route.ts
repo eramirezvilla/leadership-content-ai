@@ -70,12 +70,31 @@ export async function POST(req: Request) {
         continue;
       }
 
-      const industryChallengeMapping =
-        await prisma.industry_challenge_mapping.findFirst({
-          where: {
-            already_used: false,
-          },
-        });
+      // const industryChallengeMapping =
+      //   await prisma.industry_challenge_mapping.findFirst({
+      //     where: {
+      //       already_used: false,
+      //     },
+      //   });
+      const count = await prisma.industry_challenge_mapping.count({
+        where: {
+          already_used: false,
+        },
+      });
+      
+      // Step 2: Generate a random offset
+      const randomOffset = Math.floor(Math.random() * count);
+      
+      // Step 3: Retrieve a row using the random offset
+      const industryChallengeMappingArr = await prisma.industry_challenge_mapping.findMany({
+        where: {
+          already_used: false,
+        },
+        skip: randomOffset,
+        take: 1,
+      });
+      const industryChallengeMapping = industryChallengeMappingArr[0];
+
       if (!industryChallengeMapping) {
         console.log("No more industry_challenge_mapping available");
         break;

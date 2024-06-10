@@ -1,5 +1,5 @@
 "use client";
-import { type post } from "@prisma/client";
+import { type post, file } from "@prisma/client";
 import GridPost from "./GridPost";
 import {
   LayoutGrid,
@@ -39,7 +39,11 @@ const columns: ColumnDef<post>[] = [
   },
 ];
 
-export default function PostsContent({ allPosts }: { allPosts: post[] }) {
+interface PostsContentProps {
+  allPosts: post[];
+}
+
+export default function PostsContent({ allPosts }: PostsContentProps) {
   const [layoutView, setLayoutView] = useState("grid");
   const [openPending, setOpenPending] = useState(true);
   const [openApproved, setOpenApproved] = useState(true);
@@ -101,9 +105,9 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
                 <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                   {pendingPosts.map((post) =>
                     layoutView === "grid" ? (
-                      <LinkedInPost post={post} key={post.id} />
+                      <LinkedInPost post={post} key={post.id}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} />
+                      <ListViewPost post={post} key={post.id}/>
                     ),
                   )}
                 </div>
@@ -143,9 +147,9 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
                 <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                   {approvedPosts.map((post) =>
                     layoutView === "grid" ? (
-                      <LinkedInPost post={post} key={post.id} />
+                      <LinkedInPost post={post} key={post.id}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} />
+                      <ListViewPost post={post} key={post.id}/>
                     ),
                   )}
                 </div>
@@ -186,9 +190,9 @@ export default function PostsContent({ allPosts }: { allPosts: post[] }) {
                 <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                   {rejectedPosts.map((post) =>
                     layoutView === "grid" ? (
-                      <LinkedInPost post={post} key={post.id} />
+                      <LinkedInPost post={post} key={post.id}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} />
+                      <ListViewPost post={post} key={post.id}/>
                     ),
                   )}
                 </div>
