@@ -6,10 +6,9 @@ import { Clock } from "lucide-react"
 
 interface ListViewPostProps {
     post: post;
-    images: string[];
 }
 
-export default function ListViewPost({ post, images }: ListViewPostProps){
+export default function ListViewPost({ post }: ListViewPostProps){
     const { title, content, created_from_theme, approved, schedule_date } = post;
     const [showEditModal, setShowEditModal] = useState(false);
 
@@ -42,7 +41,7 @@ export default function ListViewPost({ post, images }: ListViewPostProps){
                 <p className="text-xs overflow-hidden max-h-16">{content}</p>
             </div>
         </div>
-        <PostModal open={showEditModal} setOpen={setShowEditModal} postToEdit={post} images={images}></PostModal>
+        <PostModal open={showEditModal} setOpen={setShowEditModal} postToEdit={post}></PostModal>
         </>
     )
 }
