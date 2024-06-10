@@ -62,7 +62,7 @@ export default async function PostsPage() {
         </div>
         <AddPost allThemes={allThemes} allIndustries={allIndustries} />
       </div>
-      <PostsContent allPosts={allPosts} allImages={filesWithImageURL} allFiles={allFiles}/>
+      <PostsContent allPosts={allPosts}/>
 
       {/* <div className="flex w-full flex-wrap gap-4 px-4">
         {allPosts.length > 0 ? (
