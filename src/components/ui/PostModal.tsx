@@ -233,8 +233,8 @@ export default function PostModal({
             <Image
               src={genImage}
               alt="generated image"
-              height={200}
-              width={200}
+              height={400}
+              width={400}
             />
           </div>
         )}
