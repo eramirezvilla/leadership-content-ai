@@ -41,11 +41,9 @@ const columns: ColumnDef<post>[] = [
 
 interface PostsContentProps {
   allPosts: post[];
-  allImages: Record<string, string[]>;
-  allFiles: file[];
 }
 
-export default function PostsContent({ allPosts, allImages, allFiles }: PostsContentProps) {
+export default function PostsContent({ allPosts }: PostsContentProps) {
   const [layoutView, setLayoutView] = useState("grid");
   const [openPending, setOpenPending] = useState(true);
   const [openApproved, setOpenApproved] = useState(true);
@@ -53,22 +51,6 @@ export default function PostsContent({ allPosts, allImages, allFiles }: PostsCon
   const [pendingPosts, setPendingPosts] = useState<post[]>([]);
   const [approvedPosts, setApprovedPosts] = useState<post[]>([]);
   const [rejectedPosts, setRejectedPosts] = useState<post[]>([]);
-
- const getImageUrlsForEachPost = (postToGet : post) => {
-    const imageUrls: string[] = [];
-    postToGet.relevant_files.forEach((file_id) => {
-      const file = allFiles.find((file) => file.id === file_id);
-      if (!file) return;
-      const urls = allImages[file.filename];
-      if (urls) {
-        imageUrls.push(...urls);
-      }
-    }
-  )
-  console.log("imageUrls for post: ", imageUrls)
-  console.log("relevant files for post: ", postToGet.relevant_files)
-  return imageUrls;
-  }
 
   useEffect(() => {
     setPendingPosts(allPosts.filter((post) => post.approved === null));
@@ -123,9 +105,9 @@ export default function PostsContent({ allPosts, allImages, allFiles }: PostsCon
                 <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                   {pendingPosts.map((post) =>
                     layoutView === "grid" ? (
-                      <LinkedInPost post={post} key={post.id} allImages={getImageUrlsForEachPost(post)}/>
+                      <LinkedInPost post={post} key={post.id}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} images={getImageUrlsForEachPost(post)}/>
+                      <ListViewPost post={post} key={post.id}/>
                     ),
                   )}
                 </div>
@@ -165,9 +147,9 @@ export default function PostsContent({ allPosts, allImages, allFiles }: PostsCon
                 <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                   {approvedPosts.map((post) =>
                     layoutView === "grid" ? (
-                      <LinkedInPost post={post} key={post.id} allImages={getImageUrlsForEachPost(post)}/>
+                      <LinkedInPost post={post} key={post.id}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} images={getImageUrlsForEachPost(post)}/>
+                      <ListViewPost post={post} key={post.id}/>
                     ),
                   )}
                 </div>
@@ -208,9 +190,9 @@ export default function PostsContent({ allPosts, allImages, allFiles }: PostsCon
                 <div className="flex w-full flex-wrap justify-evenly gap-4 px-20">
                   {rejectedPosts.map((post) =>
                     layoutView === "grid" ? (
-                      <LinkedInPost post={post} key={post.id} allImages={getImageUrlsForEachPost(post)}/>
+                      <LinkedInPost post={post} key={post.id}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} images={getImageUrlsForEachPost(post)}/>
+                      <ListViewPost post={post} key={post.id}/>
                     ),
                   )}
                 </div>
