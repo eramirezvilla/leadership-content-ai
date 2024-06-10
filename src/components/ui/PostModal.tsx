@@ -32,6 +32,30 @@ export default function PostModal({
     const [updatedContent, setUpdatedContent] = useState(postToEdit.content);
     const [updatedTitle, setUpdatedTitle] = useState(postToEdit.title);
     const [availImages, setImages] = useState<string[]>([]);
+    const [genImage, setGenImage] = useState<string>("");
+
+    async function generateImage() {
+        try {
+          const response = await fetch(`/api/image`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ post_content: updatedContent }),
+          });
+          if (response.ok) {
+            const data = await response.json();
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            setGenImage(data);
+            console.log("Generated Image: ", data);
+          } else {
+            throw new Error("Failed to generate image");
+          }
+        }
+        catch (error) {
+          console.error(error);
+        }
+    }
 
     useEffect(() => {
       async function getImages(id: string) {
@@ -180,6 +204,15 @@ export default function PostModal({
         ) : (
           <h1 className="text-sm">No relevant images found</h1>
         )}
+        <Button onClick={() => generateImage()}>
+          Generate Image
+        </Button>
+        {genImage && (
+          <div className="relative">
+            <Image src={genImage} alt="generated image" height={200} width={200} />
+          </div>
+        )}
+
 
         
 
