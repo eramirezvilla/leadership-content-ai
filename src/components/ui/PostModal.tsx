@@ -9,7 +9,7 @@ import {
 } from "./dialog";
 import { Check, X, Redo2, ZoomOut, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ZoomOutLoader from "./ZoomOutLoader";
 import { Button } from "./button";
 import Image from "next/image";
@@ -33,6 +33,29 @@ export default function PostModal({
     const [isEditing, setIsEditing] = useState(false);
     const [updatedContent, setUpdatedContent] = useState(postToEdit.content);
     const [updatedTitle, setUpdatedTitle] = useState(postToEdit.title);
+    const [availImages, setImages] = useState<string[]>([]);
+
+    useEffect(() => {
+      async function getImages(id: string) {
+        try {
+          const response = await fetch(`/api/image?id=${id}`);
+          if (response.ok) {
+            const data = await response.json();
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            setImages(data);
+            console.log("Images: ", data);
+          } else {
+            throw new Error("Failed to fetch images");
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+  
+      if (postToEdit?.id) {
+        void getImages(postToEdit.id.toString());
+      }
+    }, [postToEdit?.id]);
 
     async function updateApproval(post_id: string, approved: boolean, content: string, title: string) {
         // console.log("post with id: ", post_id, " has been approved: ", approved)
@@ -99,6 +122,9 @@ export default function PostModal({
     router.refresh();
   };
 
+
+  
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
@@ -142,7 +168,7 @@ export default function PostModal({
           <p className="text-sm">{content}</p>
           )}
         </div>
-        {images.length > 0 ? (
+        {images && images.length > 0 ? (
        <div className="flex flex-col gap-4">
           <h1 className="text-sm">Relevant Images:</h1>
         <div className="flex flex-wrap w-full gap-2.5">
@@ -156,6 +182,21 @@ export default function PostModal({
         ): (
           <h1 className="text-sm">No relevant images found</h1>
         )}
+        {availImages && availImages.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-sm">Relevant Images:</h1>
+            <div className="flex flex-wrap w-full gap-2.5">
+              {availImages.map((image) => (
+                <div key={image} className="relative">
+                  <Image src={image} alt="extracted image" height={200} width={200} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-sm">No relevant images found</h1>
+        )}
+
         
 
         <DialogFooter>
