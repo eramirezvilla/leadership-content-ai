@@ -275,9 +275,9 @@ export default function PostModal({
         {generatedImages && generatedImages.length > 0 ? (
           <div className="flex flex-col gap-4">
             <h1 className="text-sm">Generated Images:</h1>
-            <div className="flex w-full flex-wrap gap-2.5">
+            <div className="flex w-full flex-wrap justify-start">
               {generatedImages.map((image) => (
-                <div key={image} className="relative">
+                <div key={image} className="relative p-2">
                   <Image
                     src={image}
                     alt="generated image"
