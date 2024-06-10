@@ -33,6 +33,14 @@ export default function PostModal({
   const [availImages, setImages] = useState<string[]>([]);
   const [genImage, setGenImage] = useState<string>("");
   const [generatingImage, setGeneratingImage] = useState(false);
+  const [featuredImage, setFeaturedImage] = useState(postToEdit.featured_image_filename ?? "");
+  const [generatedImages, setGeneratedImages] = useState(postToEdit.generated_image_filenames ?? []);
+
+  useEffect(() => {
+    setGeneratedImages(postToEdit.generated_image_filenames ?? []);
+  }
+  , [postToEdit.generated_image_filenames]);
+
 
   async function updateFeaturedImage(post_id: string, image_id: string) {
     try {
@@ -41,7 +49,7 @@ export default function PostModal({
           id: parseInt(post_id),
         },
         data: {
-          title: image_id,
+          featured_image_filename: image_id,
         },
       });
       console.log("Updated post: ", response);
@@ -51,6 +59,11 @@ export default function PostModal({
     }
   }
 
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    void updateFeaturedImage(postToEdit.id.toString(), featuredImage);
+  }, [featuredImage]);
+
   async function generateImage() {
     try {
       setGeneratingImage(true);
@@ -59,12 +72,13 @@ export default function PostModal({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ post_content: updatedContent }),
+        body: JSON.stringify({ id: postToEdit.id.toString(), post_content: updatedContent }),
       });
       if (response.ok) {
         const data = await response.json();
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        setGenImage(data);
+        //setGenImage(data);
+        setGeneratedImages([...generatedImages, data]);
         console.log("Generated Image: ", data);
       } else {
         throw new Error("Failed to generate image");
@@ -156,6 +170,8 @@ export default function PostModal({
     relevant_files,
     schedule_date,
     approved,
+    featured_image_filename,
+    generated_image_filenames,
   } = postToEdit;
   const router = useRouter();
 
@@ -185,7 +201,7 @@ export default function PostModal({
                 onChange={(e) => setUpdatedTitle(e.target.value)}
               />
             ) : (
-              <h2>{title}</h2>
+              <p>{title}</p>
             )}
           </DialogTitle>
         </DialogHeader>
@@ -246,8 +262,8 @@ export default function PostModal({
             Generate Image
           </ZoomOutLoader>
         </div>
-        {genImage && (
-          <div className="relative">
+        {/* {genImage && (
+          <div className={`relative hover:cursor-pointer ${featuredImage === genImage ?? 'border-red-400 border-2'}`} onClick={() => setFeaturedImage(genImage)}>
             <Image
               src={genImage}
               alt="generated image"
@@ -255,6 +271,27 @@ export default function PostModal({
               width={400}
             />
           </div>
+        )} */}
+        {generatedImages && generatedImages.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-sm">Generated Images:</h1>
+            <div className="flex w-full flex-wrap gap-2.5">
+              {generatedImages.map((image) => (
+                <div key={image} className="relative">
+                  <Image
+                    src={image}
+                    alt="generated image"
+                    height={200}
+                    width={200}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-sm font-bold text-red-300">
+            No generated images found
+          </h1>
         )}
 
         <DialogFooter>
