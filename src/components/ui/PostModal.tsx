@@ -42,14 +42,14 @@ export default function PostModal({
   , [postToEdit.generated_image_filenames]);
 
 
-  async function updateFeaturedImage(post_id: string, image_id: string) {
+  async function updateFeaturedImage(post_id: string, image_url: string) {
     try {
       const response = await fetch(`/api/image`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: post_id, image_id: image_id }),
+        body: JSON.stringify({ id: post_id, image_url: image_url }),
       });
       if (response.ok) {
         console.log("Featured Image updated successfully");
