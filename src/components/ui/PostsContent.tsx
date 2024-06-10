@@ -125,7 +125,7 @@ export default function PostsContent({ allPosts, allImages, allFiles }: PostsCon
                     layoutView === "grid" ? (
                       <LinkedInPost post={post} key={post.id} allImages={getImageUrlsForEachPost(post)}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} />
+                      <ListViewPost post={post} key={post.id} images={getImageUrlsForEachPost(post)}/>
                     ),
                   )}
                 </div>
@@ -167,7 +167,7 @@ export default function PostsContent({ allPosts, allImages, allFiles }: PostsCon
                     layoutView === "grid" ? (
                       <LinkedInPost post={post} key={post.id} allImages={getImageUrlsForEachPost(post)}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} />
+                      <ListViewPost post={post} key={post.id} images={getImageUrlsForEachPost(post)}/>
                     ),
                   )}
                 </div>
@@ -210,7 +210,7 @@ export default function PostsContent({ allPosts, allImages, allFiles }: PostsCon
                     layoutView === "grid" ? (
                       <LinkedInPost post={post} key={post.id} allImages={getImageUrlsForEachPost(post)}/>
                     ) : (
-                      <ListViewPost post={post} key={post.id} />
+                      <ListViewPost post={post} key={post.id} images={getImageUrlsForEachPost(post)}/>
                     ),
                   )}
                 </div>
