@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   if (!parseResult.success) {
     return Response.json({ error: "Invalid input" }, { status: 400 });
   }
-  const { post_content } = parseResult.data;
+  const { id, post_content } = parseResult.data;
 
   const openaiResponse = await openai.images.generate({
     model: "dall-e-3",
@@ -23,6 +23,19 @@ export async function POST(req: Request) {
   });
   const image_url = openaiResponse?.data[0]?.url;
   if (image_url) {
+    const response = await prisma.post.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        generated_image_filenames: {
+          push: image_url,
+        },
+      },
+    });
+    if(!response) {
+      return Response.json("An error occurred updating the post", { status: 500 });
+    }
     return Response.json(image_url, { status: 200 });
   }
 }
