@@ -12,8 +12,6 @@ import LinkedInPost from "./LinkedInPost";
 interface CalendarTestProps {
   events: post[];
   view?: string;
-  allImages: Record<string, string[]>;
-  allFiles: file[];
 }
 
 interface EventWithStringId{
@@ -22,20 +20,8 @@ interface EventWithStringId{
   originalEvent: post;
 }
 
-function getImageUrlsForEachPost(postToGet: post, allFiles: file[], allImages: Record<string, string[]>) {
-  const imageUrls: string[] = [];
-  postToGet.relevant_files.forEach((file_id) => {
-    const file = allFiles.find((file) => file.id === file_id);
-    if (!file) return;
-    const urls = allImages[file.filename];
-    if (urls) {
-      imageUrls.push(...urls);
-    }
-  });
-  return imageUrls;
-}
 
-export default function CalendarTest({ events, view, allImages, allFiles }: CalendarTestProps) {
+export default function CalendarTest({ events, view}: CalendarTestProps) {
   const [eventsToDisplay, setEventsToDisplay] = useState<post[]>(events);
   const [eventsWithStringIds, setEventsWithStringIds] = useState<EventWithStringId[]>([]);
 
@@ -86,7 +72,7 @@ export default function CalendarTest({ events, view, allImages, allFiles }: Cale
       }}
       events={eventsWithStringIds}
       eventContent={function (arg) {
-        return renderEventContent(arg.event._def.extendedProps.originalEvent as post, allFiles, allImages, view);
+        return renderEventContent(arg.event._def.extendedProps.originalEvent as post, view);
       }}
       editable={false}
       droppable={false}
@@ -99,13 +85,12 @@ export default function CalendarTest({ events, view, allImages, allFiles }: Cale
 }
 
 
-function renderEventContent(eventInfo: post, allFiles: file[], allImages: Record<string, string[]>, view?: string) {
+function renderEventContent(eventInfo: post, view?: string) {
   if (view === "dayGridMonth") {
     return <div className="flex flex-col w-fit overflow-hidden">
       <CalendarPost post={eventInfo} />
     </div>;
   }
-  const imageUrls = getImageUrlsForEachPost(eventInfo, allFiles, allImages);
   // return <GridPost post={eventInfo} />;
   return <LinkedInPost post={eventInfo}/>;
   
