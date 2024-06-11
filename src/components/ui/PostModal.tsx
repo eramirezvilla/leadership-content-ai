@@ -20,6 +20,11 @@ interface PostModalProps {
   setOpen: (open: boolean) => void;
 }
 
+type fileWithPublicURL = {
+  filename: string;
+  supaURL: string;
+};
+
 export default function PostModal({
   postToEdit,
   open,
@@ -33,7 +38,7 @@ export default function PostModal({
   const [generatingImage, setGeneratingImage] = useState(false);
   const [featuredImage, setFeaturedImage] = useState(postToEdit.featured_image_filename ?? "");
   const [generatedImages, setGeneratedImages] = useState(postToEdit.generated_image_filenames ?? []);
-  const [relevantFilesURLs, setRelevantFilesURLs] = useState<string[]>([]);
+  const [relevantFilesURLs, setRelevantFilesURLs] = useState<fileWithPublicURL[]>();
 
   useEffect(() => {
     setGeneratedImages(postToEdit.generated_image_filenames ?? []);
@@ -106,12 +111,12 @@ export default function PostModal({
       }
     }
 
-    if (postToEdit?.relevant_files.length > 0) {
+    if (postToEdit?.relevant_files && postToEdit.relevant_files.length > 0) {
       const relevantFiles = postToEdit.relevant_files.map(String);
       void getRelevantFiles(relevantFiles);
     }
 
-  } , [postToEdit?.relevant_files]);
+  } , []);
 
   useEffect(() => {
     async function getImages(id: string) {
@@ -321,14 +326,14 @@ export default function PostModal({
             <h1 className="text-sm">Relevant Files:</h1>
             <div className="flex w-full flex-wrap gap-2.5">
               {relevantFilesURLs.map((file) => (
-                <div key={file} className="flex gap-2.5">
+                <div key={file.filename} className="flex gap-2.5">
                   <a
-                    href={file}
+                    href={file.supaURL}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-sm font-semibold text-blue-500"
+                    className="text-sm underline text-brand_dark_purple_grey hover:text-brand_gradient1_purple"
                   >
-                    {file}
+                    {file.filename}
                   </a>
                 </div>
               ))}
