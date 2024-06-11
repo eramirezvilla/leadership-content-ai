@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 type ZoomOutLoaderProps = {
     children: React.ReactNode;
     style: string;
-    color: 'green' | 'blue' | 'red' | 'purple' | 'mint' | 'brand';
+    color: 'green' | 'blue' | 'red' | 'purple' | 'mint';
     size: 'xs' | 's' | 'l' | 'xl';
     loading: boolean;
 }
@@ -17,7 +17,6 @@ export default function ZoomOutLoader ({ children, style, color, size, loading }
         red: "bg-red-500 hover:bg-red-600 text-white",
         purple: "bg-purple-500 hover:bg-purple-600 text-white",
         mint: "bg-teal-500 hover:bg-teal-600 text-white",
-        brand: "bg-gradient-to-r from-brand_gradient1_purple to-brand_gradient1_blue text-white hover:to-brand_gradient2_blue",
     };
     const sizeClasses = {
         xs: "text-xs py-1 px-2",

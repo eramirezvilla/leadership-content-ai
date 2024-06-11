@@ -37,7 +37,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "lucide-react";
 import { Input } from "./input";
-import ProgressBar from "./ProgressBar";
 
 interface SchedulerModalProps {
   schedulerToEdit?: scheduler;
@@ -66,7 +65,6 @@ export default function AddScheduler({
     false,
   ]);
   const [focusTopic, setFocusTopic] = useState<string>("");
-  const [percentageComplete, setPercentageComplete] = useState(0);
 
   const daysOfWeek = [
     "sunday",
@@ -91,7 +89,7 @@ export default function AddScheduler({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
       title: "New Scheduled Theme " + new Date().toLocaleDateString(),
-      created_from_theme: availableThemes[0]?.title,
+      theme_name: availableThemes[0]?.title,
       start_from: undefined,
       end_on: undefined,
       frequency: [false, false, false, false, false, false, false],
@@ -100,18 +98,13 @@ export default function AddScheduler({
   });
 
   useEffect(() => {
-    // console.log("Updated selected days:", selectedDays);
+    console.log("Updated selected days:", selectedDays);
     form.setValue("frequency", selectedDays);
   }, [selectedDays, form]);
 
   const router = useRouter();
 
   async function onSubmit(data: CreateScheduleSchema) {
-    console.log("theme_name", data.created_from_theme);
-    const interval = setInterval(() => {
-      setPercentageComplete((prev) => (prev < 95 ? prev + 5 : prev));
-    }, 2000);
-
     try {
       const response = await fetch("/api/scheduler", {
         method: "POST",
@@ -127,12 +120,9 @@ export default function AddScheduler({
       }
 
       form.reset();
-      setPercentageComplete(100);
-      setSelectedDays([false, false, false, false, false, false, false]);
-      clearInterval(interval);
+
       router.refresh();
       setOpen(false);
-      setPercentageComplete(0);
     } catch (error) {
       console.error(error);
       alert("something went wrong");
@@ -144,7 +134,7 @@ export default function AddScheduler({
       <Button
         type="button"
         onClick={() => setOpen(true)}
-        className="bg-gradient-to-r from-brand_gradient1_purple to-brand_gradient1_blue hover:bg-gradient-to-r hover:from-brand_gradient2_purple hover:to-brand_gradient2_blue"
+        className="bg-brand_purple"
       >
         <div className="flex items-center justify-center gap-2.5">
           <PlusIcon size={20} />
@@ -180,7 +170,7 @@ export default function AddScheduler({
               />
               <FormField
                 control={form.control}
-                name="created_from_theme"
+                name="theme_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -194,7 +184,6 @@ export default function AddScheduler({
                           {...field}
                           className="border-1 rounded-lg border py-1 pl-2"
                           onChange={(e) => field.onChange(e.target.value)}
-                          value={field.value}
                         >
                           {availableThemes.map((theme) => (
                             <option key={theme.id} value={theme.title}>
@@ -345,13 +334,29 @@ export default function AddScheduler({
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="focus_topic"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="flex w-full items-center">
+                        <div className="flex min-w-40">
+                          <p className="mr-2 text-sm font-medium">Focus Topic </p>
+                        </div>
+                        <Input placeholder="(optional) i.e. 'RFID in healthcare'" {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <DialogFooter className="gap-1 sm:gap-0">
                 <LoadingButton
                   type="submit"
                   loading={form.formState.isSubmitting}
                   disabled={deleteInProgress}
-                  className="bg-gradient-to-r from-brand_gradient1_purple to-brand_gradient1_blue hover:to-brand_gradient2_blue"
                 >
                   Submit
                 </LoadingButton>

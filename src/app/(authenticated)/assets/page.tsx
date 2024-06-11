@@ -11,7 +11,7 @@ export default async function AssetPage() {
         allFiles.map(async (file) => {
             if (file.extracted_imgs && file.extracted_imgs.length > 0) {
                 await Promise.all(
-                    file.extracted_imgs.map(async (img: number) => {
+                    file.extracted_imgs.map(async (img) => {
                         const imageURL = await prisma.image.findUnique({
                             select: {
                                 filename: true,

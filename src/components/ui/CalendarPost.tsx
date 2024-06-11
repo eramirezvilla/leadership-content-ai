@@ -24,7 +24,7 @@ export default function CalendarPost({ post }: CalendarPostProps) {
         ) : (
           <p className="text-xs text-yellow-500">Pending</p>
         )}
-        <h1 className="text-black whitespace-normal text-xs">
+        <h1 className="text-brand_background whitespace-normal text-xs">
           {title}
         </h1>
       </div>
