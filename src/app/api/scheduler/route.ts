@@ -70,6 +70,9 @@ export async function POST(req: Request) {
         continue;
       }
 
+      //TODO: create way to include natural language query for industry_challenge_mapping i.e. "Focus on RFID technology in the healthcare industry."
+      
+
       // const industryChallengeMapping =
       //   await prisma.industry_challenge_mapping.findFirst({
       //     where: {

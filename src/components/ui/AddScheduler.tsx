@@ -65,6 +65,7 @@ export default function AddScheduler({
     false,
     false,
   ]);
+  const [focusTopic, setFocusTopic] = useState<string>("");
   const [percentageComplete, setPercentageComplete] = useState(0);
 
   const daysOfWeek = [
@@ -94,6 +95,7 @@ export default function AddScheduler({
       start_from: undefined,
       end_on: undefined,
       frequency: [false, false, false, false, false, false, false],
+      focus_topic: "",
     },
   });
 
@@ -185,7 +187,7 @@ export default function AddScheduler({
                       <div className="flex w-full items-center">
                         <div className="flex min-w-40">
                           <p className="mr-2 text-sm font-medium">
-                            Select Theme:{" "}
+                            Select Theme{" "}
                           </p>
                         </div>
                         <select
@@ -343,9 +345,7 @@ export default function AddScheduler({
                   </FormItem>
                 )}
               />
-                {form.formState.isSubmitting && (
-                  <ProgressBar percentage={percentageComplete} />
-                )}
+
               <DialogFooter className="gap-1 sm:gap-0">
                 <LoadingButton
                   type="submit"
