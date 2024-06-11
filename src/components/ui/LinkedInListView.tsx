@@ -62,6 +62,7 @@ export default function LinkedInListView({
         {mondayOpen && (
           scheduledPostsForThisWeek
             .filter((post) => post.schedule_date!.getDay() === 1)
+            .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime())
             .map((post) => <LinkedInPost post={post} key={post.id} />)
         )}
         <div
@@ -78,6 +79,7 @@ export default function LinkedInListView({
         {tuesdayOpen && (
           scheduledPostsForThisWeek
             .filter((post) => post.schedule_date!.getDay() === 2)
+            .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime())
             .map((post) => <LinkedInPost post={post} key={post.id} />)
         ) }
         <div
@@ -94,6 +96,7 @@ export default function LinkedInListView({
         {wednesdayOpen && (
           scheduledPostsForThisWeek
             .filter((post) => post.schedule_date!.getDay() === 3)
+            .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime())
             .map((post) => <LinkedInPost post={post} key={post.id} />)
         ) }
         <div
@@ -110,6 +113,7 @@ export default function LinkedInListView({
         {thursdayOpen && (
           scheduledPostsForThisWeek
             .filter((post) => post.schedule_date!.getDay() === 4)
+            .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime())
             .map((post) => <LinkedInPost post={post} key={post.id} />)
         ) }
         <div
@@ -126,6 +130,7 @@ export default function LinkedInListView({
         {fridayOpen && (
           scheduledPostsForThisWeek
             .filter((post) => post.schedule_date!.getDay() === 5)
+            .sort((a, b) => new Date(a.schedule_date!).getTime() - new Date(b.schedule_date!).getTime())
             .map((post) => <LinkedInPost post={post} key={post.id} />)
         ) }
       </div>

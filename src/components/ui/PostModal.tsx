@@ -13,13 +13,17 @@ import { useState, useEffect } from "react";
 import ZoomOutLoader from "./ZoomOutLoader";
 import { Button } from "./button";
 import Image from "next/image";
-import prisma from "~/lib/server/prisma";
 
 interface PostModalProps {
   postToEdit: post;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
+
+type fileWithPublicURL = {
+  filename: string;
+  supaURL: string;
+};
 
 export default function PostModal({
   postToEdit,
@@ -31,10 +35,10 @@ export default function PostModal({
   const [updatedContent, setUpdatedContent] = useState(postToEdit.content);
   const [updatedTitle, setUpdatedTitle] = useState(postToEdit.title);
   const [availImages, setImages] = useState<string[]>([]);
-  const [genImage, setGenImage] = useState<string>("");
   const [generatingImage, setGeneratingImage] = useState(false);
   const [featuredImage, setFeaturedImage] = useState(postToEdit.featured_image_filename ?? "");
   const [generatedImages, setGeneratedImages] = useState(postToEdit.generated_image_filenames ?? []);
+  const [relevantFilesURLs, setRelevantFilesURLs] = useState<fileWithPublicURL[]>();
 
   useEffect(() => {
     setGeneratedImages(postToEdit.generated_image_filenames ?? []);
@@ -67,11 +71,6 @@ export default function PostModal({
     void updateFeaturedImage(postToEdit.id.toString(), image.toString());
   }
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  //   void updateFeaturedImage(postToEdit.id.toString(), featuredImage);
-  // }, [featuredImage]);
-
   async function generateImage() {
     try {
       setGeneratingImage(true);
@@ -85,9 +84,7 @@ export default function PostModal({
       if (response.ok) {
         const data = await response.json();
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        //setGenImage(data);
         setGeneratedImages([...generatedImages, data]);
-        console.log("Generated Image: ", data);
       } else {
         throw new Error("Failed to generate image");
       }
@@ -98,6 +95,30 @@ export default function PostModal({
   }
 
   useEffect(() => {
+    async function getRelevantFiles(ids: string[]) {
+      try {
+        const response = await fetch(`/api/file?ids=${ids.join(",")}`);
+        if (response.ok) {
+          const data = await response.json();
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          setRelevantFilesURLs(data);
+
+        } else {
+          throw new Error("Failed to fetch relevant files");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (postToEdit?.relevant_files && postToEdit.relevant_files.length > 0) {
+      const relevantFiles = postToEdit.relevant_files.map(String);
+      void getRelevantFiles(relevantFiles);
+    }
+
+  } , []);
+
+  useEffect(() => {
     async function getImages(id: string) {
       try {
         const response = await fetch(`/api/image?id=${id}`);
@@ -105,7 +126,6 @@ export default function PostModal({
           const data = await response.json();
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           setImages(data);
-          //console.log("Images: ", data);
         } else {
           throw new Error("Failed to fetch images");
         }
@@ -113,7 +133,6 @@ export default function PostModal({
         console.error(error);
       }
     }
-
     if (postToEdit?.id) {
       void getImages(postToEdit.id.toString());
     }
@@ -280,17 +299,6 @@ export default function PostModal({
             Generate Image
           </ZoomOutLoader>
         </div>
-        {/* {genImage && (
-          <div className={`relative hover:cursor-pointer ${featuredImage === genImage ?? 'border-red-400 border-2'}`} onClick={() => setFeaturedImage(genImage)}>
-            <Image
-              src={genImage}
-              alt="generated image"
-              height={400}
-              width={400}
-            />
-          </div>
-        )} */}
-       
         {generatedImages && generatedImages.length > 0 ? (
           <div className="flex flex-col gap-4">
             <h1 className="text-sm">Generated Images:</h1>
@@ -313,6 +321,31 @@ export default function PostModal({
             No generated images found
           </h1>
         )}
+        {relevantFilesURLs && relevantFilesURLs.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-sm">Relevant Files:</h1>
+            <div className="flex w-full flex-col gap-2.5 pl-2">
+              {relevantFilesURLs.map((file) => (
+                <div key={file.filename} className="flex gap-2.5">
+                  <a
+                    href={file.supaURL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm underline text-brand_dark_purple_grey hover:text-brand_gradient1_purple"
+                  >
+                    {file.filename}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-sm font-bold text-red-300">
+            No relevant files found
+          </h1>
+        )}
+
+
 
         <DialogFooter>
           <div className="flex w-full justify-between">
