@@ -33,6 +33,7 @@ export default function PostModal({
   const [generatingImage, setGeneratingImage] = useState(false);
   const [featuredImage, setFeaturedImage] = useState(postToEdit.featured_image_filename ?? "");
   const [generatedImages, setGeneratedImages] = useState(postToEdit.generated_image_filenames ?? []);
+  const [relevantFilesURLs, setRelevantFilesURLs] = useState<string[]>([]);
 
   useEffect(() => {
     setGeneratedImages(postToEdit.generated_image_filenames ?? []);
@@ -89,6 +90,30 @@ export default function PostModal({
   }
 
   useEffect(() => {
+    async function getRelevantFiles(ids: string[]) {
+      try {
+        const response = await fetch(`/api/file?ids=${ids.join(",")}`);
+        if (response.ok) {
+          const data = await response.json();
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          setRelevantFilesURLs(data);
+
+        } else {
+          throw new Error("Failed to fetch relevant files");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (postToEdit?.relevant_files.length > 0) {
+      const relevantFiles = postToEdit.relevant_files.map(String);
+      void getRelevantFiles(relevantFiles);
+    }
+
+  } , [postToEdit?.relevant_files]);
+
+  useEffect(() => {
     async function getImages(id: string) {
       try {
         const response = await fetch(`/api/image?id=${id}`);
@@ -103,7 +128,6 @@ export default function PostModal({
         console.error(error);
       }
     }
-
     if (postToEdit?.id) {
       void getImages(postToEdit.id.toString());
     }
@@ -292,6 +316,31 @@ export default function PostModal({
             No generated images found
           </h1>
         )}
+        {relevantFilesURLs && relevantFilesURLs.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-sm">Relevant Files:</h1>
+            <div className="flex w-full flex-wrap gap-2.5">
+              {relevantFilesURLs.map((file) => (
+                <div key={file} className="flex gap-2.5">
+                  <a
+                    href={file}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm font-semibold text-blue-500"
+                  >
+                    {file}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-sm font-bold text-red-300">
+            No relevant files found
+          </h1>
+        )}
+
+
 
         <DialogFooter>
           <div className="flex w-full justify-between">
