@@ -34,8 +34,11 @@ export async function GET(req: Request) {
     });
 
     const downloadLinks = filenames.map((file) => {
-      return supabase.storage.from("testing-specs").getPublicUrl(file.filename + ".pdf")
-        .data.publicUrl;
+        const {publicUrl} = supabase.storage.from("testing-specs").getPublicUrl(file.filename + ".pdf").data;
+      return {
+        filename: file.filename,
+        supaURL: publicUrl
+      }
     });
 
     return Response.json(downloadLinks, { status: 200 });
