@@ -8,25 +8,18 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const query = Object.fromEntries(url.searchParams.entries());
     const params = getRelevantFilesSchema.parse(query);
+    if (!params) {
+      return Response.json("Invalid input at entry", { status: 400 });
+    }
 
     const idsArray = params.ids.split(",").map((id) => id.trim());
 
     const idsSchema = z.array(z.string());
     const validatedIds = idsSchema.parse(idsArray);
 
-    const relevantFiles = await prisma.post.findMany({
-      select: {
-        relevant_files: true,
-      },
-      where: {
-        id: {
-          in: validatedIds.map((id) => Number(id)),
-        },
-      },
-    });
 
-    if (!relevantFiles) {
-      return Response.json("No relevant files found", { status: 404 });
+    if (!validatedIds) {
+      return Response.json("Invalid input at split", { status: 400 });
     }
 
     const filenames = await prisma.file.findMany({
@@ -35,13 +28,13 @@ export async function GET(req: Request) {
       },
       where: {
         id: {
-          in: relevantFiles.map((file) => Number(file.relevant_files)),
+          in: validatedIds.map((id) => Number(id)),
         },
       },
     });
 
     const downloadLinks = filenames.map((file) => {
-      return supabase.storage.from("testing-specs").getPublicUrl(file.filename)
+      return supabase.storage.from("testing-specs").getPublicUrl(file.filename + ".pdf")
         .data.publicUrl;
     });
 
