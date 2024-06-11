@@ -13,7 +13,6 @@ import { useState, useEffect } from "react";
 import ZoomOutLoader from "./ZoomOutLoader";
 import { Button } from "./button";
 import Image from "next/image";
-import prisma from "~/lib/server/prisma";
 
 interface PostModalProps {
   postToEdit: post;
@@ -31,7 +30,6 @@ export default function PostModal({
   const [updatedContent, setUpdatedContent] = useState(postToEdit.content);
   const [updatedTitle, setUpdatedTitle] = useState(postToEdit.title);
   const [availImages, setImages] = useState<string[]>([]);
-  const [genImage, setGenImage] = useState<string>("");
   const [generatingImage, setGeneratingImage] = useState(false);
   const [featuredImage, setFeaturedImage] = useState(postToEdit.featured_image_filename ?? "");
   const [generatedImages, setGeneratedImages] = useState(postToEdit.generated_image_filenames ?? []);
@@ -67,11 +65,6 @@ export default function PostModal({
     void updateFeaturedImage(postToEdit.id.toString(), image.toString());
   }
 
-  // useEffect(() => {
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  //   void updateFeaturedImage(postToEdit.id.toString(), featuredImage);
-  // }, [featuredImage]);
-
   async function generateImage() {
     try {
       setGeneratingImage(true);
@@ -85,9 +78,7 @@ export default function PostModal({
       if (response.ok) {
         const data = await response.json();
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        //setGenImage(data);
         setGeneratedImages([...generatedImages, data]);
-        console.log("Generated Image: ", data);
       } else {
         throw new Error("Failed to generate image");
       }
@@ -105,7 +96,6 @@ export default function PostModal({
           const data = await response.json();
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           setImages(data);
-          //console.log("Images: ", data);
         } else {
           throw new Error("Failed to fetch images");
         }
@@ -280,17 +270,6 @@ export default function PostModal({
             Generate Image
           </ZoomOutLoader>
         </div>
-        {/* {genImage && (
-          <div className={`relative hover:cursor-pointer ${featuredImage === genImage ?? 'border-red-400 border-2'}`} onClick={() => setFeaturedImage(genImage)}>
-            <Image
-              src={genImage}
-              alt="generated image"
-              height={400}
-              width={400}
-            />
-          </div>
-        )} */}
-       
         {generatedImages && generatedImages.length > 0 ? (
           <div className="flex flex-col gap-4">
             <h1 className="text-sm">Generated Images:</h1>
