@@ -65,7 +65,6 @@ export default function AddScheduler({
     false,
     false,
   ]);
-  const [focusTopic, setFocusTopic] = useState<string>("");
   const [percentageComplete, setPercentageComplete] = useState(0);
 
   const daysOfWeek = [
