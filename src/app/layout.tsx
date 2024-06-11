@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Levata - Capo",
-  description: "A dashboard for leadership to manage their social content.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  title: "Amplify - AI Content For Leadership",
+  description: "An AI-integrated platform that helps you create and schedule content for your LinkedIn profile.",
+  icons: [{ rel: "icon", url: "/Levata_Icon_RGB_Orig.svg" }],
 };
 
 export default function RootLayout({

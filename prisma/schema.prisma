@@ -45,7 +45,7 @@ model industry_challenge_mapping {
   source_file_id    Int?
   created_at        DateTime @default(now()) @db.Timestamptz(6)
   already_used      Boolean  @default(false)
-  file              file?    @relation(fields: [source_file_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "public_industry_challenge_mapping_source_file_id_fkey")
+  file              file?    @relation(fields: [source_file_id], references: [id], onUpdate: NoAction, map: "public_industry_challenge_mapping_source_file_id_fkey")
   post              post[]
 }
 
@@ -76,6 +76,8 @@ model post {
   schedule_id                BigInt?
   approved                   Boolean?
   schedule_date              DateTime?                   @db.Timestamptz(6)
+  featured_image_filename    String?
+  generated_image_filenames  String[]
   call_to_action             call_to_action?             @relation(fields: [call_to_action_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   industry_challenge_mapping industry_challenge_mapping? @relation(fields: [created_from_topic], references: [id], onDelete: NoAction, onUpdate: NoAction)
   scheduler                  scheduler?                  @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

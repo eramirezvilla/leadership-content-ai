@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import type { ApexOptions } from 'apexcharts';
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import type { post } from '@prisma/client'
+import { useEffect, useState } from "react";
 
 interface ThemeChartProps {
     availableThemes: string[];
@@ -11,17 +12,41 @@ interface ThemeChartProps {
 }
 
 export function ThemeChart({ availableThemes, postsWithSchedule }: ThemeChartProps){
-    const themePostCounts = availableThemes.map(theme => {
-        const count = postsWithSchedule.filter(post => post.created_from_theme === theme).length;
-        return count;
-      });
+  const [availThemes, setAvailThemes] = useState(availableThemes);
+  const [postsWithSched, setPostsWithSched] = useState(postsWithSchedule);
+  const [themePostCounts, setThemePostCounts] = useState<number[]>([]);
+
+  useEffect(() => {
+    setAvailThemes(availableThemes);
+    setPostsWithSched(postsWithSchedule);
+    console.log("availThemes: ", availThemes.length);
+    console.log("postsWithSched: ", postsWithSched.length);
+  }
+  , [availableThemes, postsWithSchedule]);
+
+  useEffect(() => {
+    const counts = availThemes.map(theme => {
+      const count = postsWithSched.filter(post => post.created_from_theme === theme).length;
+      console.log("theme: ", theme);
+      console.log("count: ", count);
+      return count;
+    });
+    setThemePostCounts(counts);
+  }, [availThemes, postsWithSched]);
+
+
+
+    // const themePostCounts = availThemes.map(theme => {
+    //     const count = postsWithSched.filter(post => post.created_from_theme === theme).length;
+    //     return count;
+    //   });
 
     const option: ApexOptions = {
         chart: {
           id: 'theme-bar-chart'
         },
         xaxis: {
-          categories: availableThemes
+          categories: availThemes
         },
         plotOptions: {
             bar: {
@@ -31,7 +56,7 @@ export function ThemeChart({ availableThemes, postsWithSchedule }: ThemeChartPro
             }
         },
         fill: {
-            colors: ['#3AAFB9']
+            colors: ['#7070FF']
         },
       }
 

@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     }
 
     const {
-      theme_name,
+      created_from_theme,
       industry_name,
       discussion_topic,
       topic_description,
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
     const themeVals = await prisma.themes.findFirst({
       where: {
-        title: theme_name,
+        title: created_from_theme,
       },
     });
     if (!themeVals) {
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
             discussion_topic +
             ".\n\nThe topic description is: " +
             topic_description +
-            ".\n\nPlease generate a post that will engage the audience and promote the products. Remember to include a call to action.",
+            ".\n\nGenerate a post that will engage the audience and promote the products/company value. Remember to include a call to action and mention your company name, Levata. Use a friendly, inviting, easy to read writing style.",
         },
       ],
       model: "gpt-3.5-turbo",
@@ -103,11 +103,11 @@ export async function POST(req: Request) {
           title: discussion_topic,
           content: openaiResponse?.choices[0]?.message.content,
           created_from_topic: mapping_id,
-          created_from_theme: theme_name,
+          created_from_theme: created_from_theme,
           relevant_files: relevantFileIds,
           user_id: userId,
           schedule_date: schedule_date,
-          schedule_id: schedule_id,
+          schedule_id: schedule_id ?? null,
         },
       });
     }

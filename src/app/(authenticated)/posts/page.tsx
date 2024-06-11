@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs";
 import { LayoutGrid, MenuIcon } from "lucide-react";
 import GridPost from "~/components/ui/GridPost";
 import PostsContent from "~/components/ui/PostsContent";
+import { supabase } from "~/lib/server/supabase";
 
 export default async function PostsPage() {
   const { userId } = auth();
@@ -19,9 +20,39 @@ export default async function PostsPage() {
   const allThemes = await prisma.themes.findMany();
   const allIndustries = await prisma.industry_challenge_mapping.findMany();
 
+  const allFiles = await prisma.file.findMany();
+  const filesWithImageURL: Record<string, string[]> = {};
+
+  await Promise.all(
+    allFiles.map(async (file) => {
+      if (file.extracted_imgs && file.extracted_imgs.length > 0) {
+        await Promise.all(
+          file.extracted_imgs.map(async (img: number) => {
+            const imageURL = await prisma.image.findUnique({
+              select: {
+                filename: true,
+              },
+              where: {
+                id: img,
+              },
+            });
+            if (!imageURL) return;
+            const { data } = supabase.storage
+              .from("extracted-images")
+              .getPublicUrl(imageURL.filename);
+            filesWithImageURL[file.filename] = [
+              ...(filesWithImageURL[file.filename] ?? []),
+              data.publicUrl,
+            ];
+          }),
+        );
+      }
+    }),
+  );
+
   return (
     <div className="my-8 flex w-full flex-col gap-4">
-      <div className="flex justify-between gap-6 px-8">
+      <div className="flex justify-between gap-6 px-20">
         <div className="flex flex-col gap-2.5">
           <h1 className="text-title_2">Posts</h1>
           {/* <div className="flex gap-2.5">
@@ -31,8 +62,8 @@ export default async function PostsPage() {
         </div>
         <AddPost allThemes={allThemes} allIndustries={allIndustries} />
       </div>
-      <PostsContent allPosts={allPosts} />
-      
+      <PostsContent allPosts={allPosts}/>
+
       {/* <div className="flex w-full flex-wrap gap-4 px-4">
         {allPosts.length > 0 ? (
           allPosts.map((post) => (
@@ -102,20 +133,20 @@ export default async function PostsPage() {
   );
 }
 
-export function getIndustryMapping(
-  id: number,
-  allIndustries: industry_challenge_mapping[],
-) {
-  return allIndustries.find((industry) => Number(industry.id) === id);
-}
+// export function getIndustryMapping(
+//   id: number,
+//   allIndustries: industry_challenge_mapping[],
+// ) {
+//   return allIndustries.find((industry) => Number(industry.id) === id);
+// }
 
-export async function getRelevantFiles(ids: number[]) {
-  const relevantFiles = await prisma.file.findMany({
-    where: {
-      id: {
-        in: ids,
-      },
-    },
-  });
-  return relevantFiles;
-}
+// export async function getRelevantFiles(ids: number[]) {
+//   const relevantFiles = await prisma.file.findMany({
+//     where: {
+//       id: {
+//         in: ids,
+//       },
+//     },
+//   });
+//   return relevantFiles;
+// }
