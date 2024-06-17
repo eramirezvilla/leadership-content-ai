@@ -1,71 +1,81 @@
 "use client";
 import Link from "next/link";
 import { useUser, UserButton } from "@clerk/nextjs";
-import { useState } from "react";
-import {Building2, FilePen, Folder, ListChecks, ChevronRight, Ellipsis, CalendarIcon, Home} from "lucide-react"
+import { useEffect, useState } from "react";
+import {
+  Building2,
+  FilePen,
+  Folder,
+  ListChecks,
+  ChevronRight,
+  Ellipsis,
+  CalendarIcon,
+  Home,
+} from "lucide-react";
 import Image from "next/image";
 import logo from "public/Levata_Icon_RGB.svg";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function SidebarNav() {
   const { user } = useUser();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [selectedItem, setSelectedItem] = useState<string>("Dashboard");
+  const [selectedItem, setSelectedItem] = useState(pathname);
 
-  const handleItemClick = (item: string) => {
-    setSelectedItem(item);
-    console.log("selectedItem: ", item)
-  };
+  useEffect(() => {
+    setSelectedItem(pathname);
+  }, [pathname]);
 
   return (
     <div className="sticky left-0 top-0 flex h-screen min-w-60 border-r bg-gradient-to-b from-brand_gradient2_purple to-brand_gradient2_blue text-white">
-      <div className="flex w-full flex-col pt-4 gap-8 mt-4">
+      <div className="mt-4 flex w-full flex-col gap-8 pt-4">
         <div className="flex items-end justify-center gap-2 object-cover">
-        <Image src={logo} alt="Capo logo" width={24} height={24}/>
-        <h1 className="text-lg font-medium">Amplify</h1>
-          {/* <h1 className="text-md font-medium text-brand_white">Welcome, {user?.firstName} </h1> */}
+          <Image src={logo} alt="Capo logo" width={24} height={24} />
+          <h1 className="text-lg font-medium">Amplify</h1>
         </div>
         <div className="flex w-full flex-col gap-4 pt-2">
-        <div className="flex w-full justify-start items-center gap-2.5 pl-2.5">
-            <Ellipsis size={12} className="stroke-brand_light_grey"/>
+          <div className="flex w-full items-center justify-start gap-2.5 pl-2.5">
+            <Ellipsis size={12} className="stroke-brand_light_grey" />
             <h1 className="text-xs font-medium">Home</h1>
           </div>
           <Link href="/dashboard">
-            <div 
-            onClick={() => handleItemClick("Dashboard")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-lg px-2.5 py-2 ${selectedItem === "Dashboard" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>              
-                <div className="flex w-full px-2 justify-between items-center">
-                  <div className="flex items-center justify-start text-subheadline gap-2.5">
-                    <Home size={16} />
-                    <h3 className="text-sm font-medium">Dashboard</h3>
-                  </div>
-                  <ChevronRight size={16} />
+            <div
+              className={`flex min-h-4 items-center justify-between rounded-lg px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/dashboard" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+            >
+              <div className="flex w-full items-center justify-between px-2">
+                <div className="flex items-center justify-start gap-2.5 text-subheadline">
+                  <Home size={16} />
+                  <h3 className="text-sm font-medium">Dashboard</h3>
                 </div>
+                <ChevronRight size={16} />
+              </div>
             </div>
           </Link>
 
-          <div className="flex w-full justify-start items-center gap-2.5 pl-2.5">
-            <Ellipsis size={12} className="stroke-brand_light_grey"/>
+          <div className="flex w-full items-center justify-start gap-2.5 pl-2.5">
+            <Ellipsis size={12} className="stroke-brand_light_grey" />
             <h1 className="text-xs font-medium">Content</h1>
           </div>
           <Link href="/posts">
-            <div 
-            onClick={() => handleItemClick("Posts")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-lg px-2.5 py-2 ${selectedItem === "Posts" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>              
-                <div className="flex w-full px-2 justify-between items-center">
-                  <div className="flex items-center justify-start text-subheadline gap-2.5">
-                    <FilePen size={16} />
-                    <h3 className="text-sm font-medium">Posts</h3>
-                  </div>
-                  <ChevronRight size={16} />
+            <div
+              className={`flex min-h-4 items-center justify-between rounded-lg px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/posts" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+            >
+              <div className="flex w-full items-center justify-between px-2">
+                <div className="flex items-center justify-start gap-2.5 text-subheadline">
+                  <FilePen size={16} />
+                  <h3 className="text-sm font-medium">Posts</h3>
                 </div>
+                <ChevronRight size={16} />
+              </div>
             </div>
           </Link>
           <Link href="/themes">
-            <div 
-            onClick={() => handleItemClick("Themes")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Themes" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
-              <div className="flex w-full px-2 justify-between items-center">
-                <div className="flex items-center justify-start text-subheadline gap-2.5">
+            <div
+              className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/themes" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+            >
+              <div className="flex w-full items-center justify-between px-2">
+                <div className="flex items-center justify-start gap-2.5 text-subheadline">
                   <ListChecks size={16} />
                   <h3 className="text-sm font-medium">Themes</h3>
                 </div>
@@ -74,11 +84,11 @@ export default function SidebarNav() {
             </div>
           </Link>
           <Link href="/calendar">
-            <div 
-            onClick={() => handleItemClick("Calendar")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Calendar" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
-              <div className="flex w-full px-2 justify-between items-center">
-                <div className="flex items-center justify-start text-subheadline gap-2.5">
+            <div
+              className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/calendar" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+            >
+              <div className="flex w-full items-center justify-between px-2">
+                <div className="flex items-center justify-start gap-2.5 text-subheadline">
                   <CalendarIcon size={16} />
                   <h3 className="text-sm font-medium">Calendar</h3>
                 </div>
@@ -86,16 +96,16 @@ export default function SidebarNav() {
               </div>
             </div>
           </Link>
-          <div className="flex w-full justify-start items-center mt-2 gap-2.5 px-2.5">
-            <Ellipsis size={12} className="stroke-brand_light_grey"/>
+          <div className="mt-2 flex w-full items-center justify-start gap-2.5 px-2.5">
+            <Ellipsis size={12} className="stroke-brand_light_grey" />
             <h1 className="text-xs font-medium">Data</h1>
           </div>
           <Link href="/industries">
-            <div 
-            onClick={() => handleItemClick("Industries")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Industries" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
-              <div className="flex w-full px-2 justify-between items-center">
-                <div className="flex items-center justify-start text-subheadline gap-2.5">
+            <div
+              className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/industries" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+            >
+              <div className="flex w-full items-center justify-between px-2">
+                <div className="flex items-center justify-start gap-2.5 text-subheadline">
                   <Building2 size={16} />
                   <h3 className="text-sm font-medium">Industries</h3>
                 </div>
@@ -104,11 +114,11 @@ export default function SidebarNav() {
             </div>
           </Link>
           <Link href="/assets">
-            <div 
-            onClick={() => handleItemClick("Assets")}
-            className={`flex min-h-4 items-center justify-between hover:text-brand_word_mark_purple rounded-xl px-2.5 py-2 ${selectedItem === "Assets" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}>
-              <div className="flex w-full px-2 justify-between items-center">
-                <div className="flex items-center justify-start text-subheadline gap-2.5">
+            <div
+              className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/assets" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+            >
+              <div className="flex w-full items-center justify-between px-2">
+                <div className="flex items-center justify-start gap-2.5 text-subheadline">
                   <Folder size={16} />
                   <h3 className="text-sm font-medium">Assets</h3>
                 </div>
@@ -117,7 +127,6 @@ export default function SidebarNav() {
             </div>
           </Link>
         </div>
-        {/* <div className="my-1 flex h-px w-full bg-black/10" /> */}
       </div>
     </div>
   );
