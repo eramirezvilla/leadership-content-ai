@@ -21,24 +21,11 @@ export default function SidebarNav() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // const [selectedItem, setSelectedItem] = useState<string>("Dashboard");
   const [selectedItem, setSelectedItem] = useState(pathname);
-
-  // useEffect(() => {
-  //   if(router.isReady){
-  //     setSelectedItem(router.pathname);
-  //   }
-  // } , [router.isReady, router.pathname]);
-
-  // const handleItemClick = () => {
-  //   // setSelectedItem(item);
-  //   setSelectedItem(pathname);
-  //   console.log("path: ", pathname);
-  // };
 
   useEffect(() => {
     setSelectedItem(pathname);
-  } , [pathname]);
+  }, [pathname]);
 
   return (
     <div className="sticky left-0 top-0 flex h-screen min-w-60 border-r bg-gradient-to-b from-brand_gradient2_purple to-brand_gradient2_blue text-white">
@@ -46,7 +33,6 @@ export default function SidebarNav() {
         <div className="flex items-end justify-center gap-2 object-cover">
           <Image src={logo} alt="Capo logo" width={24} height={24} />
           <h1 className="text-lg font-medium">Amplify</h1>
-          {/* <h1 className="text-md font-medium text-brand_white">Welcome, {user?.firstName} </h1> */}
         </div>
         <div className="flex w-full flex-col gap-4 pt-2">
           <div className="flex w-full items-center justify-start gap-2.5 pl-2.5">
@@ -55,7 +41,6 @@ export default function SidebarNav() {
           </div>
           <Link href="/dashboard">
             <div
-              // // onClick={() => handleItemClick("Dashboard")}
               className={`flex min-h-4 items-center justify-between rounded-lg px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/dashboard" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
             >
               <div className="flex w-full items-center justify-between px-2">
@@ -74,7 +59,6 @@ export default function SidebarNav() {
           </div>
           <Link href="/posts">
             <div
-              // onClick={() => handleItemClick("Posts")}
               className={`flex min-h-4 items-center justify-between rounded-lg px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/posts" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
             >
               <div className="flex w-full items-center justify-between px-2">
@@ -88,7 +72,6 @@ export default function SidebarNav() {
           </Link>
           <Link href="/themes">
             <div
-              // onClick={() => handleItemClick("Themes")}
               className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/themes" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
             >
               <div className="flex w-full items-center justify-between px-2">
@@ -102,7 +85,6 @@ export default function SidebarNav() {
           </Link>
           <Link href="/calendar">
             <div
-              // onClick={() => handleItemClick("Calendar")}
               className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/calendar" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
             >
               <div className="flex w-full items-center justify-between px-2">
@@ -120,7 +102,6 @@ export default function SidebarNav() {
           </div>
           <Link href="/industries">
             <div
-              // onClick={() => handleItemClick("Industries")}
               className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/industries" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
             >
               <div className="flex w-full items-center justify-between px-2">
@@ -134,7 +115,6 @@ export default function SidebarNav() {
           </Link>
           <Link href="/assets">
             <div
-              // onClick={() => handleItemClick("Assets")}
               className={`flex min-h-4 items-center justify-between rounded-xl px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/assets" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
             >
               <div className="flex w-full items-center justify-between px-2">
@@ -147,7 +127,6 @@ export default function SidebarNav() {
             </div>
           </Link>
         </div>
-        {/* <div className="my-1 flex h-px w-full bg-black/10" /> */}
       </div>
     </div>
   );
