@@ -95,11 +95,13 @@ export default function ChatPage() {
       </div>
       <div className="flex h-full w-3/4">
         <div className="flex w-full">
-          <h1>Results</h1>
+          <div className="flex pr-8">
+              <h1>Results</h1>
+          </div>
           {productData && (
             <div className="flex w-full flex-col gap-4">
               {productData.map((product) => (
-                <div className="flex w-full" key={product.sku}>
+                <div className="flex w-full flex-col h-full gap-2.5" key={product.sku}>
                   <p>{product.sku}</p>
                   <p>{product.part_number}</p>
                   <p>{product.description}</p>
