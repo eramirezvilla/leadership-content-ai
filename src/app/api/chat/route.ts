@@ -61,8 +61,12 @@ export async function GET(req: Request) {
       description: item.metadata?.description,
       score: item.score,
     }));
-
-
+    
+    //TODO: add a natural language query option
+    
+    // This requires adding accessories to the index first
+    // May also need to create a base vector for accessories and concatenate it with the product descripiton
+    //TODO: use the metadata description to create a vector for accessory items and query the index for similar items
 
     console.log("similarProducts: ", similarProducts);
 
