@@ -61,7 +61,7 @@ export async function GET(req: Request) {
       const relevantItems = response.matches.map((item) => ({
         sku: item.id,
         part_number: item.metadata?.["part number"],
-        description: item.metadata?.description,
+        description: item.metadata?.["part description"],
         score: item.score,
       }));
       console.log("relevantItems: ", relevantItems);
@@ -88,7 +88,7 @@ export async function GET(req: Request) {
     const similarProducts = filteredResults.map((item) => ({
       sku: item.id,
       part_number: item.metadata?.["part number"],
-      description: item.metadata?.description,
+      description: item.metadata?.["part description"],
       score: item.score,
     }));
 
@@ -100,7 +100,7 @@ export async function GET(req: Request) {
 
     console.log("similarProducts: ", similarProducts);
 
-    return Response.json({ sku, part_number }, { status: 200 });
+    return Response.json(similarProducts, { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json("An error occurred", { status: 500 });
