@@ -49,20 +49,23 @@ export async function GET(req: Request) {
         queryVector = await queryBySku(product_id);
       }
     } else if (searchType === "chatQuery" && chatQuery) {
-        const chatEmbedding = await getEmbedding(chatQuery);
-        const response = await secondProductDataIndx.query({
-            vector: chatEmbedding,
-            topK: 10,
-            includeMetadata: true,
-        });
-        const relevantItems = response.matches.map((item) => ({
-            sku: item.id,
-            part_number: item.metadata?.["part number"],
-            description: item.metadata?.description,
-            score: item.score,
-        }));
-        console.log("relevantItems: ", relevantItems);
-        return Response.json(relevantItems, { status: 200 });
+      const chatEmbedding = await getEmbedding(chatQuery);
+      const response = await secondProductDataIndx.query({
+        vector: chatEmbedding,
+        topK: 10,
+        includeMetadata: true,
+        filter: {
+          is_enabled: { $eq: 1 },
+        },
+      });
+      const relevantItems = response.matches.map((item) => ({
+        sku: item.id,
+        part_number: item.metadata?.["part number"],
+        description: item.metadata?.description,
+        score: item.score,
+      }));
+      console.log("relevantItems: ", relevantItems);
+      return Response.json(relevantItems, { status: 200 });
     }
 
     if (!queryVector) {
@@ -73,9 +76,14 @@ export async function GET(req: Request) {
       vector: queryVector,
       topK: 6,
       includeMetadata: true,
+      filter: {
+        is_enabled: { $eq: 1 },
+      },
     });
 
-    const filteredResults = queryResponse.matches.filter(item => item.id !== product_id);
+    const filteredResults = queryResponse.matches.filter(
+      (item) => item.id !== product_id,
+    );
 
     const similarProducts = filteredResults.map((item) => ({
       sku: item.id,
@@ -83,9 +91,9 @@ export async function GET(req: Request) {
       description: item.metadata?.description,
       score: item.score,
     }));
-    
+
     //TODO: add a natural language query option
-    
+
     // This requires adding accessories to the index first
     // May also need to create a base vector for accessories and concatenate it with the product descripiton
     //TODO: use the metadata description to create a vector for accessory items and query the index for similar items
