@@ -1,4 +1,17 @@
 import { getRelevantProducts } from "~/lib/validation/ProductQuery";
+import { secondProductDataIndx } from "~/lib/server/pinecone";
+import openai, { getEmbedding } from "~/lib/server/openai";
+
+async function queryBySku(sku: string) {
+    let queryVector
+    const response = await secondProductDataIndx.fetch([sku]);
+        if (response.records) {
+            queryVector = response.records[sku]!.values;
+            return queryVector;
+            // console.log(queryVector);
+          }
+        // return Response.json(response, { status: 200 });
+}
 
 export async function GET(req: Request) {
   try {
