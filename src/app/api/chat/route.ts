@@ -19,15 +19,22 @@ export async function GET(req: Request) {
     if (!params) {
       return Response.json("Invalid input at entry", { status: 400 });
     }
-    const { sku, part_number } = params.data!;
-    const searchType = sku ? "sku" : "part_number";
+    const { sku, part_number, chatQuery } = params.data!;
+    let searchType;
+    if (sku) {
+      searchType = "sku";
+    } else if (part_number) {
+      searchType = "part_number";
+    } else if (chatQuery) {
+      searchType = "chatQuery";
+    }
 
     let queryVector;
     let product_id = "";
     if (searchType === "sku" && sku) {
       product_id = sku;
       queryVector = await queryBySku(sku);
-    } else {
+    } else if (searchType === "part_number" && part_number) {
       const dummyVector = new Array(3072).fill(0);
       const response = await secondProductDataIndx.query({
         vector: dummyVector,
@@ -41,6 +48,21 @@ export async function GET(req: Request) {
         product_id = response.matches[0]!.id;
         queryVector = await queryBySku(product_id);
       }
+    } else if (searchType === "chatQuery" && chatQuery) {
+        const chatEmbedding = await getEmbedding(chatQuery);
+        const response = await secondProductDataIndx.query({
+            vector: chatEmbedding,
+            topK: 10,
+            includeMetadata: true,
+        });
+        const relevantItems = response.matches.map((item) => ({
+            sku: item.id,
+            part_number: item.metadata?.["part number"],
+            description: item.metadata?.description,
+            score: item.score,
+        }));
+        console.log("relevantItems: ", relevantItems);
+        return Response.json(relevantItems, { status: 200 });
     }
 
     if (!queryVector) {
