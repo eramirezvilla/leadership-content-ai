@@ -2,11 +2,15 @@
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { SetStateAction, useState } from "react";
+import { type GetRelevantProducts } from "~/lib/validation/ProductQuery";
 
 export default function ChatPage() {
   const [skuSearch, setSkuSearch] = useState("");
   const [partNumberSearch, setPartNumberSearch] = useState("");
   const [chatQuery, setChatQuery] = useState("");
+  const [productData, setProductData] = useState<GetRelevantProducts[] | null>(
+    null,
+  );
 
   const handleSkuSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkuSearch(e.target.value);
@@ -42,8 +46,8 @@ export default function ChatPage() {
     }
     const response = await fetch(`/api/chat?${searchType}=${submittedValue}`);
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
+      const data: GetRelevantProducts[] = await response.json();
+      setProductData(data);
     }
   };
 
@@ -75,14 +79,14 @@ export default function ChatPage() {
             <div className="flex w-full justify-center">
               <p className="text-sm font-bold">OR</p>
             </div>
-              <div className="flex w-full">
-                <Input
-                  placeholder="Search by text"
-                  value={chatQuery}
-                  onChange={handleChatQuery}
-                  className="h-24 text-center"
-                />
-              </div>
+            <div className="flex w-full">
+              <Input
+                placeholder="Search by text"
+                value={chatQuery}
+                onChange={handleChatQuery}
+                className="h-24 text-center"
+              />
+            </div>
           </div>
           <Button variant="outline" onClick={handleSearch}>
             Search
@@ -90,11 +94,19 @@ export default function ChatPage() {
         </div>
       </div>
       <div className="flex h-full w-3/4">
-        <div className="flex h-1/4 w-full">
-          <h1>Chat</h1>
-        </div>
-        <div className="flex h-3/4 w-full">
-          <Input placeholder="Search for a user" />
+        <div className="flex w-full">
+          <h1>Results</h1>
+          {productData && (
+            <div className="flex w-full flex-col gap-4">
+              {productData.map((product) => (
+                <div className="flex w-full" key={product.sku}>
+                  <p>{product.sku}</p>
+                  <p>{product.part_number}</p>
+                  <p>{product.description}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
