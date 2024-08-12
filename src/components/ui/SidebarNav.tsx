@@ -11,6 +11,7 @@ import {
   Ellipsis,
   CalendarIcon,
   Home,
+  MessageSquare
 } from "lucide-react";
 import Image from "next/image";
 import logo from "public/Levata_Icon_RGB.svg";
@@ -121,6 +122,24 @@ export default function SidebarNav() {
                 <div className="flex items-center justify-start gap-2.5 text-subheadline">
                   <Folder size={16} />
                   <h3 className="text-sm font-medium">Assets</h3>
+                </div>
+                <ChevronRight size={16} />
+              </div>
+            </div>
+          </Link>
+
+          <div className="flex w-full items-center justify-start gap-2.5 pl-2.5">
+            <Ellipsis size={12} className="stroke-brand_light_grey" />
+            <h1 className="text-xs font-medium">Product Data</h1>
+          </div>
+          <Link href="/chat">
+            <div
+              className={`flex min-h-4 items-center justify-between rounded-lg px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/posts" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+            >
+              <div className="flex w-full items-center justify-between px-2">
+                <div className="flex items-center justify-start gap-2.5 text-subheadline">
+                  <MessageSquare size={16} />
+                  <h3 className="text-sm font-medium">Chat</h3>
                 </div>
                 <ChevronRight size={16} />
               </div>
