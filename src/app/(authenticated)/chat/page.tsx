@@ -17,6 +17,21 @@ export default function ChatPage(){
         setSkuSearch("")
     }
 
+    const handleSearch = async () => {
+        const submittedValue = skuSearch || partNumberSearch
+        if(!submittedValue){
+            console.log("Please enter a value")
+            return
+        }
+        const searchType = skuSearch ? "sku" : "part_number"
+        const response = await fetch(`/api/chat?${searchType}=${submittedValue}`);
+        if(response.ok){
+            const data = await response.json()
+            console.log(data)
+        }
+    }
+
+
     return (
         <div className="flex w-full h-full">
             <div className="flex w-1/4 h-full">
@@ -35,7 +50,7 @@ export default function ChatPage(){
                             <Input placeholder="Part Number" value={partNumberSearch} onChange={handlePartNumberSearch}/>
                         </div>
                     </div>
-                    <Button variant="outline">Search</Button>
+                    <Button variant="outline" onClick={handleSearch}>Search</Button>
                 </div>
             </div>
             <div className="flex w-3/4 h-full">
