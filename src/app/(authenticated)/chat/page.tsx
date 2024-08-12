@@ -84,7 +84,7 @@ export default function ChatPage() {
                 placeholder="Search by text"
                 value={chatQuery}
                 onChange={handleChatQuery}
-                className="h-24 text-center"
+                className="h-24"
               />
             </div>
           </div>
