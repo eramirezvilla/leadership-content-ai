@@ -19,6 +19,7 @@ export default function ChatPage() {
   );
   const [isChatQuery, setIsChatQuery] = useState(false);
   const [submittedQuery, setSubmittedQuery] = useState("");
+  const [queryError, setQueryError] = useState("");
 
   const handleSkuSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkuSearch(e.target.value);
@@ -61,6 +62,7 @@ export default function ChatPage() {
     }
     const response = await fetch(`/api/chat?${searchType}=${submittedValue}`);
     if (response.ok) {
+      setQueryError("");
       setNoValEntered(false);
       const data: GetRelevantProducts[] = await response.json();
       const similarProducts = data.map((item) => ({
@@ -76,6 +78,8 @@ export default function ChatPage() {
       setQueryProduct(queriedProduct!);
       similarProducts.shift();
       setProductData(similarProducts);
+    } else {
+      setQueryError("No results found");
     }
   };
 
@@ -122,6 +126,11 @@ export default function ChatPage() {
             Search
           </Button>
         </div>
+        {queryError && (
+          <div className="flex w-full rounded-lg border bg-black/5 px-4 py-2 shadow-sm">
+            <p className="max-w-prose text-sm">{queryError}</p>
+          </div>
+        )}
       </div>
       <div className="mb-8 flex h-full max-h-screen w-full overflow-y-scroll">
         <div className="flex w-full flex-col gap-5 px-8 pt-4">
