@@ -1,8 +1,9 @@
 "use client";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { type GetRelevantProducts } from "~/lib/validation/ProductQuery";
+import ProductQueryResult from "~/components/ui/ProductQueryResult";
 
 export default function ChatPage() {
   const [skuSearch, setSkuSearch] = useState("");
@@ -12,6 +13,11 @@ export default function ChatPage() {
     null,
   );
   const [noValEntered, setNoValEntered] = useState(false);
+  const [queryProduct, setQueryProduct] = useState<GetRelevantProducts | null>(
+    null,
+  );
+  const [isChatQuery, setIsChatQuery] = useState(false);
+  const [submittedQuery, setSubmittedQuery] = useState("");
 
   const handleSkuSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkuSearch(e.target.value);
@@ -40,15 +46,21 @@ export default function ChatPage() {
     }
     let searchType;
     if (skuSearch) {
+      setIsChatQuery(false);
+      setSubmittedQuery("");
       searchType = "sku";
     } else if (partNumberSearch) {
+      setIsChatQuery(false);
+      setSubmittedQuery("");
       searchType = "part_number";
     } else if (chatQuery) {
+      setIsChatQuery(true);
+      setSubmittedQuery(chatQuery);
       searchType = "chatQuery";
     }
     const response = await fetch(`/api/chat?${searchType}=${submittedValue}`);
     if (response.ok) {
-        setNoValEntered(false);
+      setNoValEntered(false);
       const data: GetRelevantProducts[] = await response.json();
       const similarProducts = data.map((item) => ({
         sku: item.sku,
