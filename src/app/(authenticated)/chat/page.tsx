@@ -68,62 +68,89 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-full w-full">
-      <div className="flex h-full w-full">
-        <div className="flex h-full w-96 border-r flex-col gap-8 px-4 items-start">
+      <div className="flex h-full w-96 flex-col items-start gap-8 border-r px-8 pt-4">
+        <div className="flex w-full">
+          <h1>Find Similar Items By:</h1>
+        </div>
+        <div className="flex w-full flex-col items-center gap-4">
           <div className="flex w-full">
-            <h1>Find Similar Items By:</h1>
+            <Input
+              placeholder="SKU"
+              value={skuSearch}
+              onChange={handleSkuSearch}
+              className={noValEntered ? "border-red-500" : ""}
+            />
           </div>
-          <div className="flex w-full flex-col items-center gap-4">
-            <div className="flex w-full">
-              <Input
-                placeholder="SKU"
-                value={skuSearch}
-                onChange={handleSkuSearch}
-                className={noValEntered ? "border-red-500" : ""}
-              />
-            </div>
-            <div className="flex w-full justify-center">
-              <p className="text-sm font-bold">OR</p>
-            </div>
-            <div className="flex w-full">
-              <Input
-                placeholder="Part Number"
-                value={partNumberSearch}
-                onChange={handlePartNumberSearch}
-                className={noValEntered ? "border-red-500" : ""}
-              />
-            </div>
-            <div className="flex w-full justify-center">
-              <p className="text-sm font-bold">OR</p>
-            </div>
-            <div className="flex w-full">
-              <Input
-                placeholder="Search by text"
-                value={chatQuery}
-                onChange={handleChatQuery}
-                className={`h-24 ${noValEntered ? "border-red-500" : ""}`}
-              />
-            </div>
+          <div className="flex w-full justify-center">
+            <p className="text-sm font-bold">OR</p>
           </div>
-          <div className="flex w-full justify-end">
-              <Button variant="outline" onClick={handleSearch} className="w-36">
-                Search
-              </Button>
+          <div className="flex w-full">
+            <Input
+              placeholder="Part Number"
+              value={partNumberSearch}
+              onChange={handlePartNumberSearch}
+              className={noValEntered ? "border-red-500" : ""}
+            />
+          </div>
+          <div className="flex w-full justify-center">
+            <p className="text-sm font-bold">OR</p>
+          </div>
+          <div className="flex w-full">
+            <Input
+              placeholder="Search by text"
+              value={chatQuery}
+              onChange={handleChatQuery}
+              className={`h-24 ${noValEntered ? "border-red-500" : ""}`}
+            />
           </div>
         </div>
+        <div className="flex w-full justify-end">
+          <Button variant="outline" onClick={handleSearch} className="w-36">
+            Search
+          </Button>
+        </div>
       </div>
-      <div className="flex h-full w-full">
-        <div className="flex w-full">
-          <div className="flex pr-8">
-              <h1>Results</h1>
-          </div>
+      <div className="flex h-full w-full pb-8">
+        <div className="flex w-full flex-col gap-5 px-8 pt-4">
+          {queryProduct && !isChatQuery && (
+            <div className="flex w-full flex-col gap-2.5">
+              <div className="flex pr-8">
+                <h1>Query</h1>
+              </div>
+              <ProductQueryResult
+                sku={queryProduct.sku}
+                part_number={queryProduct.part_number}
+                description={queryProduct.description}
+                isMainProduct={true}
+              />
+            </div>
+          )}
+          {isChatQuery && submittedQuery && (
+            <div className="flex w-full flex-col gap-2.5">
+              <div className="flex pr-8">
+                <h1>Query</h1>
+              </div>
+              <div className="flex w-full rounded-lg border bg-black/5 px-4 py-2 shadow-sm">
+                <p className="max-w-prose text-sm">{submittedQuery}</p>
+              </div>
+            </div>
+          )}
+
           {productData && (
-            <div className="flex w-full flex-col gap-4">
+            <div className="flex w-full flex-col gap-2.5">
+              <div className="flex pr-8">
+                <h1>Results</h1>
+              </div>
               {productData.map((product) => (
-                <div className="flex w-full flex-col h-full gap-2.5" key={product.sku}>
-                  <p>{product.sku}</p>
-                  <p>{product.part_number}</p>
-                  <p>{product.description}</p>
+                <div
+                  className="flex h-full w-full flex-col gap-4"
+                  key={product.sku}
+                >
+                  <ProductQueryResult
+                    sku={product.sku}
+                    part_number={product.part_number}
+                    description={product.description}
+                  />
                 </div>
               ))}
             </div>
