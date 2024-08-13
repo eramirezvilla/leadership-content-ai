@@ -122,7 +122,7 @@ export default function ChatPage() {
           </Button>
         </div>
       </div>
-      <div className="flex h-full w-full pb-8">
+      <div className="flex h-full w-full mb-8 max-h-screen overflow-y-scroll">
         <div className="flex w-full flex-col gap-5 px-8 pt-4">
           {queryProduct && !isChatQuery && (
             <div className="flex w-full flex-col gap-2.5">
