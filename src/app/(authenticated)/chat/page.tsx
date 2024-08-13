@@ -50,7 +50,19 @@ export default function ChatPage() {
     if (response.ok) {
         setNoValEntered(false);
       const data: GetRelevantProducts[] = await response.json();
-      setProductData(data);
+      const similarProducts = data.map((item) => ({
+        sku: item.sku,
+        part_number: item.part_number,
+        description: item.description,
+      }));
+      if (isChatQuery) {
+        setProductData(similarProducts);
+        return;
+      }
+      const queriedProduct = data[0];
+      setQueryProduct(queriedProduct!);
+      similarProducts.shift();
+      setProductData(similarProducts);
     }
   };
 
