@@ -81,24 +81,27 @@ export async function GET(req: Request) {
       },
     });
 
-    const filteredResults = queryResponse.matches.filter(
-      (item) => item.id !== product_id,
-    );
+    // const filteredResults = queryResponse.matches.filter(
+    //   (item) => item.id !== product_id,
+    // );
 
-    const similarProducts = filteredResults.map((item) => ({
-      sku: item.id,
-      part_number: item.metadata?.["part number"],
-      description: item.metadata?.["part description"],
-      score: item.score,
-    }));
+    // const similarProducts = filteredResults.map((item) => ({
+    //   sku: item.id,
+    //   part_number: item.metadata?.["part number"],
+    //   description: item.metadata?.["part description"],
+    //   score: item.score,
+    // }));
 
-    //TODO: add a natural language query option
+    const similarProducts = queryResponse.matches.map((item) => ({
+        sku: item.id,
+        part_number: item.metadata?.["part number"],
+        description: item.metadata?.["part description"],
+        score: item.score,
+      }));
 
     // This requires adding accessories to the index first
     // May also need to create a base vector for accessories and concatenate it with the product descripiton
     //TODO: use the metadata description to create a vector for accessory items and query the index for similar items
-
-    console.log("similarProducts: ", similarProducts);
 
     return Response.json(similarProducts, { status: 200 });
   } catch (error) {
