@@ -134,12 +134,12 @@ export default function SidebarNav() {
           </div>
           <Link href="/chat">
             <div
-              className={`flex min-h-4 items-center justify-between rounded-lg px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/posts" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
+              className={`flex min-h-4 items-center justify-between rounded-lg px-2.5 py-2 hover:text-brand_word_mark_purple ${selectedItem === "/chat" ? "bg-gradient-to-br from-brand_gradient1_blue to-brand_gradient2_blue text-white" : ""}`}
             >
               <div className="flex w-full items-center justify-between px-2">
                 <div className="flex items-center justify-start gap-2.5 text-subheadline">
                   <MessageSquare size={16} />
-                  <h3 className="text-sm font-medium">Chat</h3>
+                  <h3 className="text-sm font-medium">Query</h3>
                 </div>
                 <ChevronRight size={16} />
               </div>
