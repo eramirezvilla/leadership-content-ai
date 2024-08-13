@@ -1,7 +1,8 @@
 "use client";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
-import { useState } from "react";
+import { Textarea } from "~/components/ui/textarea";
+import React, { useState } from "react";
 import { type GetRelevantProducts } from "~/lib/validation/ProductQuery";
 import ProductQueryResult from "~/components/ui/ProductQueryResult";
 
@@ -31,7 +32,7 @@ export default function ChatPage() {
     setChatQuery("");
   };
 
-  const handleChatQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChatQuery = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setChatQuery(e.target.value);
     setSkuSearch("");
     setPartNumberSearch("");
@@ -108,7 +109,7 @@ export default function ChatPage() {
             <p className="text-sm font-bold">OR</p>
           </div>
           <div className="flex w-full">
-            <Input
+            <Textarea
               placeholder="Search by text"
               value={chatQuery}
               onChange={handleChatQuery}
