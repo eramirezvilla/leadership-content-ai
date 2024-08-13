@@ -11,6 +11,7 @@ export default function ChatPage() {
   const [productData, setProductData] = useState<GetRelevantProducts[] | null>(
     null,
   );
+  const [noValEntered, setNoValEntered] = useState(false);
 
   const handleSkuSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkuSearch(e.target.value);
@@ -34,6 +35,7 @@ export default function ChatPage() {
     const submittedValue = skuSearch || partNumberSearch || chatQuery;
     if (!submittedValue) {
       console.log("Please enter a value");
+      setNoValEntered(true);
       return;
     }
     let searchType;
@@ -46,6 +48,7 @@ export default function ChatPage() {
     }
     const response = await fetch(`/api/chat?${searchType}=${submittedValue}`);
     if (response.ok) {
+        setNoValEntered(false);
       const data: GetRelevantProducts[] = await response.json();
       setProductData(data);
     }
@@ -53,8 +56,8 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-full w-full">
-      <div className="flex h-full w-1/4">
-        <div className="flex h-full w-full flex-col gap-8 px-2">
+      <div className="flex h-full w-full">
+        <div className="flex h-full w-96 border-r flex-col gap-8 px-4 items-start">
           <div className="flex w-full">
             <h1>Find Similar Items By:</h1>
           </div>
@@ -64,6 +67,7 @@ export default function ChatPage() {
                 placeholder="SKU"
                 value={skuSearch}
                 onChange={handleSkuSearch}
+                className={noValEntered ? "border-red-500" : ""}
               />
             </div>
             <div className="flex w-full justify-center">
@@ -74,6 +78,7 @@ export default function ChatPage() {
                 placeholder="Part Number"
                 value={partNumberSearch}
                 onChange={handlePartNumberSearch}
+                className={noValEntered ? "border-red-500" : ""}
               />
             </div>
             <div className="flex w-full justify-center">
@@ -84,16 +89,18 @@ export default function ChatPage() {
                 placeholder="Search by text"
                 value={chatQuery}
                 onChange={handleChatQuery}
-                className="h-24"
+                className={`h-24 ${noValEntered ? "border-red-500" : ""}`}
               />
             </div>
           </div>
-          <Button variant="outline" onClick={handleSearch}>
-            Search
-          </Button>
+          <div className="flex w-full justify-end">
+              <Button variant="outline" onClick={handleSearch} className="w-36">
+                Search
+              </Button>
+          </div>
         </div>
       </div>
-      <div className="flex h-full w-3/4">
+      <div className="flex h-full w-full">
         <div className="flex w-full">
           <div className="flex pr-8">
               <h1>Results</h1>
